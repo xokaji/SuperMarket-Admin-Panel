@@ -86,3 +86,51 @@ export const customerData = [
   
    
   ];
+
+  export const productRows = [
+    {   
+        id: 1, productName: 'Chocolate Biscuits',
+        avatar: 'https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/114800--01--1623926473.webp',
+        company: 'Munchee',
+        category: "Snacks",
+        price: '100',
+        stock:"320",
+        description: 'Chocolate Biscuits taste better when u eating these kind of our products',
+     },
+     {   
+      id: 1, productName: 'Chocolate Biscuits',
+      avatar: 'https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/114800--01--1623926473.webp',
+      company: 'Munchee',
+      category: "Snacks",
+      price: '100',
+      stock:"320",
+      description: 'Chocolate Biscuits taste better when u eating these kind of our products',
+   },
+   {   
+    id: 1, productName: 'Chocolate Biscuits',
+    avatar: 'https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/114800--01--1623926473.webp',
+    company: 'Munchee',
+    category: "Snacks",
+    price: '100',
+    stock:"320",
+    description: 'Chocolate Biscuits taste better when u eating these kind of our products',
+ },
+ {   
+  id: 1, productName: 'Chocolate Biscuits',
+  avatar: 'https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/114800--01--1623926473.webp',
+  company: 'Munchee',
+  category: "Snacks",
+  price: '100',
+  stock:"320",
+  description: 'Chocolate Biscuits taste better when u eating these kind of our products',
+},
+{   
+  id: 1, productName: 'Chocolate Biscuits',
+  avatar: 'https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/114800--01--1623926473.webp',
+  company: 'Munchee',
+  category: "Snacks",
+  price: '100',
+  stock:"320",
+  description: 'Chocolate Biscuits taste better when u eating these kind of our products',
+},
+  ];

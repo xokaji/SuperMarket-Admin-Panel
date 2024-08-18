@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import './customerList.css';
+import './productlist.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { customerRows } from '../../dummyData';
+import { productRows } from '../../dummyData';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 
 export default function DataTable() {
-  const [data, setData] = useState(customerRows);
+  const [data, setData] = useState(productRows);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -15,47 +15,53 @@ export default function DataTable() {
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'userName',
-      headerName: 'Full Name',
+      field: 'productName',
+      headerName: 'Product Name',
       width: 230,
       renderCell: (params) => (
-        <div className="userListUser">
-          <img className="userListImg" src={params.row.avatar} alt={`${params.row.userName}'s avatar`} />
-          {params.row.userName}
+        <div className="productList">
+          <img className="productListImg" src={params.row.avatar} alt={`${params.row.productName}'s avatar`} />
+          {params.row.productName}
         </div>
       ),
     },
     {
-      field: 'email',
-      headerName: 'E-mail',
-      type: 'string',
-      width: 200,
+      field: 'company',
+      headerName: 'Company',
+      width: 180,
     },
     {
-      field: 'phoneNumber',
-      headerName: 'Phone Number',
+      field: 'category',
+      headerName: 'Category',
+      type: 'string',
       width: 150,
     },
     {
-      field: 'address',
-      headerName: 'Address',
-      width: 250,
+      field: 'price',
+      headerName: 'Price',
+      width: 100,
     },
     {
-      field: 'membership',
-      headerName: 'Membership',
-      width: 120,
+      field: 'stock',
+      headerName: 'Stock',
+      width: 100,
     },
+    {
+      field: 'description',
+      headerName: 'Description',
+      width: 180,
+    },
+    
     {
       field: 'action',
       headerName: 'Action',
       width: 150,
       renderCell: (params) => (
-        <div className="userListAction">
-          <Link to={`/customer/${params.row.id}`}>
-            <button className="userListEdit">Edit</button>
+        <div className="productListAction">
+          <Link to={`/product/${params.row.id}`}>
+            <button className="productListEdit">Edit</button>
           </Link>
-          <DeleteOutlineOutlinedIcon className="userListDelete" onClick={() => handleDelete(params.row.id)} />
+          <DeleteOutlineOutlinedIcon className="productListDelete" onClick={() => handleDelete(params.row.id)} />
         </div>
       ),
     },

@@ -1,0 +1,153 @@
+.customer {
+    flex: 4;
+    padding: 20px;
+  }
+  
+  .customerTitleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .customerAddButton {
+      border-radius: 5px;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      background-color: #3bb077;
+      color: white;
+      font-weight: 600;
+  }
+  
+  .customerContainer {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .customerShow {
+    flex: 1;
+    padding: 20px;
+    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
+  }
+  
+  .customerUpdate {
+    flex: 2;
+    padding: 20px;
+    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
+    margin-left: 20px;
+  }
+  
+  .customerShowTop {
+    display: flex;
+    align-items: center;
+  }
+  
+  .customerShowImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .customerShowTopTitle {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+  }
+  
+  .customerShowUsername {
+    font-weight: 600;
+  }
+  
+  .customerShowUserTitle {
+    font-weight: 300;
+  }
+  
+  .customerShowBottom{
+      margin-top: 20px;
+  }
+  
+  .customerShowTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(175, 170, 170);
+  }
+  
+  .customerShowInfo{
+      display: flex;
+      align-items: center;
+      margin: 20px 0px;
+      color: #444;
+  }
+  
+  .customerShowIcon{
+      font-size: 16px !important;
+  }
+  
+  .customerShowInfoTitle{
+      margin-left: 10px;
+  }
+  
+  .customerUpdateTitle{
+      font-size: 24px;
+      font-weight: 600;
+  }
+  
+  .customerUpdateForm{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+  }
+  
+  .customerUpdateItem{
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+  }
+  
+  .customerUpdateItem>label{
+      margin-bottom: 5px;
+      font-size: 14px;
+  }
+  
+  .customerUpdateInput{
+      border: none;
+      width: 250px;
+      height: 30px;
+      border-bottom: 1px solid gray;
+  }
+  
+  .customerUpdateRight{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  }
+  
+  .customerUpdateUpload{
+      display: flex;
+      align-items: center;
+  }
+  
+  .customerUpdateImg{
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-right: 20px;
+  }
+  
+  .customerUpdateIcon{
+      cursor: pointer;
+  }
+  
+  .customerUpdateButton{
+      border-radius: 5px;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      background-color:#3bb077;
+      color: white;
+      font-weight: 600;
+  }
+
+ 

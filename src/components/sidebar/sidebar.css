@@ -35,6 +35,12 @@
     border-radius: 10px;
     display: flex;
     align-items: center;
+    
+}
+
+.sidebarLink{
+    text-decoration: none;
+    color: inherit;
 }
 
 .sidebarListItem.active, .sidebarListItem:hover{
