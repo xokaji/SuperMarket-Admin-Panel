@@ -10,7 +10,7 @@ import Customer from "./pages/customer/Customer";
 import NewCustomer from "./pages/newCustomer/NewCustomer";
 import Productlist from "./pages/productlist/Productlist";
 import Product from "./pages/product/Product";
-import Newproduct from "./pages/newProduct/NewProduct";
+import NewProduct from "./pages/newProduct/NewProduct";
 
 const Layout = () => (
   <div>
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       
       { path: "/products", element: <Productlist/> },
       { path: "/product/:productId", element: <Product /> },
-      { path: "/newProduct", element: <Newproduct /> },
+      { path: "/newProduct", element: <NewProduct /> },
     ],
   },
 ]);

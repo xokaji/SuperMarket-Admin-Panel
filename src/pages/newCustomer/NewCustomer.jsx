@@ -5,6 +5,7 @@ export default function NewCustomer() {
     
     <div className="newCustomer">
         <h1 className="newCustomertitle">New Customer</h1>
+        <div className="customerBorder">
         <form action="" className="newCustomerForm">
         
           <div className="newCustomerItem">
@@ -42,6 +43,7 @@ export default function NewCustomer() {
           
           
         </form>
+        </div>
     </div>
   )
 }
