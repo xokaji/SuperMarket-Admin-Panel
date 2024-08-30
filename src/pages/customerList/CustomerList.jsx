@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './customerList.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { customerRows } from '../../dummyData';
+import { db } from '../../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 
 export default function DataTable() {
-  const [data, setData] = useState(customerRows);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      const querySnapshot = await getDocs(collection(db, 'users'));
+      const customers = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setData(customers);
+    };
+
+    fetchCustomers();
+  }, []);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -15,16 +29,16 @@ export default function DataTable() {
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'userName',
+      field: 'name',
       headerName: 'Full Name',
       width: 230,
       renderCell: (params) => (
         <div className="userListUser">
-          <img className="userListImg" src={params.row.avatar} alt={`${params.row.userName}'s avatar`} />
-          {params.row.userName}
+          {params.row.name} {/* Display the name without the avatar */}
         </div>
       ),
     },
+    
     {
       field: 'email',
       headerName: 'E-mail',
@@ -32,7 +46,7 @@ export default function DataTable() {
       width: 200,
     },
     {
-      field: 'phoneNumber',
+      field: 'phone',
       headerName: 'Phone Number',
       width: 150,
     },

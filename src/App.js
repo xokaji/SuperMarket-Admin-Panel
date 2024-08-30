@@ -12,6 +12,7 @@ import Productlist from "./pages/productlist/Productlist";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 
+
 const Layout = () => (
   <div>
     <Topbar />
@@ -36,6 +37,8 @@ const router = createBrowserRouter([
       { path: "/products", element: <Productlist/> },
       { path: "/product/:productId", element: <Product /> },
       { path: "/newProduct", element: <NewProduct /> },
+
+      
     ],
   },
 ]);

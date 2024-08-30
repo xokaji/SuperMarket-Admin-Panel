@@ -1,15 +1,47 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { auth, db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import "./customer.css";
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import LocationSearchingOutlinedIcon from '@mui/icons-material/LocationSearchingOutlined';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-
-
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LocationSearchingOutlinedIcon from "@mui/icons-material/LocationSearchingOutlined";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 export default function Customer() {
+  const [user, setUser] = useState(null);
+  const [customerData, setCustomerData] = useState({});
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        try {
+          const docRef = doc(db, "users", currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setCustomerData(docSnap.data());
+          } else {
+            console.log("No such document!");
+          }
+        } catch (error) {
+          console.error("Error fetching document:", error);
+        }
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!user) {
+    return <div>Please log in to view customer details.</div>;
+  }
+
   return (
     <div className="customer">
       <div className="customerTitleContainer">
@@ -21,38 +53,32 @@ export default function Customer() {
       <div className="customerContainer">
         <div className="customerShow">
           <div className="customerShowTop">
-            <img
-              src="https://images.pexels.com/photos/18313465/pexels-photo-18313465/free-photo-of-portrait-of-a-young-man-standing-in-a-desert-with-an-umbrella-in-hand.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt=""
-              className="customerShowImg"
-            />
             <div className="customerShowTopTitle">
-              <span className="customerShowUsername">Anuja Mahagamage</span>
-              <span className="customerShowUserTitle">anu69@gmail.comr</span>
+              <span className="customerShowUsername">{customerData.name}</span> {/* Updated to match Firestore field */}
+              <span className="customerShowUserTitle">{user.email}</span>
             </div>
           </div>
           <div className="customerShowBottom">
             <span className="customerShowTitle">Account Details</span>
             <div className="customerShowInfo">
               <PersonOutlineOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">Anuja Mahagamge</span>
+              <span className="customerShowInfoTitle">{customerData.name}</span> {/* Updated */}
             </div>
             <div className="customerShowInfo">
               <CalendarTodayOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">anuja69@gmail.com</span>
+              <span className="customerShowInfoTitle">{user.email}</span>
             </div>
-
             <div className="customerShowInfo">
               <PhoneAndroidOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">+1 123 456 67</span>
+              <span className="customerShowInfoTitle">{customerData.phone}</span>
             </div>
             <div className="customerShowInfo">
               <EmailOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="customerShowInfoTitle">{customerData.email}</span>
             </div>
             <div className="customerShowInfo">
               <LocationSearchingOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">Galle</span>
+              <span className="customerShowInfoTitle">{customerData.address}</span>
             </div>
           </div>
         </div>
@@ -64,7 +90,7 @@ export default function Customer() {
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="annabeck99"
+                  placeholder={customerData.username || "Username"}
                   className="customerUpdateInput"
                 />
               </div>
@@ -72,7 +98,7 @@ export default function Customer() {
                 <label>Full Name</label>
                 <input
                   type="text"
-                  placeholder="Anuja Mahagage"
+                  placeholder={customerData.name || "Full Name"} 
                   className="customerUpdateInput"
                 />
               </div>
@@ -80,7 +106,7 @@ export default function Customer() {
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="anuja69@gmail.com"
+                  placeholder={customerData.email || "Email"}
                   className="customerUpdateInput"
                 />
               </div>
@@ -88,7 +114,7 @@ export default function Customer() {
                 <label>Phone</label>
                 <input
                   type="text"
-                  placeholder="+1 123 456 67"
+                  placeholder={customerData.phone || "Phone"}
                   className="customerUpdateInput"
                 />
               </div>
@@ -96,23 +122,12 @@ export default function Customer() {
                 <label>Address</label>
                 <input
                   type="text"
-                  placeholder="Galle"
+                  placeholder={customerData.address || "Address"}
                   className="customerUpdateInput"
                 />
               </div>
             </div>
             <div className="customerUpdateRight">
-              <div className="customerUpdateUpload">
-                <img
-                  className="customerUpdateImg"
-                  src="https://images.pexels.com/photos/18313465/pexels-photo-18313465/free-photo-of-portrait-of-a-young-man-standing-in-a-desert-with-an-umbrella-in-hand.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <FileUploadOutlinedIcon className="customerUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
-              </div>
               <button className="customerUpdateButton">Update</button>
             </div>
           </form>
