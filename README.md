@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# 🏪 Admin Panel for Supermarket App 🏪
+In this Admin Panel, admin can use and control the whole app through this Admin panel. This has implemented the Product Management & Customer Management. So the admin can change anything on Customers and Products easily on the App. There are some developments still under going.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##  ☀️ Features 
+* Admin shall be able to see the every Anallytics through the Dasboard panel.
+* Admin shall be able to see the Product and Customer Reports monthly.
+* Admin shall be able to control the application throght the Admin Panel.
 
-## Available Scripts
+## 🤖 Technology Used 
+* ReactJS
+* Recharts and Material UIs
+* Firebase
 
-In the project directory, you can run:
+### Dashboard 1
+![Screenshot 2024-08-23 004006](https://github.com/user-attachments/assets/dad2648f-9683-4bfa-8176-d7344f84680b)
+
+### Dashboard 2
+![Screenshot 2024-08-23 004135](https://github.com/user-attachments/assets/2e0572e3-17a4-4eae-bb62-60444d623d40)
+
+### Customer Page
+![Screenshot 2024-08-23 004205](https://github.com/user-attachments/assets/4a978ce0-f8a6-44be-85df-c9c9a2a3bd77)
+
+###  Edit Customer Page
+![Screenshot 2024-08-23 004227](https://github.com/user-attachments/assets/a87da9c9-f2f9-4775-984e-8719d5b007c0)
+
+### Add Customer Page
+![Screenshot 2024-08-23 004250](https://github.com/user-attachments/assets/056dfd57-6bbf-4255-b4eb-b29d9afe87c1)
+
+### Product Page
+![Screenshot 2024-08-23 004312](https://github.com/user-attachments/assets/7447dd92-29db-420c-ba08-227d66533e97)
+
+### Edit Customer Page
+![Screenshot 2024-08-23 004333](https://github.com/user-attachments/assets/98d139a7-495e-45a9-85d0-6c117b7cea74)
+
+### Add Customer Page
+![Screenshot 2024-08-23 004346](https://github.com/user-attachments/assets/f1bf9f9a-b0d4-4505-808b-54bae68b123e)
+
+
 
 ### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+🌟 Thank you for checking out the Weather Application! If you have any questions or feedback, please feel free to reach out. Happy coding! 
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
