@@ -23,7 +23,7 @@ export default function Sidebar() {
           <h3 className='sidebarTitle'>Dashboard</h3>
           <ul className='sidebarList'>
             <li className={`sidebarListItem ${location.pathname === '/' ? 'active' : ''}`}>
-              <Link to="/" className="sidebarLink">
+              <Link to="/home" className="sidebarLink">
                 <HomeOutlinedIcon className='sidebarIcon'/>
                 Home
               </Link>

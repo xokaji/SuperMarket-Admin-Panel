@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createRoot } from "react-dom/client";
+
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
@@ -11,8 +11,9 @@ import NewCustomer from "./pages/newCustomer/NewCustomer";
 import Productlist from "./pages/productlist/Productlist";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
+import Login from "./pages/login/Login";
 
-
+// Define the Layout component with Sidebar and Topbar
 const Layout = () => (
   <div>
     <Topbar />
@@ -23,33 +24,42 @@ const Layout = () => (
   </div>
 );
 
-
+// Define routes and nested routes
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, 
+    element: <Login />,
+  },
+  
+  {
+    path: "/home",
+    element: <Layout/>,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/customers", element: <CustomerList /> },
-      { path: "/customer/:customerId", element: <Customer /> },
-      { path: "/newCustomer", element: <NewCustomer /> },
-      
-      { path: "/products", element: <Productlist/> },
-      { path: "/product/:productId", element: <Product /> },
-      { path: "/newProduct", element: <NewProduct /> },
-
-      
+      { path: "", element: <Home /> }, // Assuming you want a list of customers as the default
+    
+    ],
+  },
+  {
+    path: "/customers",
+    element: <Layout />,
+    children: [
+      { path: "", element: <CustomerList /> }, // Assuming you want a list of customers as the default
+      { path: "new", element: <NewCustomer /> },
+      { path: ":id", element: <Customer /> }, // Display customer details
+    ],
+  },
+  {
+    path: "/products",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Productlist /> }, // Assuming you want a list of products as the default
+      { path: "new", element: <NewProduct /> },
+      { path: ":id", element: <Product /> }, // Display product details
     ],
   },
 ]);
 
-
+// Create the App component
 export default function App() {
   return <RouterProvider router={router} />;
 }
-
-
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
-
-root.render(<App />);
