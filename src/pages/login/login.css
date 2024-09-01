@@ -1,13 +1,14 @@
 
 .login-container {
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height:100vh;
-
-  background: #66a0f6;
-  font-family: Arial, sans-serif;
+  flex-direction: column  ;
+  gap:20px;
+  background-image: url(https://img.freepik.com/premium-photo/vegetables-vegan-day-copy-space-background-design_548646-80059.jpg?w=1380) ;
+  background-size: cover;
 }
 
 .login-container h1 {
@@ -49,4 +50,23 @@
 .login-container p {
   color: red;
   margin-top: 10px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #3BBE1A;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin-top: 15px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

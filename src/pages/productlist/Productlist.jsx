@@ -14,7 +14,7 @@ export default function DataTable() {
     const fetchData = async () => {
       try {
         // Fetch from the relevant collection, e.g., 'Snacks'
-        const productCollection = collection(db, 'Snacks'); // Adjust if needed
+        const productCollection = collection(db, 'products'); // Adjust if needed
         const productSnapshot = await getDocs(productCollection);
         const productList = productSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setData(productList);
@@ -27,7 +27,7 @@ export default function DataTable() {
 
   const handleDelete = async (id) => {
     try {
-      const docRef = doc(db, 'Snacks', id); // Adjust if needed
+      const docRef = doc(db, 'products', id); // Adjust if needed
       await deleteDoc(docRef);
       setData(data.filter((item) => item.id !== id));
     } catch (error) {
@@ -45,10 +45,10 @@ export default function DataTable() {
         <div className="productList">
           <img
             className="productListImg"
-            src={params.row.avatar}
+            src={params.row.img}
             alt={`${params.row.productName}'s avatar`}
           />
-          {params.row.productName}
+          {params.row.name}
         </div>
       ),
     },
@@ -111,9 +111,9 @@ export default function DataTable() {
           checkboxSelection
         />
       </div>
-      <Link to="/newProduct" className="productFloatingButton">
+      {/* <Link to="/newProduct" className="productFloatingButton">
         <button className="productFloatingButton">Create New Product</button>
-      </Link>
+      </Link> */}
     </div>
   );
 }
