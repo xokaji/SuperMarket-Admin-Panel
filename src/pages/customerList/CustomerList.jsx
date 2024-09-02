@@ -66,8 +66,8 @@ export default function DataTable() {
       width: 150,
       renderCell: (params) => (
         <div className="userListAction">
-          <Link to={`/customer/${params.row.id}`}>
-            <button className="userListEdit">Edit</button>
+          <Link to={`/customers/${params.row.id}`}>
+            <button className="userListEdit">View</button>
           </Link>
           <DeleteOutlineOutlinedIcon className="userListDelete" onClick={() => handleDelete(params.row.id)} />
         </div>

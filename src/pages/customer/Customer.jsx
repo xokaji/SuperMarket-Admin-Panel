@@ -9,7 +9,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocationSearchingOutlinedIcon from "@mui/icons-material/LocationSearchingOutlined";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+// import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 export default function Customer() {
   const [user, setUser] = useState(null);

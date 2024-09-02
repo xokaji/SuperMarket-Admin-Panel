@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import Transactions from "./pages/transactions/Transactions";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
@@ -12,7 +12,7 @@ import Productlist from "./pages/productlist/Productlist";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
-
+import Stock from "./pages/stocks/Stocks";
 // Define the Layout component with Sidebar and Topbar
 const Layout = () => (
   <div>
@@ -55,6 +55,24 @@ const router = createBrowserRouter([
       { path: "", element: <Productlist /> }, // Assuming you want a list of products as the default
       { path: "new", element: <NewProduct /> },
       { path: ":id", element: <Product /> }, // Display product details
+    ],
+  },
+
+  {
+    path: "/transactions",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Transactions /> }, // Assuming you want a list of products as the default
+     
+    ],
+  },
+
+  {
+    path: "/stockreports",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Stock /> }, // Assuming you want a list of products as the default
+     
     ],
   },
 ]);

@@ -1,23 +1,21 @@
-// src/pages/productlist/ProductList.jsx
 import React, { useState, useEffect } from 'react';
-import './productlist.css';
+import './transactions.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import { db } from '../../firebase'; // Correct path to firebase.jsx
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
-export default function DataTable() {
+export default function Transactions() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch from the relevant collection, e.g., 'Snacks'
-        const productCollection = collection(db, 'products'); // Adjust if needed
-        const productSnapshot = await getDocs(productCollection);
-        const productList = productSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setData(productList);
+        const transactionList = collection(db, 'transactions'); // Adjust if needed
+        const transactionSnapshot = await getDocs(transactionList);
+        const TrList = transactionSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setData(TrList);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -27,7 +25,7 @@ export default function DataTable() {
 
   const handleDelete = async (id) => {
     try {
-      const docRef = doc(db, 'products', id); // Adjust if needed
+      const docRef = doc(db, 'transactions', id); // Adjust if needed
       await deleteDoc(docRef);
       setData(data.filter((item) => item.id !== id));
     } catch (error) {
@@ -38,45 +36,45 @@ export default function DataTable() {
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'productName',
-      headerName: 'Product Name',
-      width: 230,
+      field: 'name',
+      headerName: 'Customer Details',
+      width: 220,
       renderCell: (params) => (
         <div className="productList">
-          <img
-            className="productListImg"
-            src={params.row.img}
-            alt={`${params.row.productName}'s avatar`}
-          />
           {params.row.name}
         </div>
       ),
     },
     {
-      field: 'company',
-      headerName: 'Company',
+      field: 'date',
+      headerName: 'Date',
       width: 180,
     },
     {
-      field: 'category',
-      headerName: 'Category',
-      type: 'string',
+        field: 'time',
+        headerName: 'Time',
+        width: 180,
+      },
+    
+    // {
+    //   field: 'transactionID',
+    //   headerName: 'Transaction ID',
+    //   width: 180,
+    // },
+    {
+      field: 'amount',
+      headerName: 'Amount',
       width: 150,
     },
     {
-      field: 'price',
-      headerName: 'Price',
-      width: 100,
-    },
-    {
-      field: 'stock',
-      headerName: 'Stock',
-      width: 100,
-    },
-    {
-      field: 'description',
-      headerName: 'Description',
-      width: 180,
+      field: 'status',
+      headerName: 'Status',
+      width: 150,
+      renderCell: (params) => (
+        <span className={params.row.status === 'Paid' ? 'statusPaid' : 'statusUnpaid'}>
+          {params.row.status}
+        </span>
+      ),
     },
     {
       field: 'action',
@@ -85,7 +83,7 @@ export default function DataTable() {
       renderCell: (params) => (
         <div className="productListAction">
           <Link to={`/product/${params.row.id}`}>
-            <button className="productListEdit">Edit</button>
+            <button className="productListEdit">View</button>
           </Link>
           <DeleteOutlineOutlinedIcon
             className="productListDelete"
@@ -97,7 +95,7 @@ export default function DataTable() {
   ];
 
   return (
-    <div className="pcontainer">
+    <div className="container">
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
           rows={data}
@@ -111,9 +109,6 @@ export default function DataTable() {
           checkboxSelection
         />
       </div>
-      {/* <Link to="/newProduct" className="productFloatingButton">
-        <button className="productFloatingButton">Create New Product</button>
-      </Link> */}
     </div>
   );
 }

@@ -1,0 +1,119 @@
+.stock-container {
+    flex:5;
+    padding: 20px;
+   
+   
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .header p {
+    font-size: 14px;
+    color: gray;
+  }
+  
+  .header .date {
+    font-size: 14px;
+    color: #777;
+  }
+  
+
+  .analytics-overview {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    
+
+  }
+
+  
+  
+  .analytics-card {
+    flex: 1;
+    margin: 0 10px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    flex-direction: column;
+    display: flex;
+    
+    
+  }
+
+  .analytics-card button{
+    width: 100px;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: white;
+    
+  }
+  
+  .green { background-color: #28a745; }
+  .orange { background-color: #fd7e14; }
+  .purple { background-color: #8866c6; }
+  .red { background-color: #c83e4c; }
+  
+  .products-stock-list {
+    margin: 20px 0;
+  }
+  .category{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .products-stock-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .products-stock-list th, .products-stock-list td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .status.in-stock { background-color: #28a745; }
+  .status.low-stock { background-color: #ffc107; color: black; }
+  .status.out-of-stock { background-color: #dc3545; }
+  .status.critically-low { background-color: #6f42c1; }
+  
+  .chart-section {
+    margin-top: 20px;
+  }
+  
+  .chart-placeholder {
+    height: 200px;
+    background-color: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  
+  

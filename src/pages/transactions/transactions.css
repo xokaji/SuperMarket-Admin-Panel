@@ -1,0 +1,14 @@
+.transactions{
+    flex:4;
+
+}
+
+.statusPaid {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .statusUnpaid {
+    color: red;
+    font-weight: bold;
+  }

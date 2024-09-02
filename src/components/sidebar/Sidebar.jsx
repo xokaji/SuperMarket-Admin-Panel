@@ -65,9 +65,9 @@ export default function Sidebar() {
               </Link>
             </li>
             <li className={`sidebarListItem ${location.pathname === '/reports' ? 'active' : ''}`}>
-              <Link to="/reports" className="sidebarLink">
+              <Link to="/stockreports" className="sidebarLink">
                 <BarChartOutlinedIcon className='sidebarIcon'/>
-                Reports
+                Stock Reports
               </Link>
             </li>
           </ul>
