@@ -1,5 +1,6 @@
 .transactions{
-    flex:4;
+    flex:5 !important;
+    padding: 20px;
 
 }
 

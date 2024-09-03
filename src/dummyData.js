@@ -134,3 +134,14 @@ export const customerData = [
   description: 'Chocolate Biscuits taste better when u eating these kind of our products',
 },
   ];
+
+  export const data = [
+    { name: 'Grocery', stock: 120 },
+    { name: 'Dairy & Eggs', stock: 80 },
+    { name: 'Meats & Seafoods', stock: 50 },
+    { name: 'Frozen Foods', stock: 65 },
+    { name: 'Beverages', stock: 95 },
+    { name: 'Snacks', stock: 75 },
+    { name: 'Bakery Foods', stock: 60 },
+    { name: 'Health & Wellness', stock: 40 },
+  ];

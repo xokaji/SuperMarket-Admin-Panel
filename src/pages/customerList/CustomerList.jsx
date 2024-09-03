@@ -25,6 +25,7 @@ export default function DataTable() {
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
+  
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -76,7 +77,16 @@ export default function DataTable() {
   ];
 
   return (
-    <div className="container">
+    
+  
+    
+    <div className="customercontainer">
+      
+      <div className="table-header">
+        <h2>Customer Details</h2>
+        {/* <button className="customer-button">Create</button> */}
+      </div>
+      
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
           rows={data}
@@ -90,6 +100,7 @@ export default function DataTable() {
           checkboxSelection
         />
       </div>
+     
     </div>
   );
 }

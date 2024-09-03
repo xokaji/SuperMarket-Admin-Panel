@@ -45,7 +45,7 @@ export default function Customer() {
   return (
     <div className="customer">
       <div className="customerTitleContainer">
-        <h1 className="customerTitle">Edit User</h1>
+        <h1 className="customerTitle">Edit Customer</h1>
         <Link to="/newCustomer" className="customerAddButton">
           <button className="customerAddButton">Create</button>
         </Link>

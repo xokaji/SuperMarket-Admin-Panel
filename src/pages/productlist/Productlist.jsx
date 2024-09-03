@@ -13,7 +13,7 @@ export default function DataTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch from the relevant collection, e.g., 'Snacks'
+        
         const productCollection = collection(db, 'products'); // Adjust if needed
         const productSnapshot = await getDocs(productCollection);
         const productList = productSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -48,7 +48,7 @@ export default function DataTable() {
             src={params.row.img}
             alt={`${params.row.productName}'s avatar`}
           />
-          {params.row.name}
+          {params.row.productName}
         </div>
       ),
     },
@@ -98,6 +98,14 @@ export default function DataTable() {
 
   return (
     <div className="pcontainer">
+      <div className="table-header-product">
+        <h2>Products Details</h2>
+        <Link to="/newProduct">
+          <button className="product-button">Add Product</button>
+        </Link>
+      </div>
+        
+      
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
           rows={data}

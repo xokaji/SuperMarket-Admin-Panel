@@ -11,7 +11,7 @@ export default function Topbar() {
         <div className='topbarWrapper'>
             <div className='topLeft'>
                 <span className="logo">Green</span>
-                <span className="logo2">Mart</span>
+                <span className="logo2">mart</span>
             </div>
             <div className='topRight'>
                 <div className='topBarIconsContainer'>

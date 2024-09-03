@@ -13,7 +13,9 @@ import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 import Stock from "./pages/stocks/Stocks";
-// Define the Layout component with Sidebar and Topbar
+
+
+
 const Layout = () => (
   <div>
     <Topbar />
@@ -24,7 +26,7 @@ const Layout = () => (
   </div>
 );
 
-// Define routes and nested routes
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Layout/>,
     children: [
-      { path: "", element: <Home /> }, // Assuming you want a list of customers as the default
+      { path: "", element: <Home /> }, 
     
     ],
   },
@@ -43,18 +45,18 @@ const router = createBrowserRouter([
     path: "/customers",
     element: <Layout />,
     children: [
-      { path: "", element: <CustomerList /> }, // Assuming you want a list of customers as the default
+      { path: "", element: <CustomerList /> }, 
       { path: "new", element: <NewCustomer /> },
-      { path: ":id", element: <Customer /> }, // Display customer details
+      { path: ":id", element: <Customer /> }, 
     ],
   },
   {
     path: "/products",
     element: <Layout />,
     children: [
-      { path: "", element: <Productlist /> }, // Assuming you want a list of products as the default
+      { path: "", element: <Productlist /> },
       { path: "new", element: <NewProduct /> },
-      { path: ":id", element: <Product /> }, // Display product details
+      { path: ":id", element: <Product /> },
     ],
   },
 
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
     path: "/transactions",
     element: <Layout />,
     children: [
-      { path: "", element: <Transactions /> }, // Assuming you want a list of products as the default
+      { path: "", element: <Transactions /> }, 
      
     ],
   },
@@ -71,13 +73,14 @@ const router = createBrowserRouter([
     path: "/stockreports",
     element: <Layout />,
     children: [
-      { path: "", element: <Stock /> }, // Assuming you want a list of products as the default
+      { path: "", element: <Stock /> }, 
      
     ],
   },
+
 ]);
 
-// Create the App component
+
 export default function App() {
   return <RouterProvider router={router} />;
 }
