@@ -5,18 +5,30 @@
     
 }
 
-.userListuser{
+.customerList{
     display: flex;
     align-items: center;
+    padding: 5px;
+}
+.customerListImageContainer{
+    margin-right: 10px;
+   
 }
 
-.userListImg{
-    width: 40px;
-    height: 40px;
+.customerListImage{
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
 }
+.customerListNameContainer{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+}
+
+
 .userListAction{
     display: flex;
     align-items: center;
@@ -46,4 +58,4 @@
     margin: 20px;
 }
 
-
+  

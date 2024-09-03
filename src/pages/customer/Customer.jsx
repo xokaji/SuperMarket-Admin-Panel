@@ -1,72 +1,75 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { auth, db } from "../../firebase";
+import React, { useState, useEffect } from "react";
+import {  useParams } from "react-router-dom";
+import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
 import "./customer.css";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocationSearchingOutlinedIcon from "@mui/icons-material/LocationSearchingOutlined";
-// import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 export default function Customer() {
-  const [user, setUser] = useState(null);
-  const [customerData, setCustomerData] = useState({});
+  const { id } = useParams();
+  const [customerData, setCustomerData] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        try {
-          const docRef = doc(db, "users", currentUser.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setCustomerData(docSnap.data());
-          } else {
-            console.log("No such document!");
-          }
-        } catch (error) {
-          console.error("Error fetching document:", error);
+    const fetchCustomerData = async () => {
+      try {
+        const docRef = doc(db, "users", id); 
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          console.log("Document data:", data); 
+          setCustomerData(data);
+        } else {
+          console.log("No such document!");
+          setCustomerData({}); 
         }
-      } else {
-        setUser(null);
+      } catch (error) {
+        console.error("Error fetching document:", error);
+        setCustomerData({}); 
       }
-    });
+    };
 
-    return () => unsubscribe();
-  }, []);
+    if (id) {
+      fetchCustomerData();
+    }
+  }, [id]);
 
-  if (!user) {
-    return <div>Please log in to view customer details.</div>;
+  if (!customerData) {
+    return (
+      <div className="scalecontainer">
+        <ScaleLoader color="#3bb077" className="scale" />
+      </div>
+    );
   }
 
   return (
     <div className="customer">
       <div className="customerTitleContainer">
-        <h1 className="customerTitle">Edit Customer</h1>
-        <Link to="/newCustomer" className="customerAddButton">
-          <button className="customerAddButton">Create</button>
-        </Link>
+        <h1 className="customerTitle">Customer Bio</h1>
       </div>
       <div className="customerContainer">
         <div className="customerShow">
           <div className="customerShowTop">
+            <img src={customerData.img} className="customerImage" alt="customer"/>
             <div className="customerShowTopTitle">
-              <span className="customerShowUsername">{customerData.name}</span> {/* Updated to match Firestore field */}
-              <span className="customerShowUserTitle">{user.email}</span>
+              <span className="customerShowUsername">{customerData.name}</span>
+              <span className="customerShowUserTitle">{customerData.email}</span>
             </div>
           </div>
           <div className="customerShowBottom">
             <span className="customerShowTitle">Account Details</span>
             <div className="customerShowInfo">
               <PersonOutlineOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">{customerData.name}</span> {/* Updated */}
+              <span className="customerShowInfoTitle">{customerData.name}</span>
             </div>
             <div className="customerShowInfo">
               <CalendarTodayOutlinedIcon className="customerShowIcon" />
-              <span className="customerShowInfoTitle">{user.email}</span>
+              <span className="customerShowInfoTitle">{customerData.dateOfBirth || "N/A"}</span>
             </div>
             <div className="customerShowInfo">
               <PhoneAndroidOutlinedIcon className="customerShowIcon" />
@@ -82,9 +85,10 @@ export default function Customer() {
             </div>
           </div>
         </div>
+        
         <div className="customerUpdate">
-          <span className="customerUpdateTitle">Edit</span>
-          <form className="customerUpdateForm">
+          <span className="customerUpdateTitle">View Purchase History</span>
+          {/* <form className="customerUpdateForm">
             <div className="customerUpdateLeft">
               <div className="customerUpdateItem">
                 <label>Username</label>
@@ -98,7 +102,7 @@ export default function Customer() {
                 <label>Full Name</label>
                 <input
                   type="text"
-                  placeholder={customerData.name || "Full Name"} 
+                  placeholder={customerData.name || "Full Name"}
                   className="customerUpdateInput"
                 />
               </div>
@@ -130,7 +134,7 @@ export default function Customer() {
             <div className="customerUpdateRight">
               <button className="customerUpdateButton">Update</button>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>

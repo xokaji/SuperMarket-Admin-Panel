@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 export default function DataTable() {
   const [data, setData] = useState([]);
+  
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -21,21 +22,31 @@ export default function DataTable() {
 
     fetchCustomers();
   }, []);
+  
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
   
+  
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
+
+    
+
     {
       field: 'name',
       headerName: 'Full Name',
       width: 230,
       renderCell: (params) => (
-        <div className="userListUser">
-          {params.row.name} {/* Display the name without the avatar */}
+        <div className="customerList">
+          <div className="customerListImageContainer">
+            <img src={params.row.img} alt="customerImg" className='customerListImage'/>
+          </div>
+
+          <div className='customerListNameContainer'>{params.row.name}</div>
+         
         </div>
       ),
     },
@@ -44,12 +55,12 @@ export default function DataTable() {
       field: 'email',
       headerName: 'E-mail',
       type: 'string',
-      width: 200,
+      width: 250,
     },
     {
       field: 'phone',
       headerName: 'Phone Number',
-      width: 150,
+      width: 120,
     },
     {
       field: 'address',
@@ -91,6 +102,8 @@ export default function DataTable() {
         <DataGrid
           rows={data}
           columns={columns}
+          className='customerDataGrid'
+          
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },
@@ -98,6 +111,7 @@ export default function DataTable() {
           }}
           pageSizeOptions={[5, 10]}
           checkboxSelection
+          
         />
       </div>
      

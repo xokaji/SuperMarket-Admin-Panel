@@ -3,6 +3,7 @@
  
 }
 
+
 .productListuser{
     display: flex;
     align-items: center;
@@ -51,4 +52,8 @@
     background-color: #3bb077;
     cursor: pointer;
    
+}
+
+.scale{
+    justify-content: center;   
 }

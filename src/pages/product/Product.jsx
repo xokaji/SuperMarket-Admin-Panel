@@ -1,4 +1,3 @@
-// src/pages/product/Product.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './product.css';
@@ -7,8 +6,9 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import { db } from '../../firebase'; // Ensure the path to firebase.jsx is correct
+import { db } from '../../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 export default function Product() {
   const { id } = useParams();
@@ -17,7 +17,7 @@ export default function Product() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const docRef = doc(db, 'Snacks', id); // Adjust the collection name if needed
+        const docRef = doc(db, 'products', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setProduct(docSnap.data());
@@ -32,7 +32,11 @@ export default function Product() {
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="scalecontainer">
+        <ScaleLoader color="#3bb077" className="scale" />
+      </div>
+    );
   }
 
   return (

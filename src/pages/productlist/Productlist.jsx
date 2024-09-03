@@ -1,4 +1,3 @@
-// src/pages/productlist/ProductList.jsx
 import React, { useState, useEffect } from 'react';
 import './productlist.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -13,8 +12,7 @@ export default function DataTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        const productCollection = collection(db, 'products'); // Adjust if needed
+        const productCollection = collection(db, 'products'); 
         const productSnapshot = await getDocs(productCollection);
         const productList = productSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setData(productList);
@@ -27,7 +25,7 @@ export default function DataTable() {
 
   const handleDelete = async (id) => {
     try {
-      const docRef = doc(db, 'products', id); // Adjust if needed
+      const docRef = doc(db, 'products', id); 
       await deleteDoc(docRef);
       setData(data.filter((item) => item.id !== id));
     } catch (error) {
@@ -84,7 +82,7 @@ export default function DataTable() {
       width: 150,
       renderCell: (params) => (
         <div className="productListAction">
-          <Link to={`/product/${params.row.id}`}>
+          <Link to={`/products/${params.row.id}`}>
             <button className="productListEdit">Edit</button>
           </Link>
           <DeleteOutlineOutlinedIcon
@@ -100,12 +98,11 @@ export default function DataTable() {
     <div className="pcontainer">
       <div className="table-header-product">
         <h2>Products Details</h2>
-        <Link to="/newProduct">
+        <Link to="/products/new">
           <button className="product-button">Add Product</button>
         </Link>
       </div>
         
-      
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
           rows={data}
@@ -119,9 +116,6 @@ export default function DataTable() {
           checkboxSelection
         />
       </div>
-      {/* <Link to="/newProduct" className="productFloatingButton">
-        <button className="productFloatingButton">Create New Product</button>
-      </Link> */}
     </div>
   );
 }
