@@ -13,7 +13,7 @@ import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 import Stock from "./pages/stocks/Stocks";
-
+import Grocery from "./pages/stockCategory/grocery/Grocery";
 
 
 const Layout = () => (
@@ -73,7 +73,15 @@ const router = createBrowserRouter([
     path: "/stockreports",
     element: <Layout />,
     children: [
-      { path: "", element: <Stock /> }, 
+      { path: "", element:<Stock /> }, 
+      { path: "grocery", element:<Grocery /> }, 
+      { path: "dairy&eggs", element: <Grocery /> }, 
+      { path: "meat&seafoods", element:<Grocery /> }, 
+      { path: "frozenfoods", element: <Grocery /> }, 
+      { path: "beverages", element: <Grocery /> }, 
+      { path: "snacks", element: <Grocery /> }, 
+      { path: "bakery", element: <Grocery /> }, 
+      { path: "health&wellness", element: <Grocery /> }, 
      
     ],
   },

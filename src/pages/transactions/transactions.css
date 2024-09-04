@@ -1,7 +1,6 @@
 .transactions{
-    flex:5 !important;
-    padding: 20px;
-
+    flex:5 ;
+    
 }
 
 .statusPaid {
@@ -13,3 +12,21 @@
     color: red;
     font-weight: bold;
   }
+
+
+.statusMethodOne{
+  color: orange;
+  font-weight: bold;
+}
+
+.statusMethodTwo{
+  color: blue;
+  font-weight: bold;
+  
+}
+
+.custom-header {
+
+  font-weight: bold;
+  font-size: 18px;
+}

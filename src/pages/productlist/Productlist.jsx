@@ -34,10 +34,11 @@ export default function DataTable() {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
     {
       field: 'productName',
       headerName: 'Product Name',
+      headerClassName: 'custom-header',
       width: 230,
       renderCell: (params) => (
         <div className="productList">
@@ -52,33 +53,39 @@ export default function DataTable() {
     },
     {
       field: 'company',
+      headerClassName: 'custom-header',
       headerName: 'Company',
       width: 180,
     },
     {
       field: 'category',
       headerName: 'Category',
+      headerClassName: 'custom-header',
       type: 'string',
       width: 150,
     },
     {
       field: 'price',
       headerName: 'Price',
+      headerClassName: 'custom-header',
       width: 100,
     },
     {
       field: 'stock',
       headerName: 'Stock',
+      headerClassName: 'custom-header',
       width: 100,
     },
     {
       field: 'description',
       headerName: 'Description',
+      headerClassName: 'custom-header',
       width: 180,
     },
     {
       field: 'action',
       headerName: 'Action',
+      headerClassName: 'custom-header',
       width: 150,
       renderCell: (params) => (
         <div className="productListAction">

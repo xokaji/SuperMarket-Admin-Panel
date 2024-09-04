@@ -31,7 +31,7 @@ export default function DataTable() {
   
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
 
     
 
@@ -39,6 +39,7 @@ export default function DataTable() {
       field: 'name',
       headerName: 'Full Name',
       width: 230,
+      headerClassName: 'custom-header',
       renderCell: (params) => (
         <div className="customerList">
           <div className="customerListImageContainer">
@@ -53,28 +54,33 @@ export default function DataTable() {
     
     {
       field: 'email',
-      headerName: 'E-mail',
+      headerName: 'E-mail Address',
+      headerClassName: 'custom-header',
       type: 'string',
       width: 250,
     },
     {
       field: 'phone',
-      headerName: 'Phone Number',
-      width: 120,
+      headerName: 'Contact No.',
+      headerClassName: 'custom-header',
+      width: 140,
     },
     {
       field: 'address',
+      headerClassName: 'custom-header',
       headerName: 'Address',
-      width: 250,
+      width: 220,
     },
     {
       field: 'membership',
       headerName: 'Membership',
-      width: 120,
+      headerClassName: 'custom-header',
+      width: 150,
     },
     {
       field: 'action',
       headerName: 'Action',
+      headerClassName: 'custom-header',
       width: 150,
       renderCell: (params) => (
         <div className="userListAction">
@@ -102,7 +108,7 @@ export default function DataTable() {
         <DataGrid
           rows={data}
           columns={columns}
-          className='customerDataGrid'
+          
           
           initialState={{
             pagination: {

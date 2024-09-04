@@ -34,11 +34,12 @@ export default function Transactions() {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'id', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
     {
       field: 'name',
       headerName: 'Customer Details',
       width: 220,
+      headerClassName: 'custom-header',
       renderCell: (params) => (
         <div className="productList">
           {params.row.name}
@@ -48,28 +49,40 @@ export default function Transactions() {
     {
       field: 'date',
       headerName: 'Date',
-      width: 180,
+      width: 150,
+      headerClassName: 'custom-header',
     },
     {
         field: 'time',
         headerName: 'Time',
-        width: 180,
+        width: 150,
+        headerClassName: 'custom-header',
+      },
+      
+      {
+        field: 'amount',
+        headerName: 'Amount',
+        width: 150,
+        headerClassName: 'custom-header',
       },
     
-    // {
-    //   field: 'transactionID',
-    //   headerName: 'Transaction ID',
-    //   width: 180,
-    // },
     {
-      field: 'amount',
-      headerName: 'Amount',
+      field: 'paymentMethod',
+      headerName: 'Payment Method',
       width: 150,
+      headerClassName: 'custom-header',
+      renderCell: (params) => (
+        <span className={params.row.paymentMethod === 'Online' ? 'statusMethodTwo' : 'statusMethodOne'}>
+          {params.row.paymentMethod}
+        </span>
+      ),
     },
+    
     {
       field: 'status',
       headerName: 'Status',
       width: 150,
+      headerClassName: 'custom-header',
       renderCell: (params) => (
         <span className={params.row.status === 'Paid' ? 'statusPaid' : 'statusUnpaid'}>
           {params.row.status}
@@ -80,6 +93,7 @@ export default function Transactions() {
       field: 'action',
       headerName: 'Action',
       width: 150,
+      headerClassName: 'custom-header',
       renderCell: (params) => (
         <div className="productListAction">
           <Link to={`/product/${params.row.id}`}>
@@ -95,7 +109,11 @@ export default function Transactions() {
   ];
 
   return (
-    <div className="container">
+    <div className="transactions">
+      <div className="table-header">
+        <h2>Transactions Details</h2>
+        {/* <button className="customer-button">Create</button> */}
+      </div>
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
           rows={data}

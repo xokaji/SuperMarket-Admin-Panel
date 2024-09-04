@@ -4,7 +4,7 @@ import DateTimeComponent from '../../components/dateNtime/DateTimeComponent';
 import GreetingComponent from '../../components/greeting/GreetingComponent';
 import './stocks.css';
 import "../../dummyData"
-
+import { Link } from 'react-router-dom';
 export const data = [
     { name: 'Grocery', stock: 120 },
     { name: 'Dairy & Eggs', stock: 80 },
@@ -33,9 +33,13 @@ const Stock = () => {
       <section className="analytics-overview">
         <div className="analytics-card green">
           <label className="category">Grocery</label>
+          
           <div className="buttonContainer">
-            <button>View</button>
+            <Link to="/stockreports/grocery">
+              <button>View</button>
+            </Link>
           </div>
+         
         </div>
         <div className="analytics-card orange">
           <label className="category">Dairy & Eggs</label>
