@@ -1,0 +1,60 @@
+/* Container */
+.grocery-container {
+    flex: 5;
+    background-color: #f7f7f7;
+    border-radius: 8px; 
+}
+
+.title {
+    font-size: 40px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Select Container */
+.select-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+/* Label */
+.select-container label {
+    font-size: 17px;
+    color: #555;
+    margin-right: 50px;
+
+}
+
+/* Select */
+.select-container select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* Ensure select fills container width */
+    max-width: 400px; /* Optional: max-width for better control */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+    cursor: pointer;
+}
+
+/* Chart Container */
+.chart-container {
+    padding: 20px;
+    margin: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Grocery Viewer */
+.grocery-viewer {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin: 0 50px; /* Center the viewer */
+
+}
