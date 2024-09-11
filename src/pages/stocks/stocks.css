@@ -44,12 +44,13 @@
     flex: 1;
     border-radius: 8px;
     text-align: center;
-    color: white;
+    color: rgb(245, 133, 133);
     flex-direction: column;
     display: flex;
     padding:30px;
     margin:30px;
     transition: transform 0.3s ease;
+    background-color: white;
     
   }
 
@@ -70,10 +71,7 @@
     
   }
   
-  .green { background-color: #28a745; }
-  .orange { background-color: #fd7e14; }
-  .purple { background-color: #8866c6; }
-  .red { background-color: #c83e4c; }
+
   
   .products-stock-list {
     margin: 20px 0;

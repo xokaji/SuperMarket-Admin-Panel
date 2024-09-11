@@ -5,14 +5,21 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA4Qb9modAF9Q9tr49Rm4vR8FEgfPW6CIY",
-  authDomain: "superm-492d3.firebaseapp.com",
-  projectId: "superm-492d3",
-  storageBucket: "superm-492d3.appspot.com",
-  messagingSenderId: "928936467721",
-  appId: "1:928936467721:web:21337f046520bd19dfc7d8",
-  measurementId: "G-PCQJSK3XJP"
+
+  apiKey: "AIzaSyBtj4O0lE24CZITLnoLVHE-uOVcf5moJE8",
+
+  authDomain: "superm-3404a.firebaseapp.com",
+
+  projectId: "superm-3404a",
+
+  storageBucket: "superm-3404a.appspot.com",
+
+  messagingSenderId: "647148332959",
+
+  appId: "1:647148332959:web:c5ef5764b22281a3217faa"
+
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

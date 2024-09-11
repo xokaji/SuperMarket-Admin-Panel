@@ -11,6 +11,8 @@ import WidgetLarge from '../../components/widgets/largeWidgets/WidgetLarge.jsx'
 export default function Home() {
   return (
     <div className='home'>
+   
+          
         <Features/>
         <Chart data ={customerData} title="Customer Analytics" grid dataKey="activeCustomers" />
         <div className="homeWidgets">

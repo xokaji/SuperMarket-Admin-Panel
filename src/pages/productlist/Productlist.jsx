@@ -34,7 +34,7 @@ export default function DataTable() {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
+    { field: 'productID', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
     {
       field: 'productName',
       headerName: 'Product Name',
@@ -44,7 +44,7 @@ export default function DataTable() {
         <div className="productList">
           <img
             className="productListImg"
-            src={params.row.img}
+            src={params.row.productImage}
             alt={`${params.row.productName}'s avatar`}
           />
           {params.row.productName}
@@ -58,14 +58,14 @@ export default function DataTable() {
       width: 180,
     },
     {
-      field: 'category',
+      field: 'productCategory',
       headerName: 'Category',
       headerClassName: 'custom-header',
       type: 'string',
       width: 150,
     },
     {
-      field: 'price',
+      field: 'finalPrice',
       headerName: 'Price',
       headerClassName: 'custom-header',
       width: 100,
