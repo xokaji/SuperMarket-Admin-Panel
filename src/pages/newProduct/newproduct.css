@@ -1,5 +1,4 @@
-.addProductForm2 {
-     
+/* .addProductForm2 {  
     padding: 10px 20px;
     background-color: #f8f9fa;
     border-radius: 8px;
@@ -92,7 +91,6 @@
   .action-buttons {
     display: flex;
     justify-content:space-around;
-  
     margin-top: 20px;
   }
  
@@ -122,5 +120,118 @@
   
   .add-product:hover, .save-draft:hover {
     opacity: 0.9;
+  }
+   */
+
+   .addProductForm2{
+    flex:5;
+    padding: 20px;
+    
+   }
+
+   .productTitle{
+    display: flex;
+    justify-content: center;
+   }
+
+   .productTitle label{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 15px;
+   }
+
+   .general-info{
+    margin-top: 20px;
+    display: flex;
+    
+    
+   }
+
+   .form-group-product label{
+    color: #555;
+    font-size: 15px;
+   }
+
+   .form-group-product input ,textarea, select{
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #289426;
+    border-radius: 4px;
+    outline: none;
+    
+   }
+
+   .general-info2{
+      display: flex;
+      margin-top: 20px;
+      gap:50px;
+   }
+
+   .form-group-product2{
+    display: flex;
+    flex-direction: column;
+    
+   }
+
+   .form-group-product2 label{
+    color: #555;
+    font-size: 15px;
+    
+   }
+
+   .form-group-product2 input ,textarea{
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #289426;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom:20px;
+   }
+
+   .category-section label{
+    color: #555;
+    font-size: 15px;
+    margin-top: 20px;
+    
+   }
+   .form-group-product3{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+   }
+
+   .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .cancel-product, .add-product {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancel-product {
+    background-color: #f7616e; /* Soft red */
+    color: white;
+  }
+  
+  .cancel-product:hover {
+    background-color: #ff4949; /* Darker red */
+  }
+  
+  .add-product {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
+  
+  .add-product:hover {
+    background-color: #45a049; /* Darker green */
   }
   
