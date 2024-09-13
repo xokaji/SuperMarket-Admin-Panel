@@ -44,19 +44,25 @@ const Stock = () => {
         <div className="analytics-card orange">
           <label className="category">Dairy & Eggs</label>
           <div className="buttonContainer">
-            <button>View</button>
+            <Link to="/stockreports/dairy&eggs">
+              <button>View</button>
+            </Link>
           </div>
         </div>
         <div className="analytics-card purple">
           <label className="category">Meats & Seafoods</label>
           <div className="buttonContainer">
-            <button>View</button>
+          <Link to="/stockreports/meat&seafoods">
+              <button>View</button>
+            </Link>
           </div>
         </div>
         <div className="analytics-card red">
           <label className="category">Frozen Foods</label>
           <div className="buttonContainer">
-            <button>View</button>
+            <Link to="/stockreports/frozenfoods">
+              <button>View</button>
+            </Link>
           </div>
         </div>
       </section>
@@ -65,25 +71,33 @@ const Stock = () => {
         <div className="analytics-card green">
           <label className="category">Beverages</label>
           <div className="buttonContainer">
-            <button>View</button>
+            <Link to="/stockreports/beverages">
+              <button>View</button>
+            </Link>
           </div>
         </div>
         <div className="analytics-card orange">
           <label className="category">Snacks</label>
           <div className="buttonContainer">
-            <button>View</button>
+          <Link to="/stockreports/snacks">
+              <button>View</button>
+            </Link>
           </div>
         </div>
         <div className="analytics-card purple">
           <label className="category">Bakery Foods</label>
           <div className="buttonContainer">
-            <button>View</button>
+          <Link to="/stockreports/bakery">
+              <button>View</button>
+            </Link>
           </div>
         </div>
         <div className="analytics-card red">
           <label className="category">Health & Wellness</label>
           <div className="buttonContainer">
-            <button>View</button>
+          <Link to="/stockreports/health">
+              <button>View</button>
+            </Link>
           </div>
         </div>
       </section>

@@ -14,6 +14,13 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 import Stock from "./pages/stocks/Stocks";
 import Grocery from "./pages/stockCategory/grocery/Grocery";
+import Dairy from "./pages/stockCategory/dairy/Dairy";
+import Meats from "./pages/stockCategory/meats/Meats";
+import Frozen from "./pages/stockCategory/frozen/Frozen";
+import Beverages from "./pages/stockCategory/beverages/Beverages";
+import Snacks from "./pages/stockCategory/snacks/Snacks";
+import Bakery from "./pages/stockCategory/bakery/Bakery";
+import Health from "./pages/stockCategory/health/Health";
 
 
 const Layout = () => (
@@ -75,13 +82,13 @@ const router = createBrowserRouter([
     children: [
       { path: "", element:<Stock /> }, 
       { path: "grocery", element:<Grocery /> }, 
-      { path: "dairy&eggs", element: <Grocery /> }, 
-      { path: "meat&seafoods", element:<Grocery /> }, 
-      { path: "frozenfoods", element: <Grocery /> }, 
-      { path: "beverages", element: <Grocery /> }, 
-      { path: "snacks", element: <Grocery /> }, 
-      { path: "bakery", element: <Grocery /> }, 
-      { path: "health&wellness", element: <Grocery /> }, 
+      { path: "dairy&eggs", element: <Dairy /> }, 
+      { path: "meat&seafoods", element:<Meats /> }, 
+      { path: "frozenfoods", element: <Frozen /> }, 
+      { path: "beverages", element: <Beverages /> }, 
+      { path: "snacks", element: <Snacks /> }, 
+      { path: "bakery", element: <Bakery /> }, 
+      { path: "health", element: <Health /> }, 
      
     ],
   },

@@ -4,14 +4,14 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 // import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import Dropdown from '../dropDown/Dropdown';
+import logoImage from '../../images/newLogo.png'
 
 export default function Topbar() {
   return (
     <div className='topbar'>
         <div className='topbarWrapper'>
             <div className='topLeft'>
-                <span className="logo">Green</span>
-                <span className="logo2">mart</span>
+                <img src={logoImage} alt="Logo"/>
             </div>
             <div className='topRight'>
                 <div className='topBarIconsContainer'>
@@ -26,7 +26,6 @@ export default function Topbar() {
                 {/* <div className='topBarIconsContainer'>
                     <SettingsOutlinedIcon />
                 </div> */}
-
                 <div>
                     <Dropdown />
                 </div>

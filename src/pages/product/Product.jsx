@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import './product.css';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
@@ -13,6 +13,7 @@ import ScaleLoader from 'react-spinners/ScaleLoader';
 export default function Product() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [productMonth, setProductMonth]=useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -42,7 +43,7 @@ export default function Product() {
   return (
     <div className="product">
       <div className="productTitleContainer">
-        <h1 className="productTitle">Edit Product</h1>
+        <h1 className="productTitle">Product Details</h1>
       </div>
       <div className="productContainer">
         <div className="productShow">
@@ -65,7 +66,7 @@ export default function Product() {
             </div>
             <div className="productShowInfo">
               <CategoryOutlinedIcon className="productShowIcon" />
-              <span className="productShowInfoTitle">{product.category}</span>
+              <span className="productShowInfoTitle">{product.productCategory}</span>
             </div>
             <div className="productShowInfo">
               <ApartmentOutlinedIcon className="productShowIcon" />
@@ -73,7 +74,7 @@ export default function Product() {
             </div>
             <div className="productShowInfo">
               <AttachMoneyOutlinedIcon className="productShowIcon" />
-              <span className="productShowInfoTitle">Rs. {product.price}</span>
+              <span className="productShowInfoTitle">Rs. {product.finalPrice}</span>
             </div>
             <div className="productShowInfo">
               <Inventory2OutlinedIcon className="productShowIcon" />
@@ -83,9 +84,10 @@ export default function Product() {
         </div>
         <div className="productUpdate">
           <span className="productUpdateTitle">Edit</span>
+          
           <form className="productUpdateForm">
             <div className="productUpdateLeft">
-              <div className="productUpdateItem">
+              {/* <div className="productUpdateItem">
                 <label>Product Name</label>
                 <input
                   type="text"
@@ -108,7 +110,7 @@ export default function Product() {
                   placeholder={product.category}
                   className="productUpdateInput"
                 />
-              </div>
+              </div> */}
               <div className="productUpdateItem">
                 <label>Price</label>
                 <input
@@ -125,16 +127,41 @@ export default function Product() {
                   className="productUpdateInput"
                 />
               </div>
+              <div className="productUpdateItem">
+  <label>Product In-Month</label>
+  <select
+    value={productMonth} // You can add a state for this, e.g., productMonth
+    onChange={(e) => setProductMonth(e.target.value)} // Make sure to update the state
+    className="productUpdateInput"
+  >
+    <option value="">Select Month</option>
+    <option value="January">January</option>
+    <option value="February">February</option>
+    <option value="March">March</option>
+    <option value="April">April</option>
+    <option value="May">May</option>
+    <option value="June">June</option>
+    <option value="July">July</option>
+    <option value="August">August</option>
+    <option value="September">September</option>
+    <option value="October">October</option>
+    <option value="November">November</option>
+    <option value="December">December</option>
+  </select>
+</div>
+            
+
             </div>
             <div className="productUpdateRight">
               <button className="productUpdateButton">Update</button>
             </div>
+            
           </form>
         </div>
       </div>
-      <Link to="/newProduct" className="productFloatingButton">
+      {/* <Link to="/newProduct" className="productFloatingButton">
         <button className="productFloatingButton">Create</button>
-      </Link>
+      </Link> */}
     </div>
   );
 }

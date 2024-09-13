@@ -17,9 +17,9 @@
 .productAddButton{
     border-radius: 5px;
       border: none;
-      padding: 5px;
+      padding: 10px;
       cursor: pointer;
-      background-color: #3bb077;
+      background-color: #b5c6be;
       color: white;
       font-weight: 600;
 }
@@ -124,7 +124,8 @@
 .productUpdateRight{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+   
+    
 }
 
 .productUpdateUpload{
@@ -147,10 +148,72 @@
 .productUpdateButton{
     border-radius: 5px;
     border: none;
-    padding: 5px;
+    padding: 15px;
     cursor: pointer;
     background-color:#3bb077;
     color: white;
     font-weight: 600;
 }
+.productUpdateRight{
+    display: flex;
+}
 
+.productUpdateItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .productUpdateItem label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .productUpdateItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .productUpdateItem label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .productUpdateInput {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height:40px;
+    background-color: #fff; /* Background for the dropdown */
+    appearance: none; /* Removes the default arrow icon */
+    -webkit-appearance: none; /* Safari support */
+    -moz-appearance: none; /* Firefox support */
+   
+    background-position: right 10px center;
+    background-size: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .productUpdateInput:focus {
+    border-color: #4caf50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green shadow on focus */
+    outline: none;
+  }
+  
+  .productUpdateInput option {
+    padding: 10px;
+    background-color: white;
+    color: #333;
+  }
+  
+  .productUpdateInput:hover {
+    border-color: #999; /* Slightly darker border on hover */
+  }
+  

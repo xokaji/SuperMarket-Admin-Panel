@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import './grocery.css'; 
+import './beverages.css'; 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; 
-import { productData, productCompanies } from '../../../dummyData';
+import { productData5, productCompanies5 } from '../../../dummyData';
 
-const Grocery = () => {
+const Frozen = () => {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('');
 
-  const products = Object.keys(productData);
+  const products = Object.keys(productData5);
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   useEffect(() => {
     if (selectedProduct) {
-      setSelectedCompany(productCompanies[selectedProduct][0]);
+      setSelectedCompany(productCompanies5[selectedProduct][0]);
     }
   }, [selectedProduct]);
 
@@ -21,7 +21,7 @@ const Grocery = () => {
     const product = event.target.value;
     setSelectedProduct(product);
     if (product) {
-      setSelectedCompany(productCompanies[product][0]);
+      setSelectedCompany(productCompanies5[product][0]);
     }
   };
 
@@ -34,18 +34,18 @@ const Grocery = () => {
   };
 
   const filteredData = selectedProduct
-    ? productData[selectedProduct].filter((data) => !selectedMonth || data.month === selectedMonth)
+    ? productData5[selectedProduct].filter((data) => !selectedMonth || data.month === selectedMonth)
     : [];
 
   return (
     <div className="grocery-container">
-      <h1 className="title">Grocery Stock</h1>
+      <h1 className="title">Beverage Products Stock</h1>
       <div className="grocery-viewer">
      
         <div className="select-container">
           <label htmlFor="product-select">Choose a Product:</label>
           <select id="product-select" value={selectedProduct} onChange={handleProductSelect}>
-            <option value="">Select a Grocery Product</option>
+            <option value="">Select a Beverage Product</option>
             {products.map((product, index) => (
               <option key={index} value={product}>
                 {product}
@@ -58,7 +58,7 @@ const Grocery = () => {
         <div className="select-container">
           <label htmlFor="company-select">Related Company:</label>
           <select id="company-select" value={selectedCompany} onChange={handleCompanySelect}>
-            {selectedProduct && productCompanies[selectedProduct].map((company, index) => (
+            {selectedProduct && productCompanies5[selectedProduct].map((company, index) => (
               <option key={index} value={company}>
                 {company}
               </option>
@@ -101,5 +101,5 @@ const Grocery = () => {
   );
 };
 
-export default Grocery;
+export default Frozen;
 

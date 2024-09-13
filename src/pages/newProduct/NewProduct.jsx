@@ -68,7 +68,6 @@ export default function AddNewProduct() {
     'Soap & Shampoo':['Dave', 'Pears', 'Baby Sheramie'],
     'Face Wash Products':['Nature Secrets','Fair & Lovely', 'Fair & Handsome' ],
     'Personal Care': ['Signal','Clogard','Fems','Arya']
- 
   };
 
   const handleMainCategoryChange = (e) => {
@@ -178,9 +177,28 @@ export default function AddNewProduct() {
             <input type="date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} required /> {/* New Expiry Date Field */}
           </div>
           <div className="form-group-product">
-            <label>Product Description</label>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-          </div>
+  <label>Product IN-Month</label>
+  <select 
+    value={description} 
+    onChange={(e) => setDescription(e.target.value)} 
+    required
+  >
+    <option value="">Select Month</option>
+    <option value="January">January</option>
+    <option value="February">February</option>
+    <option value="March">March</option>
+    <option value="April">April</option>
+    <option value="May">May</option>
+    <option value="June">June</option>
+    <option value="July">July</option>
+    <option value="August">August</option>
+    <option value="September">September</option>
+    <option value="October">October</option>
+    <option value="November">November</option>
+    <option value="December">December</option>
+  </select>
+</div>
+
         </div>
 
         {/* Pricing and Stock */}

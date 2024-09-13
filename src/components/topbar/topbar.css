@@ -5,7 +5,13 @@
     position: sticky;
     top:0px;
     z-index: 999;
-    background-color: #6cd454   ;
+    background-color: #3a6810  ;
+}
+
+.topLeft img{
+    height:60px ;
+    width:60px;
+    margin-left: 50px;
 }
 
 .topbarWrapper{
