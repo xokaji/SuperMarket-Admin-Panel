@@ -11,7 +11,7 @@
 
 .productContainer{
     display: flex;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .productAddButton{
@@ -53,6 +53,7 @@
 .productShowTopTitle{
     display: flex;
     flex-direction: column;
+
 }
 
 .productShowName{
@@ -91,7 +92,7 @@
     flex-direction: column;
 }
 
-.productUpdateTitle{
+.edittitle{
     font-size: 24px;
     font-weight: 600;
 }
@@ -156,6 +157,12 @@
 }
 .productUpdateRight{
     display: flex;
+}
+
+.productUpdateLeft{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .productUpdateItem {

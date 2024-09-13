@@ -31,7 +31,7 @@ const Stock = () => {
       </header>
 
       <section className="analytics-overview">
-        <div className="analytics-card green">
+        <div className="analytics-card1">
           <label className="category">Grocery</label>
           
           <div className="buttonContainer">
@@ -41,7 +41,7 @@ const Stock = () => {
           </div>
          
         </div>
-        <div className="analytics-card orange">
+        <div className="analytics-card2">
           <label className="category">Dairy & Eggs</label>
           <div className="buttonContainer">
             <Link to="/stockreports/dairy&eggs">
@@ -49,7 +49,7 @@ const Stock = () => {
             </Link>
           </div>
         </div>
-        <div className="analytics-card purple">
+        <div className="analytics-card3">
           <label className="category">Meats & Seafoods</label>
           <div className="buttonContainer">
           <Link to="/stockreports/meat&seafoods">
@@ -57,7 +57,7 @@ const Stock = () => {
             </Link>
           </div>
         </div>
-        <div className="analytics-card red">
+        <div className="analytics-card4">
           <label className="category">Frozen Foods</label>
           <div className="buttonContainer">
             <Link to="/stockreports/frozenfoods">
@@ -68,7 +68,7 @@ const Stock = () => {
       </section>
 
       <section className="analytics-overview">
-        <div className="analytics-card green">
+        <div className="analytics-card5">
           <label className="category">Beverages</label>
           <div className="buttonContainer">
             <Link to="/stockreports/beverages">
@@ -76,7 +76,7 @@ const Stock = () => {
             </Link>
           </div>
         </div>
-        <div className="analytics-card orange">
+        <div className="analytics-card6">
           <label className="category">Snacks</label>
           <div className="buttonContainer">
           <Link to="/stockreports/snacks">
@@ -84,7 +84,7 @@ const Stock = () => {
             </Link>
           </div>
         </div>
-        <div className="analytics-card purple">
+        <div className="analytics-card7">
           <label className="category">Bakery Foods</label>
           <div className="buttonContainer">
           <Link to="/stockreports/bakery">
@@ -92,7 +92,7 @@ const Stock = () => {
             </Link>
           </div>
         </div>
-        <div className="analytics-card red">
+        <div className="analytics-card8">
           <label className="category">Health & Wellness</label>
           <div className="buttonContainer">
           <Link to="/stockreports/health">

@@ -40,7 +40,34 @@
 
   
   
-  .analytics-card {
+  .analytics-card1 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    color:white;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/products-lie-table-eggs-cereals-vegetables_78492-3897.jpg?t=st=1726258349~exp=1726261949~hmac=617c7cc61af7ab61110cbc148116f191fd458ea9474dbbacb5327fd24dd71b69&w=1060'); /* Replace with your image URL */
+    background-size: cover;
+  }
+  .analytics-card1 , .analytics-card2, .analytics-card3, .analytics-card4, .analytics-card5, .analytics-card6, .analytics-card7, .analytics-card8 {
+    color: white;
+    text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+}
+
+.analytics-card1 button , .analytics-card2 button, .analytics-card3 button, .analytics-card4 button, .analytics-card5 button, .analytics-card6 button, .analytics-card7 button, .analytics-card8 button{
+  background-color: #d6f9ac;
+  padding: 5px;
+  border: none;
+  width:100px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+  .analytics-card2 {
     flex: 1;
     border-radius: 5px;
     text-align: center;
@@ -49,14 +76,88 @@
     padding: 30px;
     margin: 30px;
     transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/premium-photo/vegetables-vegan-day-copy-space-background-design_548646-80059.jpg?w=1380'); /* Replace with your image URL */
+    background-image: url('https://img.freepik.com/free-photo/top-view-organic-eggs-with-fresh-milk_23-2148610534.jpg?t=st=1726258662~exp=1726262262~hmac=9184702cda9d5e64e297094913af5a80de246aa06244c5242a23f9ff1c8abd53&w=1060'); /* Replace with your image URL */
     background-size: cover;
-    background-position: center;
-    filter: blur(1px);
-   /* Adjust the blur intensity */
-    border-radius: 20px;
+    
   }
-  
+  .analytics-card3 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/bottom-view-raw-fish-slices-with-ice-wood-board-fresh-tomatoes-table_179666-43703.jpg?t=st=1726258739~exp=1726262339~hmac=cf4f9934905f3db97bc5021b4b8067ae369fd23135b9c911d3d5f983986528b1&w=740'); /* Replace with your image URL */
+    background-size: cover;
+    
+  }
+  .analytics-card4 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/composition-delicious-frozen-food_23-2148923181.jpg?t=st=1726258791~exp=1726262391~hmac=b9784bd108a6838c81d9a7c351b13a5724ae9f5389dd5635287282060c695b07&w=1060'); /* Replace with your image URL */
+    background-size: cover;
+    
+  }
+  .analytics-card5 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/orange-soft-yellow-drinks-with-strawberry-sliced-lime-mint-glasses_23-2148145338.jpg?t=st=1726258847~exp=1726262447~hmac=f163d03253c15d65fbe15d3cfd67b9e578c5b956bbd7da42017c6372c8669f31&w=1060'); /* Replace with your image URL */
+    background-size: cover;
+    
+  }
+  .analytics-card6 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/top-view-cone-shape-bugles-chips-wooden-divided-plate-with-shelled-sunflower-seeds-with-spicy-chips-bucket-wooden-wall_141793-80339.jpg?t=st=1726258894~exp=1726262494~hmac=b974ebab17a573bf413ce072a02ac10563816922cafa3bbd25d90f8e63f3594d&w=1060'); /* Replace with your image URL */
+    background-size: cover;
+    
+  }
+  .analytics-card7 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/flat-lay-vegan-baked-products-arrangement_23-2150251758.jpg?t=st=1726258943~exp=1726262543~hmac=f064898376483b12b46ca303e4802cb5f318eb8a361365b85230547354bb28ea&w=1060'); /* Replace with your image URL */
+    background-size: cover;
+    
+  }
+  .analytics-card8 {
+    flex: 1;
+    border-radius: 5px;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    padding: 30px;
+    margin: 30px;
+    transition: transform 0.3s ease;
+    background-image: url('https://img.freepik.com/free-photo/flat-lay-natural-self-care-products-composition_23-2148990016.jpg?t=st=1726258987~exp=1726262587~hmac=ccaab4b389349e4969431065a0b37f954687e0cdea7a665118c16485e9dcfec3&w=1060'); /* Replace with your image URL */
+    background-size: cover;
+    
+  }
 
   .analytics-card:hover{
     transform: scale(1.05);

@@ -58,4 +58,18 @@
     margin: 20px;
 }
 
+.toast-success {
+    background-color: #f44336; 
+    color: white;
+  }
+
+  .membership-active {
+    color: #4caf50; /* Green */
+    font-weight: bold;
+  }
+  
+  .membership-inactive {
+    color: #f44336; /* Red */
+    font-weight: bold;
+  }
   

@@ -77,8 +77,8 @@ export default function DataTable() {
       width: 100,
     },
     {
-      field: 'description',
-      headerName: 'Description',
+      field: 'expiryDate',
+      headerName: 'Expiry Date',
       headerClassName: 'custom-header',
       width: 180,
     },

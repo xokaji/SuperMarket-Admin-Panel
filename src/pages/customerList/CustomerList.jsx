@@ -2,39 +2,70 @@ import React, { useEffect, useState } from 'react';
 import './customerList.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { db } from '../../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function DataTable() {
   const [data, setData] = useState([]);
-  
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      const querySnapshot = await getDocs(collection(db, 'users'));
-      const customers = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setData(customers);
+      try {
+        const querySnapshot = await getDocs(collection(db, 'users'));
+        const customers = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setData(customers);
+      } catch (error) {
+        console.error('Error fetching customers:', error);
+      }
     };
 
     fetchCustomers();
   }, []);
-  
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      // Delete the document from Firestore
+      await deleteDoc(doc(db, 'users', id));
+
+      // Update local state to remove the deleted customer
+      setData(data.filter((item) => item.id !== id));
+
+      // Show success toast
+      toast.success('Customer deleted successfully!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.error('Error deleting customer:', error);
+
+      // Show error toast
+      toast.error('Error deleting customer', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
-  
-  
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
-
-    
-
+    { field: 'id', headerName: 'ID', width: 70, headerClassName: 'custom-header' },
     {
       field: 'name',
       headerName: 'Full Name',
@@ -45,13 +76,10 @@ export default function DataTable() {
           <div className="customerListImageContainer">
             <img src={params.row.img} alt="customerImg" className='customerListImage'/>
           </div>
-
           <div className='customerListNameContainer'>{params.row.name}</div>
-         
         </div>
       ),
     },
-    
     {
       field: 'email',
       headerName: 'E-mail Address',
@@ -76,6 +104,11 @@ export default function DataTable() {
       headerName: 'Membership',
       headerClassName: 'custom-header',
       width: 150,
+      renderCell: (params) => (
+        <span className={params.value === 'Active' ? 'membership-active' : 'membership-inactive'}>
+          {params.value}
+        </span>
+      ),
     },
     {
       field: 'action',
@@ -87,29 +120,24 @@ export default function DataTable() {
           <Link to={`/customers/${params.row.id}`}>
             <button className="userListEdit">View</button>
           </Link>
-          <DeleteOutlineOutlinedIcon className="userListDelete" onClick={() => handleDelete(params.row.id)} />
+          <DeleteOutlineOutlinedIcon 
+            className="userListDelete" 
+            onClick={() => handleDelete(params.row.id)} 
+          />
         </div>
       ),
     },
   ];
 
   return (
-    
-  
-    
     <div className="customercontainer">
-      
       <div className="table-header">
         <h2>Customer Details</h2>
-        {/* <button className="customer-button">Create</button> */}
       </div>
-      
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
           rows={data}
           columns={columns}
-          
-          
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },
@@ -117,10 +145,9 @@ export default function DataTable() {
           }}
           pageSizeOptions={[5, 10]}
           checkboxSelection
-          
         />
       </div>
-     
+      <ToastContainer />
     </div>
   );
 }
