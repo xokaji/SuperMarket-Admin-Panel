@@ -7,7 +7,7 @@ import StraightOutlinedIcon from '@mui/icons-material/StraightOutlined';
 export default function Features() {
   return (
     <div className='features'>
-        <div className="featuredItem">
+        <div className="featuredItem1">
             <span className="featuredTitle">Revenue</span>
             <div className="moneyContainer">
                 <span className="money">Rs.120,000</span>
@@ -16,7 +16,7 @@ export default function Features() {
             <span className="featuredSub">Compared to last month</span>
         </div>
 
-        <div className="featuredItem">
+        <div className="featuredItem2">
             <span className="featuredTitle">Sales</span>
             <div className="moneyContainer">
                 <span className="money">Rs.95,850 <StraightOutlinedIcon className='featuredIcon'/></span>
@@ -25,7 +25,7 @@ export default function Features() {
             <span className="featuredSub">Compared to last month</span>
         </div>
 
-        <div className="featuredItem">
+        <div className="featuredItem3">
             <span className="featuredTitle">Cost</span>
             <div className="moneyContainer">
                 <span className="money">Rs. 250,000</span>

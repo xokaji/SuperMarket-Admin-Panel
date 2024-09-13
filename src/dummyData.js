@@ -665,7 +665,7 @@ export const customerData = [
       { month: 'November', stocks: 50 },
       { month: 'December', stocks: 55 },
     ],
-    'Herbal-Products': [
+    'Herbal Products': [
       { month: 'January', stocks: 45 },
       { month: 'February', stocks: 50 },
       { month: 'March', stocks: 60 },
@@ -679,7 +679,7 @@ export const customerData = [
       { month: 'November', stocks: 50 },
       { month: 'December', stocks: 55 },
     ],
-    'Medicines': [
+    Medicines: [
       { month: 'January', stocks: 45 },
       { month: 'February', stocks: 50 },
       { month: 'March', stocks: 60 },

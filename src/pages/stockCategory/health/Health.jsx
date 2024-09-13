@@ -3,7 +3,7 @@ import './health.css';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; 
 import { productData8, productCompanies8 } from '../../../dummyData';
 
-const Snacks = () => {
+const Health = () => {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('');
@@ -13,16 +13,14 @@ const Snacks = () => {
 
   useEffect(() => {
     if (selectedProduct) {
-      setSelectedCompany(productCompanies8[selectedProduct][0]);
+      setSelectedCompany(productCompanies8[selectedProduct][0] || '');
     }
   }, [selectedProduct]);
 
   const handleProductSelect = (event) => {
     const product = event.target.value;
     setSelectedProduct(product);
-    if (product) {
-      setSelectedCompany(productCompanies8[product][0]);
-    }
+    setSelectedCompany(product ? productCompanies8[product][0] || '' : '');
   };
 
   const handleMonthSelect = (event) => {
@@ -41,7 +39,6 @@ const Snacks = () => {
     <div className="grocery-container">
       <h1 className="title">Health & Wellness Stock</h1>
       <div className="grocery-viewer">
-     
         <div className="select-container">
           <label htmlFor="product-select">Choose a Product:</label>
           <select id="product-select" value={selectedProduct} onChange={handleProductSelect}>
@@ -54,10 +51,9 @@ const Snacks = () => {
           </select>
         </div>
 
-   
         <div className="select-container">
           <label htmlFor="company-select">Related Company:</label>
-          <select id="company-select" value={selectedCompany} onChange={handleCompanySelect}>
+          <select id="company-select" value={selectedCompany} onChange={handleCompanySelect} disabled={!selectedProduct}>
             {selectedProduct && productCompanies8[selectedProduct].map((company, index) => (
               <option key={index} value={company}>
                 {company}
@@ -65,9 +61,7 @@ const Snacks = () => {
             ))}
           </select>
         </div>
-        
 
-       
         <div className="select-container">
           <label htmlFor="month-select">Choose a Month:</label>
           <select id="month-select" value={selectedMonth} onChange={handleMonthSelect}>
@@ -81,7 +75,6 @@ const Snacks = () => {
         </div>
       </div>
 
-      
       {selectedProduct && (
         <div className="chart-container">
           <h2>Stocks for {selectedProduct} ({selectedCompany})</h2>
@@ -92,7 +85,7 @@ const Snacks = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="stocks" fill="#8884d8" /> 
+              <Bar dataKey="stocks" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -101,5 +94,4 @@ const Snacks = () => {
   );
 };
 
-export default Snacks;
-
+export default Health;

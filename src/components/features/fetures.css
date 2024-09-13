@@ -6,7 +6,7 @@
 
 }
 
-.featuredItem{
+.featuredItem1{
     flex:1;
     margin: 0px 20px;
     padding: 30px;
@@ -14,6 +14,26 @@
     cursor: pointer;
     box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
     background-color:#FFE9E5;
+    transition: transform 0.3s ease;
+}
+.featuredItem2{
+    flex:1;
+    margin: 0px 20px;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
+    background-color:#DCF4F5;
+    transition: transform 0.3s ease;
+}
+.featuredItem3{
+    flex:1;
+    margin: 0px 20px;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
+    background-color:#E6FFCF;
     transition: transform 0.3s ease;
 }
 

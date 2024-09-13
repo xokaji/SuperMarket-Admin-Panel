@@ -1,38 +1,39 @@
-// pages/login/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth'; // Import Firebase auth function
+import { auth } from '../../firebase';
 import './login.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); // Use email for Firebase authentication
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    setLoading(true); 
+  const handleLogin = async () => {
+    setLoading(true);
 
-   
-    setTimeout(() => {
-      if (username === 'admin' && password === 'password') {
-        navigate('/home');
-      } else {
-        setError('Invalid Username or Password!');
-      }
-      setLoading(false);
-    }, 1500); 
+    try {
+      // Firebase login
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/home');
+    } catch (error) {
+      setError('Invalid Email or Password!');
+    }
+    
+    setLoading(false);
   };
-  
 
   return (
+    <div className="conty">
     <div className="login-container">
       <h1>Admin Login</h1>
       <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
         disabled={loading}
       />
       <input
@@ -47,6 +48,7 @@ const Login = () => {
       </button>
       {loading && <div className="spinner"></div>}
       {error && <p>{error}</p>}
+    </div>
     </div>
   );
 };

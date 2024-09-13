@@ -44,15 +44,19 @@
     flex: 1;
     border-radius: 5px;
     text-align: center;
-    
     flex-direction: column;
     display: flex;
-    padding:30px;
-    margin:30px;
+    padding: 30px;
+    margin: 30px;
     transition: transform 0.3s ease;
-    background-color: #e1e1e1;
-    
+    background-image: url('https://img.freepik.com/premium-photo/vegetables-vegan-day-copy-space-background-design_548646-80059.jpg?w=1380'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    filter: blur(1px);
+   /* Adjust the blur intensity */
+    border-radius: 20px;
   }
+  
 
   .analytics-card:hover{
     transform: scale(1.05);
@@ -103,10 +107,7 @@
     font-weight: bold;
   }
   
-  .status.in-stock { background-color: #28a745; }
-  .status.low-stock { background-color: #ffc107; color: black; }
-  .status.out-of-stock { background-color: #dc3545; }
-  .status.critically-low { background-color: #6f42c1; }
+
   
   .chart-section {
     margin-top: 20px;
