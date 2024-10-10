@@ -1,226 +1,182 @@
-.product{
-    flex:5;
+.product {
+    flex: 5;
     padding: 20px;
 }
 
-.productTitleContainer{
+.productTitleContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+
 }
 
-.productContainer{
+.productContainer {
     display: flex;
-    margin-top: 50px;
-}
-
-.productAddButton{
-    border-radius: 5px;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      background-color: #b5c6be;
-      color: white;
-      font-weight: 600;
-}
-
-.productShow{
-    flex: 1;
-    padding:20px;
-    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
-}
-
-.productUpdate{
-    flex: 2;
-    padding:20px;
-    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
-    margin-left: 20px;
-}
-
-.productShowTop{
-    display: flex;
-    align-items: center;
-}
-
-.productShowImg{
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 20px;
-}
-
-.productShowTopTitle{
-    display: flex;
-    flex-direction: column;
-
-}
-
-.productShowName{
-    font-weight: 600;
-}
-
-.productShowCompany{
-    font-weight: 300;
-}
-
-.productShowBottom{
-    margin-top: 20px;
-}
-
-.productShowTitle{
-    font-weight: 600;
-    font-size: 14px;
-    color: rgb(175, 170, 170);
-}
-
-.productShowInfo{
-    display: flex;
-    align-items: center;
-    margin: 20px 0px;
-    color: #444;
-}
-
-.productShowIcon{
-    font-size: 16px !important;
-    margin-right: 10px;
-}
-
-
-.productUpdate{
-    display: flex;
-    flex-direction: column;
-}
-
-.edittitle{
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.productUpdateForm{
-    display: flex;
-    justify-content: space-between ;
-    margin-top: 20PX;
-}
-
-
-.productUpdateItem{
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-}
-
-.productUpdateItem>label{
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.productUpdateInput{
-    border: none;
-    width: 250px;
-    height: 30px;
-    border-bottom: 1px solid gray;
-}
-
-.productUpdateRight{
-    display: flex;
-    flex-direction: column;
-   
+    flex-wrap: wrap;
+    gap: 20px;
     
 }
 
-.productUpdateUpload{
+.productShow {
+    padding: 20px;
+    border-radius: 10px;
+}
+ .productUpdate {
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.productShow {
+    flex: 1;
+    max-width: 350px;
+}
+
+.productShowTop {
     display: flex;
     align-items: center;
+    gap: 20px;
 }
 
-.productUpdateImg{
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
+.productShowImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     object-fit: cover;
-    margin-right: 20px;
 }
 
-.productUpdateIcon{
-    cursor: pointer;
-}
-
-.productUpdateButton{
-    border-radius: 5px;
-    border: none;
-    padding: 15px;
-    cursor: pointer;
-    background-color:#3bb077;
-    color: white;
-    font-weight: 600;
-}
-.productUpdateRight{
+.productShowTopTitle {
     display: flex;
+    flex-direction: column;
+    
 }
 
-.productUpdateLeft{
+.productShowName {
+    font-weight: 600;
+    font-size: 18px;
+    
+}
+
+.productShowCompany {
+    font-weight: 400;
+    font-size: 14px;
+    color: #777;
+}
+
+.productShowBottom {
+    margin-top: 20px;
+}
+
+.productShowTitle {
+    font-weight: 600;
+    font-size: 16px;
+    color: rgb(175, 170, 170);
+}
+
+.productShowInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    color: #444;
+}
+
+.productShowIcon {
+    font-size: 20px !important;
+}
+
+.productUpdate {
+    flex: 2;
+}
+
+.edittitle {
+    font-size: 24px;
+    font-weight: 600;
+   
+}
+
+.productUpdateForm {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.productUpdateLeft {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.productUpdateRight {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .productUpdateItem {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
-  }
-  
-  .productUpdateItem label {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
+}
+
+.productUpdateItem label {
+    font-size: 14px;
     font-weight: 500;
-  }
-  
-  .productUpdateItem {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-  }
-  
-  .productUpdateItem label {
-    font-size: 16px;
-    color: #333;
+    margin-top: 10px;
     margin-bottom: 5px;
-    font-weight: 500;
-  }
-  
-  .productUpdateInput {
+}
+
+.productUpdateInput {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    height:40px;
-    background-color: #fff; /* Background for the dropdown */
-    appearance: none; /* Removes the default arrow icon */
-    -webkit-appearance: none; /* Safari support */
-    -moz-appearance: none; /* Firefox support */
-   
-    background-position: right 10px center;
-    background-size: 10px;
-    cursor: pointer;
+    height: 40px;
+    background-color: #fff;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .productUpdateInput:focus {
-    border-color: #4caf50; /* Green border on focus */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green shadow on focus */
+}
+
+.productUpdateInput:focus {
+    border-color: #3bb077;
+    box-shadow: 0 0 5px rgba(59, 176, 119, 0.5);
     outline: none;
-  }
-  
-  .productUpdateInput option {
-    padding: 10px;
-    background-color: white;
-    color: #333;
-  }
-  
-  .productUpdateInput:hover {
-    border-color: #999; /* Slightly darker border on hover */
-  }
-  
+}
+
+.productUpdateButton {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3bb077;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.productUpdateButton:hover {
+    background-color: #339966;
+}
+
+/* Scale container for loader */
+.scalecontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .productContainer {
+        flex-direction: column;
+    }
+
+    .productShow, .productUpdate {
+        max-width: 100%;
+        flex: 1;
+    }
+
+    .productUpdateButton {
+        width: 100%;
+    }
+}

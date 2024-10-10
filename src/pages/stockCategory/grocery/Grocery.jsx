@@ -1,76 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import './grocery.css'; 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; 
-import { productData, productCompanies } from '../../../dummyData';
+import { db } from '../../../firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const Grocery = () => {
+  const [groceryData, setGroceryData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedCompany, setSelectedCompany] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
 
-  const products = Object.keys(productData);
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'grocery'), snapshot => {
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setGroceryData(data);
+    });
+
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, []);
+
+  const handleSearch = () => {
     if (selectedProduct) {
-      setSelectedCompany(productCompanies[selectedProduct][0]);
+      const productData = groceryData.find(item => item.id === selectedProduct);
+      console.log(productData); // Log the product data
+      if (productData && Array.isArray(productData.inStockMonth)) {
+        const data = productData.inStockMonth.filter((data) => 
+          !selectedMonth || data.month === selectedMonth
+        );
+        setFilteredData(data);
+      } else {
+        console.error("inStockMonth is not an array", productData);
+      }
     }
-  }, [selectedProduct]);
-
-  const handleProductSelect = (event) => {
-    const product = event.target.value;
-    setSelectedProduct(product);
-    if (product) {
-      setSelectedCompany(productCompanies[product][0]);
-    }
   };
-
-  const handleMonthSelect = (event) => {
-    setSelectedMonth(event.target.value);
-  };
-
-  const handleCompanySelect = (event) => {
-    setSelectedCompany(event.target.value);
-  };
-
-  const filteredData = selectedProduct
-    ? productData[selectedProduct].filter((data) => !selectedMonth || data.month === selectedMonth)
-    : [];
+  
 
   return (
     <div className="grocery-container">
       <h1 className="title">Grocery Stock</h1>
-      <div className="grocery-viewer">
-     
+      
+      <div className="grocery-viewer" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <div className="select-container">
           <label htmlFor="product-select">Choose a Product:</label>
-          <select id="product-select" value={selectedProduct} onChange={handleProductSelect}>
+          <select id="product-select" value={selectedProduct} onChange={(e) => {
+            const product = e.target.value;
+            setSelectedProduct(product);
+          }}>
             <option value="">Select a Grocery Product</option>
-            {products.map((product, index) => (
-              <option key={index} value={product}>
-                {product}
+            {groceryData.map((item, index) => (
+              <option key={index} value={item.id}>
+                {item.id} {/* Assuming the document ID is the product name */}
               </option>
             ))}
           </select>
         </div>
 
-   
-        <div className="select-container">
-          <label htmlFor="company-select">Related Company:</label>
-          <select id="company-select" value={selectedCompany} onChange={handleCompanySelect}>
-            {selectedProduct && productCompanies[selectedProduct].map((company, index) => (
-              <option key={index} value={company}>
-                {company}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-
-       
         <div className="select-container">
           <label htmlFor="month-select">Choose a Month:</label>
-          <select id="month-select" value={selectedMonth} onChange={handleMonthSelect}>
+          <select id="month-select" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
             <option value="">All the Year</option>
             {months.map((month, index) => (
               <option key={index} value={month}>
@@ -79,22 +70,29 @@ const Grocery = () => {
             ))}
           </select>
         </div>
+
+        <button onClick={handleSearch} className="search-button">Search</button>
       </div>
 
-      
       {selectedProduct && (
-        <div className="chart-container">
-          <h2>Stocks for {selectedProduct} ({selectedCompany})</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={filteredData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="stocks" fill="#8884d8" /> 
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="data-table-container">
+          <h2>Stocks for {selectedProduct}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Stocks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((data, index) => (
+                <tr key={index}>
+                  <td>{data.month}</td>
+                  <td>{data.inStockCount}</td> {/* Assuming this field is named inStockCount */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
@@ -102,4 +100,3 @@ const Grocery = () => {
 };
 
 export default Grocery;
-

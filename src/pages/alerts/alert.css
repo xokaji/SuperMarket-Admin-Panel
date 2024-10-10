@@ -1,0 +1,80 @@
+.alert-container {
+    padding: 20px;
+    flex: 5;
+    border-radius: 8px;
+    margin: 20px 0;
+    background-color: #fff; /* White background for better contrast */
+
+}
+.expiry-date  {
+    color: red;
+    
+}
+
+.alert-container h2 {
+    margin-bottom: 15px;
+    color: #686868; /* Darker text for better readability */
+    font-size: 35px; /* Larger font size for headings */
+    text-align: center; /* Centering the heading */
+}
+
+.alert-table {
+    width: 100%;
+    border-collapse: collapse; /* Ensures borders are collapsed */
+    margin-top: 10px; /* Space above the table */
+    cursor: pointer;
+  
+}
+
+.alert-table th, .alert-table td {
+    padding: 12px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+  
+      
+    
+}
+.spinner-container {
+    display: flex;         
+    justify-content: center;    
+    align-items: center;        
+    position: relative;       
+  }
+.alert-table td{
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 16px;
+}   
+
+.alert-table th {
+    background-color: #d6f9ac; /* Light grey background for headers */
+    color: #3a6810; /* Blue text for headers */
+    font-size: 18px;
+}
+
+.alert-table tr:hover {
+    background-color: #f8f9fa; /* Light grey background on hover */
+    transform: scale(1.02); /* Slightly enlarge the row on hover */
+    transition: transform 0.3s; /* Smooth transition for the transform */
+}
+
+.alert-message {
+    color: red; /* Muted color for no alerts message */
+    font-size: 18px; /* Slightly larger for emphasis */
+    text-align: center; /* Center text for consistency */
+    margin-top: 20px; /* Spacing above the message */
+}
+
+/* Remove borders */
+.alert-table th, .alert-table td {
+    border: none; /* No borders for table cells */
+}
+
+/* Dark text color for better readability */
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    .alert-table, .alert-table th, .alert-table td {
+        font-size: 14px; /* Smaller font size for smaller screens */
+    }
+}

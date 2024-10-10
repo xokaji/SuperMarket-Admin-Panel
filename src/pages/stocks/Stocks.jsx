@@ -1,25 +1,230 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from 'recharts';
+import React, { useEffect, useState, useRef } from 'react';
 import DateTimeComponent from '../../components/dateNtime/DateTimeComponent';
 import GreetingComponent from '../../components/greeting/GreetingComponent';
 import './stocks.css';
-import "../../dummyData"
-import { Link } from 'react-router-dom';
-export const data = [
-    { name: 'Grocery', stock: 120 },
-    { name: 'Dairy & Eggs', stock: 80 },
-    { name: 'Meats & Seafoods', stock: 50 },
-    { name: 'Frozen Foods', stock: 65 },
-    { name: 'Beverages', stock: 95 },
-    { name: 'Snacks', stock: 75 },
-    { name: 'Bakery Foods', stock: 60 },
-    { name: 'Health & Wellness', stock: 40 },
-  ];
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { Bar } from 'react-chartjs-2'; // Import Bar chart
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Chart, BarElement, CategoryScale, LinearScale } from 'chart.js';
+
+Chart.register(BarElement, CategoryScale, LinearScale); // Register the required elements
+
+const categories = [
+  'grocery',
+  'dairyeggs',
+  'meats&seafoods',
+  'frozenfoods',
+  'beverages',
+  'snacks',
+  'bakery',
+  'health&wellness',
+];
 
 const Stock = () => {
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedCompany, setSelectedCompany] = useState('');
+  const [productDetails, setProductDetails] = useState(null);
+  const [stockInfo, setStockInfo] = useState(null);
+
+  // Ref to capture the PDF section
+  const pdfRef = useRef();
+
+  useEffect(() => {
+    const fetchReturns = async () => {
+      try {
+        const returnsSnapshot = await getDocs(collection(db, 'returns'));
+        const returnsData = returnsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        // Assuming you use returnsData elsewhere; if not, consider removing it.
+      } catch (error) {
+        console.error('Error fetching returns: ', error);
+        toast.error('Error fetching stock data. Please try again.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReturns();
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (!selectedCategory) return;
+      try {
+        const productsSnapshot = await getDocs(collection(db, selectedCategory));
+        const productsData = productsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Error fetching products: ', error);
+        toast.error('Error fetching product data. Please try again.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      if (!selectedCategory || !selectedProduct) return;
+      try {
+        const companiesSnapshot = await getDocs(collection(db, selectedCategory));
+        const companiesData = companiesSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          company: doc.data().company,
+        }));
+        setCompanies(companiesData);
+      } catch (error) {
+        console.error('Error fetching companies: ', error.message);
+        toast.error('Error fetching company data. Please try again.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    };
+
+    fetchCompanies();
+  }, [selectedCategory, selectedProduct]);
+
+  const handleSearch = async () => {
+    if (!selectedCategory || !selectedProduct || !selectedCompany) {
+      toast.error('Please select all options.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
+
+    try {
+      const productSnapshot = await getDocs(collection(db, selectedCategory));
+      const productDetailsData = productSnapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter((product) => product.company === selectedCompany);
+
+      if (productDetailsData.length === 0) {
+        toast.error('No products found for the selected company.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setProductDetails(null);
+        setStockInfo([]);
+        return;
+      }
+
+      const product = productDetailsData[0];
+
+      const stockInfo = product.inStockMonth
+        ? Object.entries(product.inStockMonth).map(([month, stockData]) => ({
+            month,
+            stockCount: stockData.stockCount,
+            stockExpireDate: stockData.stockExpireDate,
+          }))
+        : [];
+
+      setProductDetails(product);
+      setStockInfo(stockInfo);
+    } catch (error) {
+      console.error('Error fetching product or stock info: ', error);
+      toast.error('Error fetching product or stock information. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
+  const generatePDF = async () => {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const input = pdfRef.current;
+
+    // Convert the HTML to a canvas and then to a PDF
+    const canvas = await html2canvas(input);
+    const imgData = canvas.toDataURL('image/png');
+    const imgWidth = 190; // Adjust width to fit A4 size
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+    pdf.save(`${productDetails.productName}_StockDetails.pdf`);
+  };
+
+  if (loading) {
+    return (
+      <div className="scalecontainer">
+        <ScaleLoader color="#3bb077" className="scale" />
+      </div>
+    );
+  }
+
+  // Prepare bar chart data
+  const barData = {
+    labels: stockInfo?.map(stock => stock.month) || [],
+    datasets: [
+      {
+        label: 'Stock Count',
+        data: stockInfo?.map(stock => stock.stockCount) || [],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Customize the color
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
-   
-    <div className="stock-container">
+    <div className="stock-container" ref={pdfRef}>
       <header className="header">
         <label>
           <GreetingComponent />
@@ -30,93 +235,103 @@ const Stock = () => {
         </div>
       </header>
 
-      <section className="analytics-overview">
-        <div className="analytics-card1">
-          <label className="category">Grocery</label>
+      {/* Select Options Row */}
+      <div className="select-options">
+        <select 
+          className="select-category" 
+          onChange={(e) => {
+            setSelectedCategory(e.target.value);
+            setSelectedProduct(''); // Reset product selection
+            setCompanies([]); // Reset company selection
+            setProductDetails(null); // Reset product details
+            setStockInfo(null); // Reset stock info
+          }} 
+          value={selectedCategory}
+        >
+          <option>Main Category</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        
+        <select 
+          className="select-product" 
+          onChange={(e) => {
+            setSelectedProduct(e.target.value);
+            setSelectedCompany(''); // Reset company selection
+            setProductDetails(null); // Reset product details
+            setStockInfo(null); // Reset stock info
+          }} 
+          value={selectedProduct}
+        >
+          <option>Product</option>
+          {products.map((product) => (
+            <option key={product.id} value={product.productName}>
+              {product.productName}
+            </option>
+          ))}
+        </select>
+
+        <select 
+          className="select-company" 
+          onChange={(e) => setSelectedCompany(e.target.value)} 
+          value={selectedCompany}
+        >
+          <option>Company</option>
+          {companies.map((company) => (
+            <option key={company.id} value={company.company}>
+              {company.company}
+            </option>
+          ))}
+        </select>
+
+        <button className="search-button" onClick={handleSearch}>Search</button>
+      </div>
+
+      {/* Display Product Details and Stock Info in a table if available */}
+      {productDetails && stockInfo && stockInfo.length > 0 ? (
+        <div>
+          <table className="details-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Stock In Month</th>
+                <th>Quantity</th>
+                <th>Expiry Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stockInfo.map((stock, index) => (
+                <tr key={index}>
+                  <td>{productDetails.productName}</td>
+                  <td>{stock.month}</td>
+                  <td>{stock.stockCount}</td>
+                  <td>{stock.stockExpireDate}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Bar Chart */}
+          <div className="chart-container">
+            <Bar data={barData} />
+          </div>
           
-          <div className="buttonContainer">
-            <Link to="/stockreports/grocery">
-              <button>View</button>
-            </Link>
-          </div>
-         
-        </div>
-        <div className="analytics-card2">
-          <label className="category">Dairy & Eggs</label>
-          <div className="buttonContainer">
-            <Link to="/stockreports/dairy&eggs">
-              <button>View</button>
-            </Link>
+          <div className="pdf-button">
+            <button className="pdf-button" onClick={generatePDF}>
+              Generate PDF
+            </button>
           </div>
         </div>
-        <div className="analytics-card3">
-          <label className="category">Meats & Seafoods</label>
-          <div className="buttonContainer">
-          <Link to="/stockreports/meat&seafoods">
-              <button>View</button>
-            </Link>
-          </div>
+      ) : (
+        <div className="no-product-message">
+          <p className='no-product-message'>No product details available.</p>
         </div>
-        <div className="analytics-card4">
-          <label className="category">Frozen Foods</label>
-          <div className="buttonContainer">
-            <Link to="/stockreports/frozenfoods">
-              <button>View</button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      )}
 
-      <section className="analytics-overview">
-        <div className="analytics-card5">
-          <label className="category">Beverages</label>
-          <div className="buttonContainer">
-            <Link to="/stockreports/beverages">
-              <button>View</button>
-            </Link>
-          </div>
-        </div>
-        <div className="analytics-card6">
-          <label className="category">Snacks</label>
-          <div className="buttonContainer">
-          <Link to="/stockreports/snacks">
-              <button>View</button>
-            </Link>
-          </div>
-        </div>
-        <div className="analytics-card7">
-          <label className="category">Bakery Foods</label>
-          <div className="buttonContainer">
-          <Link to="/stockreports/bakery">
-              <button>View</button>
-            </Link>
-          </div>
-        </div>
-        <div className="analytics-card8">
-          <label className="category">Health & Wellness</label>
-          <div className="buttonContainer">
-          <Link to="/stockreports/health">
-              <button>View</button>
-            </Link>
-          </div>
-        </div>
-      </section>
-      
-
-      {/* Bar Chart Section */}
-      <section className="chart-section">
-        <h3>Most Used Stocks by Monthly</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="stock" fill="rgba(36, 35, 36, 0.8)" />
-          </BarChart>
-        </ResponsiveContainer>
-      </section>
+      <ToastContainer />
     </div>
   );
 };

@@ -33,3 +33,24 @@
     margin-left: 50px;
     margin-bottom: 20px;
 }
+
+.buttonPdf{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.generate-pdf-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .generate-pdf-button:hover {
+    background-color: #45a049;
+  }

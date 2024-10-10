@@ -1,114 +1,132 @@
+.addProductForm2 {
+  flex: 5;
+  padding: 30px;
+  background-color: #ffffff; /* White background for clarity */
+  border-radius: 10px; /* More pronounced rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow for depth */
+}
 
+.productTitle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px; /* Increased margin for more spacing */
+}
 
-   .addProductForm2{
-    flex:5;
-    padding: 20px;
-    
-   }
+.productTitle label {
+  font-size: 32px; /* Larger font for the title */
+  font-weight: 700; /* Bolder font for emphasis */
+  color: #333; /* Darker color for readability */
+}
 
-   .productTitle{
-    display: flex;
-    justify-content: center;
-   }
+.general-info {
+  margin-top: 20px;
 
-   .productTitle label{
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 15px;
-   }
+  display: flex;
+  flex-wrap: wrap; /* Responsive layout */
+  gap: 20px; /* Consistent gap between fields */
+}
 
-   .general-info{
-    margin-top: 20px;
-    display: flex;
-    
-    
-   }
+.form-group-product {
+  flex: 1;
+  min-width: 250px; /* Slightly wider inputs */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
 
-   .form-group-product label{
-    color: #555;
-    font-size: 15px;
-   }
+.form-group-product label {
+  color: #444;
+  font-size: 16px;
+  margin-bottom: 5px; /* Space below labels */
+}
 
-   .form-group-product input ,textarea, select{
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #289426;
-    border-radius: 4px;
-    outline: none;
-    
-   }
+.form-group-product input,
+select {
+  padding: 12px;
+  font-size: 16px;
 
-   .general-info2{
-      display: flex;
-      margin-top: 20px;
-      gap:50px;
-   }
+  transition: border-color 0.3s, box-shadow 0.3s; 
+}
 
-   .form-group-product2{
-    display: flex;
-    flex-direction: column;
-    
-   }
+.form-group-product input:focus,
+select:focus {
+  border-color: #4caf50; /* Green border on focus */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Soft glow effect */
+}
 
-   .form-group-product2 label{
-    color: #555;
-    font-size: 15px;
-    
-   }
+.general-info2 {
+  display: flex;
+  flex-wrap: wrap;
+ 
+  margin-top: 20px;
+  gap: 20px; /* Consistent gap between elements */
+}
 
-   .form-group-product2 input ,textarea{
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #289426;
-    border-radius: 4px;
-    outline: none;
-    margin-bottom:20px;
-   }
+.form-group-product2 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 250px; /* Ensures minimum width for inputs */
+}
 
-   .category-section label{
-    color: #555;
-    font-size: 15px;
-    margin-top: 20px;
-    
-   }
-   .form-group-product3{
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-   }
+.category-section label {
+  color: #444;
+  font-size: 16px;
+  margin-top: 20px; /* Space above category labels */
+}
 
-   .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .cancel-product, .add-product {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .cancel-product {
-    background-color: #f7616e; /* Soft red */
-    color: white;
-  }
-  
-  .cancel-product:hover {
-    background-color: #ff4949; /* Darker red */
-  }
-  
-  .add-product {
-    background-color: #4caf50; /* Green */
-    color: white;
-  }
-  
-  .add-product:hover {
-    background-color: #45a049; /* Darker green */
-  }
-  
+.form-group-product3 {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px; /* Increased space above buttons */
+}
+
+.cancel-product,
+.add-product {
+  padding: 12px 25px; /* Increased padding for better touch targets */
+  font-size: 18px; /* Slightly larger font */
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Added transform for effect */
+  flex: 1; /* Equal flex basis for buttons */
+  margin: 0 10px; /* Margin for spacing */
+}
+
+.cancel-product {
+  background-color: #f76b6b; /* Softer red for cancellation */
+  color: white;
+}
+
+.cancel-product:hover {
+  background-color: #ff4b4b; /* Darker red on hover */
+  transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+.add-product {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.add-product:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: scale(1.05); /* Slight scale effect on hover */
+}
+.submit-button{
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 12px 25px; /* Increased padding for better touch targets */
+  font-size: 18px; /* Slightly larger font */
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Added transform for effect */
+  flex: 1; /* Equal flex basis for buttons */
+  margin: 0 10px; /* Margin for spacing */
+}

@@ -1,237 +1,117 @@
+/* Container styles */
 .stock-container {
-    flex:5;
-    padding: 20px;
-
-  }
-
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .header h1 {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .header p {
-    font-size: 14px;
-    color: gray;
-  }
-  
-  .header .date {
-    font-size: 14px;
-    color: #777;
-  }
-  
-
-  .analytics-overview {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
-    background-color: white;
-    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
-    border-radius: 10px;
-   
-
-  }
-
-  
-  
-  .analytics-card1 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    color:white;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/products-lie-table-eggs-cereals-vegetables_78492-3897.jpg?t=st=1726258349~exp=1726261949~hmac=617c7cc61af7ab61110cbc148116f191fd458ea9474dbbacb5327fd24dd71b69&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-  }
-  .analytics-card1 , .analytics-card2, .analytics-card3, .analytics-card4, .analytics-card5, .analytics-card6, .analytics-card7, .analytics-card8 {
-    color: white;
-    text-shadow: 1px 1px 0 black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  flex:5;
 }
 
-.analytics-card1 button , .analytics-card2 button, .analytics-card3 button, .analytics-card4 button, .analytics-card5 button, .analytics-card6 button, .analytics-card7 button, .analytics-card8 button{
-  background-color: #d6f9ac;
-  padding: 5px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.no-product-message{
+  color: red;
+  font-weight: 500;
+}
+
+.stockmanagement {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.select-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.select-category,
+.select-product,
+.select-company {
+  padding: 10px;
+  font-size: 16px;
+  /* border: 1px solid #ccc; */
+  border-radius: 4px;
+  background-color: #fff;
+  width: 30%;
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #3bb077;
+  color: white;
   border: none;
-  width:100px;
-  border-radius: 10px;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
-  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
-  .analytics-card2 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/top-view-organic-eggs-with-fresh-milk_23-2148610534.jpg?t=st=1726258662~exp=1726262262~hmac=9184702cda9d5e64e297094913af5a80de246aa06244c5242a23f9ff1c8abd53&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
-  .analytics-card3 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/bottom-view-raw-fish-slices-with-ice-wood-board-fresh-tomatoes-table_179666-43703.jpg?t=st=1726258739~exp=1726262339~hmac=cf4f9934905f3db97bc5021b4b8067ae369fd23135b9c911d3d5f983986528b1&w=740'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
-  .analytics-card4 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/composition-delicious-frozen-food_23-2148923181.jpg?t=st=1726258791~exp=1726262391~hmac=b9784bd108a6838c81d9a7c351b13a5724ae9f5389dd5635287282060c695b07&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
-  .analytics-card5 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/orange-soft-yellow-drinks-with-strawberry-sliced-lime-mint-glasses_23-2148145338.jpg?t=st=1726258847~exp=1726262447~hmac=f163d03253c15d65fbe15d3cfd67b9e578c5b956bbd7da42017c6372c8669f31&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
-  .analytics-card6 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/top-view-cone-shape-bugles-chips-wooden-divided-plate-with-shelled-sunflower-seeds-with-spicy-chips-bucket-wooden-wall_141793-80339.jpg?t=st=1726258894~exp=1726262494~hmac=b974ebab17a573bf413ce072a02ac10563816922cafa3bbd25d90f8e63f3594d&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
-  .analytics-card7 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/flat-lay-vegan-baked-products-arrangement_23-2150251758.jpg?t=st=1726258943~exp=1726262543~hmac=f064898376483b12b46ca303e4802cb5f318eb8a361365b85230547354bb28ea&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
-  .analytics-card8 {
-    flex: 1;
-    border-radius: 5px;
-    text-align: center;
-    flex-direction: column;
-    display: flex;
-    padding: 30px;
-    margin: 30px;
-    transition: transform 0.3s ease;
-    background-image: url('https://img.freepik.com/free-photo/flat-lay-natural-self-care-products-composition_23-2148990016.jpg?t=st=1726258987~exp=1726262587~hmac=ccaab4b389349e4969431065a0b37f954687e0cdea7a665118c16485e9dcfec3&w=1060'); /* Replace with your image URL */
-    background-size: cover;
-    
-  }
 
-  .analytics-card:hover{
-    transform: scale(1.05);
-  }
+.search-button:hover {
+  background-color: #3a6810;
+}
 
-  .analytics-card button{
-    width: 100px;
-    height: 25px;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    border:none;
-    background-color: #5deb75;
-    
-  }
-  
+/* Table styles */
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 
-  
-  .products-stock-list {
-    margin: 20px 0;
-  }
-  .category{
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  
-  .products-stock-list table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .products-stock-list th, .products-stock-list td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .status {
-    padding: 5px 10px;
-    border-radius: 12px;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-  }
-  
+.details-table th, .details-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.pdf-button {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin-top: 20px; 
+}
 
-  
-  .chart-section {
-    margin-top: 20px;
-    border-radius: 20px;
-  }
-  
-  .chart-placeholder {
-    height: 200px;
-    background-color: #e9ecef;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-  }
+.pdf-button button {
+  padding: 10px 20px; 
+  background-color: #3bb077; 
+  color: white;
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 16px;
+}
 
-  .chart-section{
-    padding:30px;
-    margin:20px;
-    box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
-  }
+.pdf-button button:hover {
+  background-color: #2a8a59; 
+}
 
-  .chart-section h3{
-    margin-bottom: 20px;
-  }
-  
-  
+
+.details-table th {
+  background-color: #d6f9ac;
+  color: black;
+  font-weight: bold;
+}
+
+.details-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.details-table tbody tr:hover {
+  background-color: #e9f9ee;
+}
+
+.details-table td {
+  font-size: 16px;
+}
+
+/* Loader container */
+.scalecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

@@ -1,16 +1,16 @@
 export const customerData = [
-    { name: 'Jan', activeCustomers: 4000 },
-    { name: 'Feb', activeCustomers: 3000 },
-    { name: 'Mar', activeCustomers: 2000 },
-    { name: 'Apr', activeCustomers: 2780 },
-    { name: 'May', activeCustomers: 1890 },
-    { name: 'Jun', activeCustomers: 2390 },
-    { name: 'Jul', activeCustomers: 3490 },
-    { name: 'Aug', activeCustomers: 2000 },
-    { name: 'Sep', activeCustomers: 8000 },
-    { name: 'Oct', activeCustomers: 1000 },
-    { name: 'Nov', activeCustomers: 1780 }, 
-    { name: 'Dec', activeCustomers: 190 },
+    { name: 'Jan', activeCustomers: 40 },
+    { name: 'Feb', activeCustomers: 30 },
+    { name: 'Mar', activeCustomers: 20 },
+    { name: 'Apr', activeCustomers: 27 },
+    { name: 'May', activeCustomers: 189 },
+    { name: 'Jun', activeCustomers: 230 },
+    { name: 'Jul', activeCustomers: 30 },
+    { name: 'Aug', activeCustomers: 2 },
+    { name: 'Sep', activeCustomers: 80 },
+    { name: 'Oct', activeCustomers: 10 },
+    { name: 'Nov', activeCustomers: 17 }, 
+    { name: 'Dec', activeCustomers: 10 },
   ];
   
   export const customerRows = [

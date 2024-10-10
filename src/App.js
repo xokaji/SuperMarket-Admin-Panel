@@ -8,6 +8,7 @@ import CustomerList from "./pages/customerList/CustomerList";
 import './app.css';
 import Customer from "./pages/customer/Customer";
 import NewCustomer from "./pages/newCustomer/NewCustomer";
+import Returns from "./pages/returns/Returns";
 import Productlist from "./pages/productlist/Productlist";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
@@ -21,18 +22,21 @@ import Beverages from "./pages/stockCategory/beverages/Beverages";
 import Snacks from "./pages/stockCategory/snacks/Snacks";
 import Bakery from "./pages/stockCategory/bakery/Bakery";
 import Health from "./pages/stockCategory/health/Health";
-
+import ViewTransactions from "./pages/viewTransactions/ViewTransactions";
+import Alert from "./pages/alerts/Alert";
+import Alert2 from "./pages/alerts2/Alert2";
+import Footer from "./components/footer/Footer";
 
 const Layout = () => (
   <div>
     <Topbar />
     <div className="container">
       <Sidebar />
-      <Outlet /> 
+      <Outlet />
     </div>
+    <Footer/>
   </div>
 );
-
 
 const router = createBrowserRouter([
   {
@@ -42,19 +46,18 @@ const router = createBrowserRouter([
   
   {
     path: "/home",
-    element: <Layout/>,
+    element: <Layout />,
     children: [
-      { path: "", element: <Home /> }, 
-    
+      { path: "", element: <Home /> },
     ],
   },
   {
     path: "/customers",
     element: <Layout />,
     children: [
-      { path: "", element: <CustomerList /> }, 
+      { path: "", element: <CustomerList /> },
       { path: "new", element: <NewCustomer /> },
-      { path: ":id", element: <Customer /> }, 
+      { path: ":id", element: <Customer /> },
     ],
   },
   {
@@ -63,7 +66,15 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Productlist /> },
       { path: "new", element: <NewProduct /> },
-      { path: ":id", element: <Product /> },
+      { path: ":category/:id", element: <Product /> },
+    ],
+  },
+  
+  {
+    path: "/returns",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Returns /> },
     ],
   },
 
@@ -71,8 +82,17 @@ const router = createBrowserRouter([
     path: "/transactions",
     element: <Layout />,
     children: [
-      { path: "", element: <Transactions /> }, 
-     
+      { path: "", element: <Transactions /> },
+      { path: ":id", element: <ViewTransactions /> },
+    ],
+  },
+
+  {
+    path: "/alerts",
+    element: <Layout />,
+    children: [
+      { path: "expiring", element: <Alert /> }, // Fixed path
+      { path: "low-stock", element: <Alert2 /> }, // Added low-stock path
     ],
   },
 
@@ -80,21 +100,18 @@ const router = createBrowserRouter([
     path: "/stockreports",
     element: <Layout />,
     children: [
-      { path: "", element:<Stock /> }, 
-      { path: "grocery", element:<Grocery /> }, 
+      { path: "", element: <Stock /> },
+      { path: "grocery", element: <Grocery /> },
       { path: "dairy&eggs", element: <Dairy /> }, 
-      { path: "meat&seafoods", element:<Meats /> }, 
+      { path: "meat&seafoods", element: <Meats /> }, 
       { path: "frozenfoods", element: <Frozen /> }, 
-      { path: "beverages", element: <Beverages /> }, 
-      { path: "snacks", element: <Snacks /> }, 
-      { path: "bakery", element: <Bakery /> }, 
-      { path: "health", element: <Health /> }, 
-     
+      { path: "beverages", element: <Beverages /> },
+      { path: "snacks", element: <Snacks /> },
+      { path: "bakery", element: <Bakery /> },
+      { path: "health", element: <Health /> },
     ],
   },
-
 ]);
-
 
 export default function App() {
   return <RouterProvider router={router} />;

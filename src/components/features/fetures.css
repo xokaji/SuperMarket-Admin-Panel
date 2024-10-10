@@ -23,7 +23,7 @@
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
-    background-color:#DCF4F5;
+    background-color:#E6FFCF;
     transition: transform 0.3s ease;
 }
 .featuredItem3{
@@ -33,7 +33,7 @@
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.1);
-    background-color:#E6FFCF;
+    background-color:#FFE9E5; 
     transition: transform 0.3s ease;
 }
 
@@ -41,8 +41,10 @@
     transform: scale(1.05);
 }
 
+
+
 .featuredTitle{
-    font-size: 20px;
+    font-size: 30px;
     font-weight: 600;
 }
 
@@ -53,9 +55,22 @@
 }
 
 .money{
-    font-size: 30px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 500;
+    color: red;
+   
+    
 }
+
+.money2{
+    display: flex;
+    font-size: 40px;
+    font-weight: 500;
+    margin-left: 120px;
+    color: #3a6810;
+}
+
+
 
 .moneyRate{
     display: flex;

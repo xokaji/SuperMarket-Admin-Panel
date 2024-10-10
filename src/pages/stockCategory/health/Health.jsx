@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './health.css'; 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; 
 import { productData8, productCompanies8 } from '../../../dummyData';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const Health = () => {
   const [selectedProduct, setSelectedProduct] = useState('');
@@ -10,6 +12,7 @@ const Health = () => {
 
   const products = Object.keys(productData8);
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const chartRef = useRef(null);
 
   useEffect(() => {
     if (selectedProduct) {
@@ -34,6 +37,32 @@ const Health = () => {
   const filteredData = selectedProduct
     ? productData8[selectedProduct].filter((data) => !selectedMonth || data.month === selectedMonth)
     : [];
+
+  const generatePDF = () => {
+    if (chartRef.current) {
+      html2canvas(chartRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgWidth = 190;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        pdf.save('health-wellness-stock-report.pdf');
+      });
+    }
+  };
 
   return (
     <div className="grocery-container">
@@ -76,7 +105,7 @@ const Health = () => {
       </div>
 
       {selectedProduct && (
-        <div className="chart-container">
+        <div className="chart-container" ref={chartRef}>
           <h2>Stocks for {selectedProduct} ({selectedCompany})</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={filteredData}>
@@ -90,6 +119,10 @@ const Health = () => {
           </ResponsiveContainer>
         </div>
       )}
+
+      <div className="buttonPdf">
+        <button onClick={generatePDF} className="generate-pdf-button">Generate PDF</button>
+      </div>
     </div>
   );
 };

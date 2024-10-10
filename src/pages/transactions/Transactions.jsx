@@ -96,7 +96,7 @@ export default function Transactions() {
       headerClassName: 'custom-header',
       renderCell: (params) => (
         <div className="productListAction">
-          <Link to={`/product/${params.row.id}`}>
+          <Link to={`/transactions/${params.row.id}`}>
             <button className="productListEdit">View</button>
           </Link>
           <DeleteOutlineOutlinedIcon

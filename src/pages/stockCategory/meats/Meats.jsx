@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './meats.css'; 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'; 
 import { productData3, productCompanies3 } from '../../../dummyData';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const Meats = () => {
   const [selectedProduct, setSelectedProduct] = useState('');
@@ -10,19 +12,18 @@ const Meats = () => {
 
   const products = Object.keys(productData3);
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const chartRef = useRef(null);
 
   useEffect(() => {
     if (selectedProduct) {
-      setSelectedCompany(productCompanies3[selectedProduct][0]);
+      setSelectedCompany(productCompanies3[selectedProduct][0] || '');
     }
   }, [selectedProduct]);
 
   const handleProductSelect = (event) => {
     const product = event.target.value;
     setSelectedProduct(product);
-    if (product) {
-      setSelectedCompany(productCompanies3[product][0]);
-    }
+    setSelectedCompany(product ? productCompanies3[product][0] || '' : '');
   };
 
   const handleMonthSelect = (event) => {
@@ -37,15 +38,40 @@ const Meats = () => {
     ? productData3[selectedProduct].filter((data) => !selectedMonth || data.month === selectedMonth)
     : [];
 
+  const generatePDF = () => {
+    if (chartRef.current) {
+      html2canvas(chartRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgWidth = 190;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        pdf.save('meats-stock-report.pdf');
+      });
+    }
+  };
+
   return (
     <div className="grocery-container">
       <h1 className="title">Meats & SeaFoods Stock</h1>
       <div className="grocery-viewer">
-     
         <div className="select-container">
           <label htmlFor="product-select">Choose a Product:</label>
           <select id="product-select" value={selectedProduct} onChange={handleProductSelect}>
-            <option value="">Select a Grocery Product</option>
+            <option value="">Select a Meats Product</option>
             {products.map((product, index) => (
               <option key={index} value={product}>
                 {product}
@@ -54,10 +80,9 @@ const Meats = () => {
           </select>
         </div>
 
-   
         <div className="select-container">
           <label htmlFor="company-select">Related Company:</label>
-          <select id="company-select" value={selectedCompany} onChange={handleCompanySelect}>
+          <select id="company-select" value={selectedCompany} onChange={handleCompanySelect} disabled={!selectedProduct}>
             {selectedProduct && productCompanies3[selectedProduct].map((company, index) => (
               <option key={index} value={company}>
                 {company}
@@ -65,9 +90,7 @@ const Meats = () => {
             ))}
           </select>
         </div>
-        
 
-       
         <div className="select-container">
           <label htmlFor="month-select">Choose a Month:</label>
           <select id="month-select" value={selectedMonth} onChange={handleMonthSelect}>
@@ -81,9 +104,8 @@ const Meats = () => {
         </div>
       </div>
 
-      
       {selectedProduct && (
-        <div className="chart-container">
+        <div className="chart-container" ref={chartRef}>
           <h2>Stocks for {selectedProduct} ({selectedCompany})</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={filteredData}>
@@ -92,14 +114,17 @@ const Meats = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="stocks" fill="#8884d8" /> 
+              <Bar dataKey="stocks" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       )}
+
+      <div className="buttonPdf">
+        <button onClick={generatePDF} className="generate-pdf-button">Generate PDF</button>
+      </div>
     </div>
   );
 };
 
 export default Meats;
-

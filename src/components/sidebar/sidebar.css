@@ -4,6 +4,7 @@
     background-color:#efefef;
     position: sticky;
     top:50px;
+    border-right: 1px solid #ccc;
     
 
     
@@ -13,7 +14,8 @@
     padding: 20px;
     color:#555;
    
-}   
+}  
+
 
 .sidebarMenu{
     margin-bottom: 10px;
@@ -42,7 +44,19 @@
 .sidebarLink{
     text-decoration: none;
     color: inherit;
+   
+    
 }
+.sideBarButton{
+    font-size: 16px;
+    border: none; 
+    background-color: transparent;
+    cursor: pointer;
+    color: inherit;
+}
+
+
+
 
 .sidebarListItem.active, .sidebarListItem:hover{
     background-color: #d6f9ac;
@@ -52,3 +66,9 @@
     margin-right: 5px;
     font-size:20px !important;
 }
+
+.sidebarIcon2{
+    margin-left: 15px;
+    font-size:20px !important;
+}
+

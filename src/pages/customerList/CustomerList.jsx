@@ -97,13 +97,13 @@ export default function DataTable() {
       field: 'address',
       headerClassName: 'custom-header',
       headerName: 'Address',
-      width: 220,
+      width: 180,
     },
     {
       field: 'membership',
-      headerName: 'Membership',
+      headerName: 'Fresco Membership',
       headerClassName: 'custom-header',
-      width: 150,
+      width: 180,
       renderCell: (params) => (
         <span className={params.value === 'Active' ? 'membership-active' : 'membership-inactive'}>
           {params.value}
