@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import "./customer.css";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -14,6 +14,8 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 export default function Customer() {
   const { id } = useParams();
   const [customerData, setCustomerData] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCustomerData = async () => {
@@ -22,11 +24,8 @@ export default function Customer() {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          const data = docSnap.data();
-          console.log("Document data:", data);
-          setCustomerData(data);
+          setCustomerData(docSnap.data());
         } else {
-          console.log("No such document!");
           setCustomerData({});
         }
       } catch (error) {
@@ -35,12 +34,38 @@ export default function Customer() {
       }
     };
 
+    const fetchCartItems = async () => {
+      try {
+        const q = query(collection(db, "cart"), where("userID", "==", id));
+        const querySnapshot = await getDocs(q);
+        const carts = querySnapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            items: data.items
+          };
+        });
+
+        if (carts.length > 0) {
+          setCartItems(carts[0].items); // Assuming one cart per user
+        } else {
+          setCartItems([]);
+        }
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+        setCartItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (id) {
       fetchCustomerData();
+      fetchCartItems();
     }
   }, [id]);
 
-  if (!customerData) {
+  if (loading) {
     return (
       <div className="scalecontainer">
         <ScaleLoader color="#3bb077" className="scale" />
@@ -58,7 +83,7 @@ export default function Customer() {
       <div className="customerContainer">
         <div className="customerShow">
           <div className="customerShowTop">
-            <img src={customerData.img} className="customerImage" alt="customer"/>
+            <img src={customerData.img} className="customerImage" alt="customer" />
             <div className="customerShowTopTitle">
               <span className="customerShowUsername">{customerData.name}</span>
               <span className="customerShowUserTitle">{customerData.email}</span>
@@ -92,12 +117,32 @@ export default function Customer() {
                 {customerData.membership} Fresco
               </span>
             </div>
-            
           </div>
         </div>
         <div className="customerUpdate">
-          <span className="customerUpdateTitle">View Purchase History</span>
-          
+          <span className="customerUpdateTitle">Purchase History</span>
+          {cartItems.length === 0 ? (
+            <p>No items found in the cart.</p>
+          ) : (
+            <table className="purchaseHistoryTable">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((items, index) => (
+                  <tr key={index}>
+                    <td>{items.name}</td>
+                    <td>{items.price}</td>
+                    <td>{items.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

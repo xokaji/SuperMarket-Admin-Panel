@@ -9,12 +9,12 @@ export default function StockLevel() {
   const checkStockLevels = async () => {
     const categories = [
       'grocery',
-      'dairyeggs',
+      'dairy&eggs',
       'meats&seafoods',
       'frozenfoods',
       'beverages',
       'snacks',
-      'bakery',
+      'bakeryproducts',
       'health&wellness',
     ];
 

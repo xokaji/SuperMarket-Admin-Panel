@@ -144,7 +144,7 @@ export default function AddNewProduct() {
     e.preventDefault();
 
     // Validate required fields
-    if (!productName || !mainCategory || !productCategory || !company || !productImage || stock === '') {
+    if (!productName || !mainCategory || !productCategory || !company || !productImage === '') {
       toast.error('Please fill in all required fields.');
       return;
     }
@@ -224,10 +224,10 @@ export default function AddNewProduct() {
             <label>Base Price</label>
             <input type="number" value={basePrice} onChange={(e) => setBasePrice(e.target.value)} required />
           </div>
-          <div className="form-group-product">
+          {/* <div className="form-group-product">
             <label>Stock</label>
             <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} required />
-          </div>
+          </div> */}
           <div className="form-group-product">
             <label>Final Price</label>
             <input type="number" value={finalPrice} readOnly />

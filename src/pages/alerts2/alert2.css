@@ -10,9 +10,9 @@
 
 .alert-container2 h2 {
     margin-bottom: 15px;
-    color: #686868; /* Darker text for better readability */
+    color: black; /* Darker text for better readability */
     font-size: 35px; /* Larger font size for headings */
-    text-align: center; /* Centering the heading */
+    text-align: center;
 }
 
 .alert-table2 {

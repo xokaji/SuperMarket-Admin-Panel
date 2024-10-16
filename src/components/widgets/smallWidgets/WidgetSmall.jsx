@@ -1,62 +1,46 @@
-import React from 'react'
-import "./widgetsmall.css"
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-
+import React, { useEffect, useState } from 'react';
+import "./widgetsmall.css";
+import { db } from '../../../firebase'; // Ensure this path is correct
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 
 export default function WidgetSmall() {
+  const [recentCustomers, setRecentCustomers] = useState([]);
+
+  useEffect(() => {
+    const fetchRecentCustomers = async () => {
+      try {
+        const q = query(collection(db, 'users'), orderBy('createdAt', 'desc'), limit(2)); // Adjusted limit to 2
+        const querySnapshot = await getDocs(q);
+        const customers = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRecentCustomers(customers);
+      } catch (error) {
+        console.error('Error fetching recent customers:', error);
+      }
+    };
+
+    fetchRecentCustomers();
+  }, []);
+
   return (
     <div className="widgetSm">
-        <span className="widgetSmTitle">New Join Customers</span>
+      <span className="widgetSmTitle">New Join Customers</span>
       
-        <ul className="widgetSmList">
-            <li className='widgetSmListItem'>
-                <img src="https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt=""  className='widgetSmImg'/>
-                <div className="widgetSmUser">
-                    <span className="widgetSmUsername">Manel Illangasinghe</span>
-                    <span className="widgetSmUserGender">Female</span>
-                </div>
-                <button className="widgetSmButton">
-                    <VisibilityOutlinedIcon/>
-                    Display
-                </button>
-            </li>
-
-            <li className='widgetSmListItem'>
-                <img src="https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt=""  className='widgetSmImg'/>
-                <div className="widgetSmUser">
-                    <span className="widgetSmUsername">Manel Illangasinghe</span>
-                    <span className="widgetSmUserGender">Female</span>
-                </div>
-                <button className="widgetSmButton">
-                    <VisibilityOutlinedIcon/>
-                    Display
-                </button>
-            </li>
-
-            <li className='widgetSmListItem'>
-                <img src="https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt=""  className='widgetSmImg'/>
-                <div className="widgetSmUser">
-                    <span className="widgetSmUsername">Manel Illangasinghe</span>
-                    <span className="widgetSmUserGender">Female</span>
-                </div>
-                <button className="widgetSmButton">
-                    <VisibilityOutlinedIcon/>
-                    Display
-                </button>
-            </li>
-
-            <li className='widgetSmListItem'>
-                <img src="https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt=""  className='widgetSmImg'/>
-                <div className="widgetSmUser">
-                    <span className="widgetSmUsername">Manel Illangasinghe</span>
-                    <span className="widgetSmUserGender">Female</span>
-                </div>
-                <button className="widgetSmButton">
-                    <VisibilityOutlinedIcon/>
-                    Display
-                </button>
-            </li>
-        </ul>
+      <ul className="widgetSmList">
+        {recentCustomers.map((customer) => (
+          <li key={customer.id} className='widgetSmListItem'>
+            <img src={customer.img || "https://via.placeholder.com/150"} alt={customer.name} className='widgetSmImg'/>
+            <div className="widgetSmUser">
+              <span className="widgetSmUsername">{customer.name}</span>
+            </div>
+            <button className="widgetSmButton">
+              View
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
-  )
+  );
 }

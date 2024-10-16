@@ -72,14 +72,14 @@ export default function ExpiringProductsAlert() {
 
   return (
     <div className="alert-container">
-      <h2>Expiring Products Alerts</h2>
+      <h2>Expiring Products Details</h2>
       {loading ? (
         <div className="spinner-container">
           <ScaleLoader color="#3bb077" />
         </div>
       ) : alerts.length === 0 ? (
         <div className="alert-message">No products expiring within the next 30 days.</div>
-      ) : (
+      ) : ( 
         <table className="alert-table">
           <thead>
             <tr>

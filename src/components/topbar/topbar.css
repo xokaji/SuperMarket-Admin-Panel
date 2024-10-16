@@ -72,3 +72,125 @@
         object-fit: cover;
         cursor: pointer;
 }
+
+.notificationsPanel {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: white;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
+  }
+  
+  .notificationsPanel h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .notificationItem {
+    background-color: #f5f5f5;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .notificationItem:last-child {
+    margin-bottom: 0;
+  }
+  
+  .notificationDropdown {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+  }
+  .notificationWrapper {
+    position: relative;
+    flex: 5;
+  }
+  
+  .notificationIcon {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .redDot {
+    position: absolute;
+    top: -5px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+  }
+  
+  .notificationMenu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 300px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 100;
+  }
+  
+  .notificationMenu h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .notificationItem {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .notificationItem:last-child {
+    border-bottom: none;
+  }
+  
+  .notificationItem.low-stock {
+    background-color: #ffebee;
+  }
+  
+  .notificationItem.expiring {
+    background-color: #fff8e1;
+  }
+  
+  .notificationItem p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .topbar .profilePictureWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+  
+  .profilePicture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc; /* Optional: Add a border */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  .profilePicture:hover {
+    border-color: #4caf50; /* Optional: Change border color on hover */
+  }
+  
+  

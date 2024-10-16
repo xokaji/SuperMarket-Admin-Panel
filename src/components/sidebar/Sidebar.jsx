@@ -12,6 +12,10 @@ import { Link, useLocation } from 'react-router-dom';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+
+
+
 
 export default function Sidebar() {
   const location = useLocation();
@@ -76,6 +80,12 @@ export default function Sidebar() {
               <Link to="/stockreports" className="sidebarLink">
                 <BarChartOutlinedIcon className='sidebarIcon' />
                 Stock Reports
+              </Link>
+            </li>
+            <li className={`sidebarListItem ${location.pathname === '/expired' ? 'active' : ''}`}>
+              <Link to="/expired" className="sidebarLink">
+                <DeleteForeverOutlinedIcon className='sidebarIcon' />
+                Expired Items
               </Link>
             </li>
             <li className={`sidebarListItem ${location.pathname === '/returns' ? 'active' : ''}`}>

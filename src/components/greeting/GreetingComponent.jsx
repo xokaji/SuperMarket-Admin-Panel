@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import "./greetingcomponent.css"
+import './greetingcomponent.css';
 
-
-const GreetingComponent = () => {
+const GreetingComponent = ({ name }) => {
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
-
     const determineGreeting = () => {
       const hour = new Date().getHours();
-
       if (hour < 12) {
         return 'Good Morning';
       } else if (hour < 18) {
@@ -19,11 +16,10 @@ const GreetingComponent = () => {
       }
     };
 
-
     setGreeting(determineGreeting());
   }, []);
 
-  return <label className='greeting'>{greeting}, Basura</label>;
+  return <label className='greeting'>{greeting}, {name}</label>;
 };
 
 export default GreetingComponent;

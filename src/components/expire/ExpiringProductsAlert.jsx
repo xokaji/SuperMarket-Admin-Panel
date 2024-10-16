@@ -10,23 +10,22 @@ export default function ExpiringProductsAlert() {
       try {
         const categories = [
           'grocery',
-          'dairyeggs',
+          'dairy&eggs',
           'meats&seafoods',
           'frozenfoods',
           'beverages',
           'snacks',
-          'bakery',
+          'bakeryproducts',
           'health&wellness',
         ];
 
         const today = new Date();
         const thirtyDaysFromNow = new Date(today);
-        thirtyDaysFromNow.setDate(today.getDate() + 30); 
+        thirtyDaysFromNow.setDate(today.getDate() + 30);
 
         let closestExpiringProduct = null;
         let closestExpirationDate = null;
 
-      
         const expiringProducts = [];
 
         for (const category of categories) {
@@ -41,8 +40,12 @@ export default function ExpiringProductsAlert() {
               const stockExpireDateStr = stockDetails.stockExpireDate;
               const stockExpireDate = stockExpireDateStr ? new Date(stockExpireDateStr) : null;
 
-              // Check if the stockExpireDate is within the next 30 days
-              if (stockExpireDate && stockExpireDate >= today && stockExpireDate <= thirtyDaysFromNow) {
+              // Only include products that are expiring within the next 30 days and are not expired
+              if (
+                stockExpireDate &&
+                stockExpireDate >= today && // Not expired
+                stockExpireDate <= thirtyDaysFromNow // Expiring within 30 days
+              ) {
                 expiringProducts.push({
                   productName: productData.productName,
                   company: productData.company,

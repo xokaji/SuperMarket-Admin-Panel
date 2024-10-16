@@ -16,12 +16,12 @@ export default function DataTable() {
         const allProducts = [];
         const categories = [
           'grocery',
-          'dairyeggs',
+          'dairy&eggs',
           'meats&seafoods',
           'frozenfoods',
           'beverages',
           'snacks',
-          'bakery',
+          'bakeryproducts',
           'health&wellness',
         ];
 
@@ -145,24 +145,33 @@ export default function DataTable() {
   return (
     <div className="pcontainer">
       <div className="table-header-product">
-        <h2>Products Details</h2>
-        <Link to="/products/new">
-          <button className="product-button">Add Product</button>
-        </Link>
 
-        {/* Category Selection Dropdown */}
+        <div className="newpcontainer">
+          <h2>Products Details</h2>
+          <div className="pbutton">
+            <Link to="/products/new">  
+            <button className="product-button">+</button>
+          </Link>
+          </div>
+        </div>
+        
+        
+
         <select value={selectedCategory} onChange={handleCategoryChange}>
+
           <option value="">All Categories</option>
           <option value="grocery">Grocery</option>
-          <option value="dairyeggs">Dairy & Eggs</option>
+          <option value="dairy&eggs">Dairy & Eggs</option>
           <option value="meats&seafoods">Meats & Seafoods</option>
           <option value="frozenfoods">Frozen Foods</option>
           <option value="beverages">Beverages</option>
           <option value="snacks">Snacks</option>
-          <option value="bakery">Bakery</option>
+          <option value="bakeryproducts">Bakery</option>
           <option value="health&wellness">Health & Wellness</option>
+          
         </select>
       </div>
+      
 
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
@@ -177,6 +186,8 @@ export default function DataTable() {
           checkboxSelection
         />
       </div>
+      
     </div>
+    
   );
 }

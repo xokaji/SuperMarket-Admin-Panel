@@ -26,6 +26,9 @@ import ViewTransactions from "./pages/viewTransactions/ViewTransactions";
 import Alert from "./pages/alerts/Alert";
 import Alert2 from "./pages/alerts2/Alert2";
 import Footer from "./components/footer/Footer";
+import Expired from "./pages/expired/Expired";
+import NotificationMenu from "./pages/analytics/NotificationMenu";
+import Profile from "./pages/profile/Profile";
 
 const Layout = () => (
   <div>
@@ -52,12 +55,28 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/profile",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Profile /> },
+    ],
+  },
+  {
     path: "/customers",
     element: <Layout />,
     children: [
       { path: "", element: <CustomerList /> },
       { path: "new", element: <NewCustomer /> },
       { path: ":id", element: <Customer /> },
+    ],
+  },
+
+  {
+    path: "/expired",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Expired /> },
+      
     ],
   },
   {
@@ -83,6 +102,15 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <Transactions /> },
+      { path: ":id", element: <ViewTransactions /> },
+    ],
+  },
+
+  {
+    path: "/analytics",
+    element: <Layout />,
+    children: [
+      { path: "", element: <NotificationMenu /> },
       { path: ":id", element: <ViewTransactions /> },
     ],
   },

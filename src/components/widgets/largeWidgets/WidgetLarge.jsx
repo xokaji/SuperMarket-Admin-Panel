@@ -1,43 +1,72 @@
-import React from 'react'
-import "./widgetLarge.css"
+import React, { useEffect, useState } from 'react';
+import { db } from '../../../firebase'; // Adjust the path as necessary
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import "./widgetLarge.css";
 
 export default function WidgetLarge() {
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const Button = ({type}) => {
+  const Button = ({ type }) => {
     return <button className={`widgetLgButton ${type}`}>{type}</button>;
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Query to fetch the 2 most recent transactions
+        const transactionsQuery = query(
+          collection(db, 'transactions'),
+          orderBy('date', 'desc'), // Assuming 'date' is a valid field storing the transaction date
+          limit(2) // Limit the query to only 2 documents
+        );
+
+        const transactionsSnapshot = await getDocs(transactionsQuery);
+        const transactionsList = transactionsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setTransactions(transactionsList); // Set only the 2 recent transactions
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="widgetLg">
       <h3 className="widgetLgTitle">Latest Transactions</h3>
       <table className="widgetLgtable">
-        <tr className="widgetLgTr">
-          <th className="widgetLgth">Customer</th>
-          <th className="widgetLgth">Date</th>
-          <th className="widgetLgth">Amount</th>
-          <th className="widgetLgth">Method</th>
-        </tr>
-
-        <tr className="widgetLgTr">
-          <td className="widgetLgUser">
-            <img src="https://images.pexels.com/photos/1288182/pexels-photo-1288182.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='widgetLgImg' />
-            <span className="widgetlgName">Janith Madhawa</span>
-          </td>
-          <td className="widgetLgDate">2 Jun 2024</td>
-          <td className="widgetLgAmount">$122.00</td>
-          <td className="widgetLgMethod"><Button type="CashOnDelivery" /></td>
-        </tr>
-
-        <tr className="widgetLgTr">
-          <td className="widgetLgUser">
-            <img src="https://images.pexels.com/photos/1288182/pexels-photo-1288182.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='widgetLgImg' />
-            <span className="widgetlgName">Janith Madhawa</span>
-          </td>
-          <td className="widgetLgDate">2 Jun 2024</td>
-          <td className="widgetLgAmount">$122.00</td>
-          <td className="widgetLgMethod"><Button type="OnlinePaid"/></td>
-        </tr>
+        <thead>
+          <tr className="widgetLgTr">
+            <th className="widgetLgth">Customer Name</th>
+            <th className="widgetLgth">Date</th>
+            <th className="widgetLgth">Amount</th>
+            <th className="widgetLgth">Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((transaction) => (
+            <tr className="widgetLgTr" key={transaction.id}>
+              <td className="widgetLgUser">
+                <span className="widgetlgName">{transaction.name}</span>
+              </td>
+              <td className="widgetLgDate">{transaction.date}</td>
+              <td className="widgetLgAmount">${transaction.amount}</td>
+              <td className="widgetLgMethod"><Button type={transaction.paymentMethod} /></td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
-  )
+  );
 }

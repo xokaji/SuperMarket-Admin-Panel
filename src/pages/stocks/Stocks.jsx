@@ -7,21 +7,21 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Bar } from 'react-chartjs-2'; // Import Bar chart
+import { Bar } from 'react-chartjs-2';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Chart, BarElement, CategoryScale, LinearScale } from 'chart.js';
 
-Chart.register(BarElement, CategoryScale, LinearScale); // Register the required elements
+Chart.register(BarElement, CategoryScale, LinearScale);
 
 const categories = [
   'grocery',
-  'dairyeggs',
+  'dairy&eggs',
   'meats&seafoods',
   'frozenfoods',
   'beverages',
   'snacks',
-  'bakery',
+  'bakeryproducts',
   'health&wellness',
 ];
 
@@ -34,31 +34,32 @@ const Stock = () => {
   const [selectedCompany, setSelectedCompany] = useState('');
   const [productDetails, setProductDetails] = useState(null);
   const [stockInfo, setStockInfo] = useState(null);
+  const [adminData, setAdminData] = useState(null); // State for admin data
 
-  // Ref to capture the PDF section
   const pdfRef = useRef();
+
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const adminSnapshot = await getDocs(collection(db, 'admin')); // Assuming you have an 'admin' collection
+        const adminData = adminSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setAdminData(adminData[0]); // Assuming you want the first admin's data
+      } catch (error) {
+        console.error('Error fetching admin data: ', error);
+      }
+    };
+
+    fetchAdminData();
+  }, []);
 
   useEffect(() => {
     const fetchReturns = async () => {
       try {
         const returnsSnapshot = await getDocs(collection(db, 'returns'));
-        const returnsData = returnsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        // Assuming you use returnsData elsewhere; if not, consider removing it.
+        // Use returnsData if necessary
       } catch (error) {
         console.error('Error fetching returns: ', error);
-        toast.error('Error fetching stock data. Please try again.', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error('Error fetching stock data. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -79,16 +80,7 @@ const Stock = () => {
         setProducts(productsData);
       } catch (error) {
         console.error('Error fetching products: ', error);
-        toast.error('Error fetching product data. Please try again.', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error('Error fetching product data. Please try again.');
       }
     };
 
@@ -107,16 +99,7 @@ const Stock = () => {
         setCompanies(companiesData);
       } catch (error) {
         console.error('Error fetching companies: ', error.message);
-        toast.error('Error fetching company data. Please try again.', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error('Error fetching company data. Please try again.');
       }
     };
 
@@ -125,16 +108,7 @@ const Stock = () => {
 
   const handleSearch = async () => {
     if (!selectedCategory || !selectedProduct || !selectedCompany) {
-      toast.error('Please select all options.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error('Please select all options.');
       return;
     }
 
@@ -145,23 +119,13 @@ const Stock = () => {
         .filter((product) => product.company === selectedCompany);
 
       if (productDetailsData.length === 0) {
-        toast.error('No products found for the selected company.', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error('No products found for the selected company.');
         setProductDetails(null);
         setStockInfo([]);
         return;
       }
 
       const product = productDetailsData[0];
-
       const stockInfo = product.inStockMonth
         ? Object.entries(product.inStockMonth).map(([month, stockData]) => ({
             month,
@@ -174,16 +138,7 @@ const Stock = () => {
       setStockInfo(stockInfo);
     } catch (error) {
       console.error('Error fetching product or stock info: ', error);
-      toast.error('Error fetching product or stock information. Please try again.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error('Error fetching product or stock information. Please try again.');
     }
   };
 
@@ -191,10 +146,9 @@ const Stock = () => {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const input = pdfRef.current;
 
-    // Convert the HTML to a canvas and then to a PDF
     const canvas = await html2canvas(input);
     const imgData = canvas.toDataURL('image/png');
-    const imgWidth = 190; // Adjust width to fit A4 size
+    const imgWidth = 190;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
@@ -209,14 +163,13 @@ const Stock = () => {
     );
   }
 
-  // Prepare bar chart data
   const barData = {
     labels: stockInfo?.map(stock => stock.month) || [],
     datasets: [
       {
         label: 'Stock Count',
         data: stockInfo?.map(stock => stock.stockCount) || [],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Customize the color
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
       },
@@ -226,26 +179,25 @@ const Stock = () => {
   return (
     <div className="stock-container" ref={pdfRef}>
       <header className="header">
-        <label>
-          <GreetingComponent />
-        </label>
+        {adminData && (
+          <GreetingComponent name={`${adminData.fname} ${adminData.lname}`} /> // Pass admin's name
+        )}
         <p className="stockmanagement">Stock Management</p>
         <div className="date">
           <DateTimeComponent />
         </div>
       </header>
 
-      {/* Select Options Row */}
       <div className="select-options">
-        <select 
-          className="select-category" 
+        <select
+          className="select-category"
           onChange={(e) => {
             setSelectedCategory(e.target.value);
-            setSelectedProduct(''); // Reset product selection
-            setCompanies([]); // Reset company selection
-            setProductDetails(null); // Reset product details
-            setStockInfo(null); // Reset stock info
-          }} 
+            setSelectedProduct('');
+            setCompanies([]);
+            setProductDetails(null);
+            setStockInfo(null);
+          }}
           value={selectedCategory}
         >
           <option>Main Category</option>
@@ -256,14 +208,14 @@ const Stock = () => {
           ))}
         </select>
         
-        <select 
-          className="select-product" 
+        <select
+          className="select-product"
           onChange={(e) => {
             setSelectedProduct(e.target.value);
-            setSelectedCompany(''); // Reset company selection
-            setProductDetails(null); // Reset product details
-            setStockInfo(null); // Reset stock info
-          }} 
+            setSelectedCompany('');
+            setProductDetails(null);
+            setStockInfo(null);
+          }}
           value={selectedProduct}
         >
           <option>Product</option>
@@ -274,9 +226,9 @@ const Stock = () => {
           ))}
         </select>
 
-        <select 
-          className="select-company" 
-          onChange={(e) => setSelectedCompany(e.target.value)} 
+        <select
+          className="select-company"
+          onChange={(e) => setSelectedCompany(e.target.value)}
           value={selectedCompany}
         >
           <option>Company</option>
@@ -290,7 +242,6 @@ const Stock = () => {
         <button className="search-button" onClick={handleSearch}>Search</button>
       </div>
 
-      {/* Display Product Details and Stock Info in a table if available */}
       {productDetails && stockInfo && stockInfo.length > 0 ? (
         <div>
           <table className="details-table">
@@ -314,11 +265,7 @@ const Stock = () => {
             </tbody>
           </table>
 
-          {/* Bar Chart */}
-          <div className="chart-container">
-            <Bar data={barData} />
-          </div>
-          
+          <Bar data={barData} />
           <div className="pdf-button">
             <button className="pdf-button" onClick={generatePDF}>
               Generate PDF
@@ -330,7 +277,7 @@ const Stock = () => {
           <p className='no-product-message'>No product details available.</p>
         </div>
       )}
-
+      
       <ToastContainer />
     </div>
   );

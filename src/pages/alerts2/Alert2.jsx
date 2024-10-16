@@ -66,7 +66,7 @@ export default function LowStockAlert() {
 
   return (
     <div className="alert-container2">
-      <h2>Low Stock Alerts</h2>
+      <h2>Low Stock Details</h2>
       {loading ? (
         <div className="spinner-container">
           <ScaleLoader color="#3bb077" />

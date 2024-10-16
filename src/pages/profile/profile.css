@@ -1,0 +1,140 @@
+/* Overall Layout */
+.profile-container {
+    display: flex;
+    gap: 30px;
+    flex:5;
+    padding: 20px;
+    background-color: #f9f9f9;
+
+  }
+  
+  .profile-sidebar {
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+   
+  }
+  
+  .profile-sidebar .profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid #3a6810;
+  }
+  .spinner-container{
+    flex:5;
+  }
+  
+  .profile-sidebar .email, .name,
+  .profile-sidebar .last-login {
+    font-size: 14px;
+    color: #444;
+   
+  }
+  .profile-sidebar .email{
+    font-size: 12px;
+    color: #9b9b9b;
+    margin-bottom: 40px;
+    font-weight: 500;
+  }
+
+  .profile-sidebar .name{
+    font-size: larger;
+    font-weight: bold;
+  }
+  
+  .profile-sidebar .user-id {
+    font-size: 12px;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .impersonate-btn {
+    background-color: #e6e6e6;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .change-password-btn {
+    background-color: #d6f5d6;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .edit-btn{
+    background-color: #e6e6e6;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .block-user-btn {
+    background-color: #ffdddd;
+    color: #cd2a18;
+    font-weight: 600;
+  }
+  
+  .delete-user-btn {
+    background-color: #d6f9ac;
+    color: whiblackte;
+    font-weight: 600;
+  }
+  
+  /* Main Profile Section */
+  .profile-details {
+    flex: 1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .profile-details h2 {
+    font-size: 28px;
+    color: #3a6810;
+    margin-bottom: 20px;
+  }
+  
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .info-row label {
+    font-size: 17px;
+    color: black;
+    font-weight: 500;
+  }
+  
+  .info-row p {
+    font-size: 15px;
+    color: #333;
+    text-align: right;
+  }
+  
+  .verified {
+    color: green;
+    font-size: 12px;
+    margin-left: 5px;
+  }
+  
+.dlt-btn{
+  margin-bottom: 220px;
+}

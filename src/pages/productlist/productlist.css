@@ -39,6 +39,12 @@
     cursor: pointer;
 }
 
+.newpcontainer{
+    display: flex;
+    justify-content: start;
+    
+}
+
 .table-header-product{
     justify-content: space-between;
     margin: 20px;
@@ -51,7 +57,14 @@
     padding:5px 10px;
     background-color: #3bb077;
     cursor: pointer;
+    font-weight: 800;
+    font-size: 18px;
    
+}
+
+.pbutton{
+    margin-left: 25px;
+    font-weight: 800;
 }
 
 .scale{

@@ -13,7 +13,7 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 
 export default function ViewTransactions() {
-  const { id } = useParams(); // Get the transaction ID from URL params
+  const { id } = useParams(); 
   const [transaction, setTransaction] = useState(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ export default function ViewTransactions() {
         if (docSnap.exists()) {
           setTransaction({ id: docSnap.id, ...docSnap.data() });
 
-          // Fetch ordered items from sub-collection
+          
           const itemsCollection = collection(docRef, 'items');
           const itemsSnapshot = await getDocs(itemsCollection);
           const itemsList = itemsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
