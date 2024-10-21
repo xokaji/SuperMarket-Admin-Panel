@@ -111,29 +111,33 @@ const Stock = () => {
       toast.error('Please select all options.');
       return;
     }
-
+  
     try {
       const productSnapshot = await getDocs(collection(db, selectedCategory));
       const productDetailsData = productSnapshot.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }))
         .filter((product) => product.company === selectedCompany);
-
+  
       if (productDetailsData.length === 0) {
         toast.error('No products found for the selected company.');
         setProductDetails(null);
         setStockInfo([]);
         return;
       }
-
+  
       const product = productDetailsData[0];
+      
+      // Fetch stock information and filter based on stockCount
       const stockInfo = product.inStockMonth
-        ? Object.entries(product.inStockMonth).map(([month, stockData]) => ({
-            month,
-            stockCount: stockData.stockCount,
-            stockExpireDate: stockData.stockExpireDate,
-          }))
+        ? Object.entries(product.inStockMonth)
+            .map(([month, stockData]) => ({
+              month,
+              stockCount: stockData.stockCount, // Keep stockCount
+              stockExpireDate: stockData.stockExpireDate, // Keep stockExpireDate
+            }))
+            .filter(stock => stock.stockCount > 0) // Filter months where stockCount > 0
         : [];
-
+  
       setProductDetails(product);
       setStockInfo(stockInfo);
     } catch (error) {
@@ -141,6 +145,7 @@ const Stock = () => {
       toast.error('Error fetching product or stock information. Please try again.');
     }
   };
+  
 
   const generatePDF = async () => {
     const pdf = new jsPDF('p', 'mm', 'a4');

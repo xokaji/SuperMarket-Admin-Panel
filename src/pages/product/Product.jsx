@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { useParams } from 'react-router-dom';
 import './product.css';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
@@ -104,6 +104,7 @@ export default function Product() {
       const docSnap = await getDoc(docRef);
       const currentData = docSnap.data();
 
+      // Prepare updatedInStockMonth
       const updatedInStockMonth = {
         ...currentData.inStockMonth,
         [productMonth]: {
@@ -113,9 +114,19 @@ export default function Product() {
         },
       };
 
+      // Calculate total stock count
+      let total = 0;
+      for (let month in updatedInStockMonth) {
+        total += updatedInStockMonth[month].stockCount || 0;
+      }
+      
+      // Include totalStock in the updated data
       const updatedData = {
         finalPrice: finalPrice,
-        inStockMonth: updatedInStockMonth,
+        inStockMonth: {
+          ...updatedInStockMonth,
+          totalStock: total // Add totalStock here
+        },
       };
 
       await updateDoc(docRef, updatedData);
@@ -131,10 +142,7 @@ export default function Product() {
         theme: "colored",
       });
 
-      let total = 0;
-      for (let month in updatedInStockMonth) {
-        total += updatedInStockMonth[month].stockCount || 0;
-      }
+      // Update total stock state
       setTotalStock(total);
     } catch (error) {
       console.error('Error updating product: ', error);
@@ -231,19 +239,9 @@ export default function Product() {
                   className="productUpdateInput"
                 >
                   <option value="0">No Discount</option>
-                  <option value="5">Holiday Discount (5%)</option>
-                  <option value="20">Seasonal Discount (20%)</option>
+                  <option value="5">Holiday Discount</option>
+                  <option value="20">Seasonal Discount</option>
                 </select>
-              </div>
-              <div className="productUpdateItem">
-                <label>Final Price</label>
-                <input
-                  type="text"
-                  placeholder={`Rs. ${finalPrice}`}
-                  value={finalPrice}
-                  readOnly
-                  className="productUpdateInput"
-                />
               </div>
               <div className="productUpdateItem">
                 <label>Product-In Month</label>
@@ -252,7 +250,7 @@ export default function Product() {
                   onChange={(e) => setProductMonth(e.target.value)}
                   className="productUpdateInput"
                 >
-                  <option value="">Select Month</option>
+                  <option value="">Select a Month</option>
                   {months.map((month, index) => (
                     <option key={index} value={month}>{month}</option>
                   ))}
@@ -261,10 +259,10 @@ export default function Product() {
               <div className="productUpdateItem">
                 <label>Stock Count</label>
                 <input
-                  type="text"
-                  placeholder="Stock"
-                  value={stockCount} // Updated to stockCount
-                  onChange={(e) => setStockCount(e.target.value)} // Updated to stockCount
+                  type="number"
+                  placeholder={stockCount}
+                  value={stockCount}
+                  onChange={(e) => setStockCount(e.target.value)}
                   className="productUpdateInput"
                 />
               </div>
@@ -273,9 +271,9 @@ export default function Product() {
                 <DatePicker
                   selected={expiryDate}
                   onChange={(date) => setExpiryDate(date)}
-                  className="productUpdateInput"
                   dateFormat="yyyy-MM-dd"
-                  placeholderText="Select expiry date"
+                  className="productUpdateInput"
+                  placeholderText="Select Expiry Date"
                   filterDate={(date) => date >= new Date()} // Disable past dates
                 />
               </div>

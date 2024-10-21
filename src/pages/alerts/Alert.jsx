@@ -2,25 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './alert.css';
-import ScaleLoader from 'react-spinners/ScaleLoader'; // Import the spinner
-import './alert.css';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 export default function ExpiringProductsAlert() {
   const [alerts, setAlerts] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkExpiringProducts = async () => {
-      setLoading(true); // Set loading to true at the start
+      setLoading(true);
       try {
         const categories = [
           'grocery',
-          'dairyeggs',
+          'dairy&eggs',
           'meats&seafoods',
           'frozenfoods',
           'beverages',
           'snacks',
-          'bakery',
+          'bakeryproducts',
           'health&wellness',
         ];
 
@@ -30,40 +29,46 @@ export default function ExpiringProductsAlert() {
 
         const expiringProducts = [];
 
+        // Loop through each category to fetch products
         for (const category of categories) {
           const productsSnapshot = await getDocs(collection(db, category));
+          console.log(`Category: ${category}, Products Count: ${productsSnapshot.docs.length}`);
 
+          // Loop through each product in the category
           productsSnapshot.forEach((doc) => {
             const productData = doc.data();
+            console.log("Product Data:", productData); // Debugging line
             const inStockMonth = productData.inStockMonth || {};
 
+            // Loop through each month in inStockMonth
             for (const month in inStockMonth) {
               const stockDetails = inStockMonth[month];
-              const stockExpireDateStr = stockDetails.stockExpireDate;
+              const stockExpireDateStr = stockDetails.stockExpireDate; // String in "YYYY-MM-DD" format
               const stockExpireDate = stockExpireDateStr ? new Date(stockExpireDateStr) : null;
 
-              // Check if the stockExpireDate is within the next 30 days
+              // Check if the stockExpireDate is within the next 30 days (including today)
               if (stockExpireDate && stockExpireDate >= today && stockExpireDate <= thirtyDaysFromNow) {
-                const currentYear = new Date().getFullYear(); // Get the current year
+                console.log(`Adding expiring product: ${productData.productName}, Expiry Date: ${stockExpireDate}`); // Debugging line
+                const currentYear = new Date().getFullYear();
                 expiringProducts.push({
                   productName: productData.productName,
                   category: category,
                   stockCount: stockDetails.stockCount,
                   stockExpireDate,
-                  inStockMonth: `${month} ${currentYear}`, // Add month and year info
+                  inStockMonth: `${month} ${currentYear}`,
                 });
               }
             }
           });
         }
 
-        // Set the alerts state
+        // Set the alerts state with the filtered expiring products
         setAlerts(expiringProducts);
       } catch (error) {
         console.error('Error checking expiring products: ', error);
         setAlerts([]);
       } finally {
-        setLoading(false); // Set loading to false when done
+        setLoading(false);
       }
     };
 
@@ -78,8 +83,8 @@ export default function ExpiringProductsAlert() {
           <ScaleLoader color="#3bb077" />
         </div>
       ) : alerts.length === 0 ? (
-        <div className="alert-message">No products expiring within the next 30 days.</div>
-      ) : ( 
+        <div className="alert-message">No products expiring in the next 30 days.</div>
+      ) : (
         <table className="alert-table">
           <thead>
             <tr>

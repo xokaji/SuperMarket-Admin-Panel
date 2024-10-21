@@ -53,7 +53,7 @@ const Grocery = () => {
             <option value="">Select a Grocery Product</option>
             {groceryData.map((item, index) => (
               <option key={index} value={item.id}>
-                {item.id} {/* Assuming the document ID is the product name */}
+                {item.id} 
               </option>
             ))}
           </select>
@@ -88,7 +88,7 @@ const Grocery = () => {
               {filteredData.map((data, index) => (
                 <tr key={index}>
                   <td>{data.month}</td>
-                  <td>{data.inStockCount}</td> {/* Assuming this field is named inStockCount */}
+                  <td>{data.inStockCount}</td> 
                 </tr>
               ))}
             </tbody>

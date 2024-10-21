@@ -13,9 +13,9 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
-
-
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 
 export default function Sidebar() {
   const location = useLocation();
@@ -70,12 +70,19 @@ export default function Sidebar() {
                 Products
               </Link>
             </li>
+            <li className={`sidebarListItem ${location.pathname === '/orders' ? 'active' : ''}`}>
+              <Link to="/orders" className="sidebarLink">
+                <ShoppingCartOutlinedIcon className='sidebarIcon' />
+                Orders
+              </Link>
+            </li>
             <li className={`sidebarListItem ${location.pathname === '/transactions' ? 'active' : ''}`}>
               <Link to="/transactions" className="sidebarLink">
                 <PaidOutlinedIcon className='sidebarIcon' />
                 Transactions
               </Link>
             </li>
+            
             <li className={`sidebarListItem ${location.pathname === '/stockreports' ? 'active' : ''}`}>
               <Link to="/stockreports" className="sidebarLink">
                 <BarChartOutlinedIcon className='sidebarIcon' />
@@ -125,8 +132,8 @@ export default function Sidebar() {
             )}
             <li className={`sidebarListItem ${location.pathname === '/messages' ? 'active' : ''}`}>
               <Link to="/messages" className="sidebarLink">
-                <ForumOutlinedIcon className='sidebarIcon' />
-                Messages
+                <MarkEmailReadOutlinedIcon className='sidebarIcon' />
+                Mails & Messages
               </Link>
             </li>
           </ul>

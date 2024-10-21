@@ -102,7 +102,19 @@ const Profile = () => {
     });
   };
 
+  const validatePhoneNumber = (phone) => {
+    // You can adjust this regex based on your requirements
+    const phoneRegex = /^[0-9]{10}$/; // Allows only 10 digit numbers
+    return phoneRegex.test(phone);
+  };
+
   const handleSaveChanges = async () => {
+    // Validate the phone number before saving
+    if (!validatePhoneNumber(formData.phone)) {
+      toast.error('Phone number must be 10 digits long');
+      return;
+    }
+
     try {
       let profilePictureUrl = adminData.profilePicture;
 
@@ -184,7 +196,7 @@ const Profile = () => {
           className="profile-picture"
         />
         <p className="name">{adminData.firstName} {adminData.lastName}</p>
-        <p className="email">Administry</p>
+        <p className="email">Admin</p>
 
         <div className="button-row">
           {isEditing ? (
@@ -195,16 +207,14 @@ const Profile = () => {
             <button className="edit-btn" onClick={() => setIsEditing(true)}>
               Edit
             </button>
-            
           )}
         </div>
 
         <div className="dlt-btn">
           <button className="delete-user-btn">Change Password</button>
         </div>
-        
+
         <button className="block-user-btn" onClick={handleLogout}>Log Out</button>
-        
       </div>
 
       <div className="profile-details">
@@ -249,7 +259,6 @@ const Profile = () => {
             ) : null}
           </div>
 
-          {/* Rest of the fields (Address, NIC, etc.) */}
           {/* Address */}
           <div className="info-row">
             <label>Address</label>
@@ -265,24 +274,25 @@ const Profile = () => {
             )}
           </div>
 
-          {/* NIC */}
+          {/* Phone Number */}
           <div className="info-row">
-            <label>NIC Number</label>
+            <label>Phone</label>
             {isEditing ? (
               <input
-                type="text"
-                name="nic"
-                value={formData.nic}
+                type="tel"
+                name="phone"
+                value={formData.phone}
                 onChange={handleInputChange}
+                maxLength="10" // Set maximum length for phone input
               />
             ) : (
-              <p>{adminData.nic}</p>
+              <p>{adminData.phone}</p>
             )}
           </div>
 
-          {/* Email Address */}
+          {/* Email */}
           <div className="info-row">
-            <label>Email Address</label>
+            <label>Email</label>
             {isEditing ? (
               <input
                 type="email"
@@ -295,25 +305,20 @@ const Profile = () => {
             )}
           </div>
 
-          {/* Phone */}
+          {/* NIC */}
           <div className="info-row">
-            <label>Phone</label>
+            <label>NIC</label>
             {isEditing ? (
               <input
                 type="text"
-                name="phone"
-                value={formData.phone}
+                name="nic"
+                value={formData.nic}
                 onChange={handleInputChange}
+                maxLength="12"
               />
             ) : (
-              <p>{adminData.phone}</p>
+              <p>{adminData.nic}</p>
             )}
-          </div>
-
-          {/* Last login information */}
-          <div className="info-row">
-            <label>Last Login</label>
-            <p>{adminData.lastLogin}</p>
           </div>
         </div>
       </div>

@@ -29,6 +29,7 @@ import Footer from "./components/footer/Footer";
 import Expired from "./pages/expired/Expired";
 import NotificationMenu from "./pages/analytics/NotificationMenu";
 import Profile from "./pages/profile/Profile";
+import Orders from "./pages/orders/Orders";
 
 const Layout = () => (
   <div>
@@ -52,6 +53,14 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <Home /> },
+    ],
+  },
+
+  {
+    path: "/orders",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Orders /> },
     ],
   },
   {

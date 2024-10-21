@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./widgetsmall.css";
+import './widgetsmall.css';
 import { db } from '../../../firebase'; // Ensure this path is correct
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 
@@ -9,7 +9,11 @@ export default function WidgetSmall() {
   useEffect(() => {
     const fetchRecentCustomers = async () => {
       try {
-        const q = query(collection(db, 'users'), orderBy('createdAt', 'desc'), limit(2)); // Adjusted limit to 2
+        const q = query(
+          collection(db, 'users'),
+          orderBy('createdAt', 'desc'), // Ensure 'createdAt' exists and is a Firestore Timestamp
+          limit(2) // Fetch the latest 2 customers
+        );
         const querySnapshot = await getDocs(q);
         const customers = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -30,14 +34,12 @@ export default function WidgetSmall() {
       
       <ul className="widgetSmList">
         {recentCustomers.map((customer) => (
-          <li key={customer.id} className='widgetSmListItem'>
-            <img src={customer.img || "https://via.placeholder.com/150"} alt={customer.name} className='widgetSmImg'/>
+          <li key={customer.id} className="widgetSmListItem">
+            <img src={customer.img || 'https://via.placeholder.com/150'} alt={customer.name} className="widgetSmImg" />
             <div className="widgetSmUser">
               <span className="widgetSmUsername">{customer.name}</span>
             </div>
-            <button className="widgetSmButton">
-              View
-            </button>
+            <button className="widgetSmButton">View</button>
           </li>
         ))}
       </ul>
