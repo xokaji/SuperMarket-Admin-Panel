@@ -3,7 +3,7 @@ import './productlist.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import { db } from '../../firebase'; // Ensure this path is correct
+import { db } from '../../firebase'; 
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 export default function DataTable() {
@@ -43,7 +43,7 @@ export default function DataTable() {
                 id: doc.id,
                 ...data,
                 finalPrice: Number(data.finalPrice) || 0,
-                totalStock, // Add totalStock to each product
+                totalStock, 
                 mainCategory: category,
               };
             });
@@ -168,7 +168,6 @@ export default function DataTable() {
           <option value="snacks">Snacks</option>
           <option value="bakeryproducts">Bakery</option>
           <option value="health&wellness">Health & Wellness</option>
-          
         </select>
       </div>
       

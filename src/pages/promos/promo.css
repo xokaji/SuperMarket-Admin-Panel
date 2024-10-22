@@ -1,0 +1,105 @@
+.promo-container {
+  flex: 5;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.promo-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 30px;
+  color: #333;
+  font-weight: 600;
+}
+
+.promo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #080808;
+  margin-bottom: 8px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 95%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+  outline: none;
+}
+
+.form-group textarea {
+  resize: none;
+  height: 140px;
+}
+
+.send-btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.previous-promotions-btn {
+
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #fff;
+  background-color: rgb(215, 51, 51);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.previous-promotions-btn:hover {
+  background-color: #ff1a1a; /* Darker red on hover */
+}
+/* .send-btnn{
+  display: flex;
+  justify-content:center;
+}
+.promp-btn{
+  display: flex;
+  justify-content: start;
+} */
+
+.buttonnss{
+  display: flex;
+  justify-content: space-evenly
+}
+.send-btn:hover {
+  background-color: #218838;
+  box-shadow: 0 3px 8px rgba(33, 136, 56, 0.2);
+}
+
+.send-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+

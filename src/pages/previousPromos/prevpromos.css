@@ -1,0 +1,64 @@
+.prev-container {
+    padding: 20px;
+    flex: 5;
+  }
+
+  .prev-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #333;
+    font-weight: 800;
+
+  }
+  .no-promo-msg{
+    color:red;
+    text-align:center;
+    font-size: large;
+    font-weight: 600;
+  }
+  
+  .promo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .promo-table th, .promo-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .promo-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .promo-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .promo-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  .promo-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+  }
+  
+  .delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .delete-btn:hover {
+    background-color: #e60000;
+  }
+  

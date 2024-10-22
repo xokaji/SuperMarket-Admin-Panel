@@ -27,9 +27,13 @@ import Alert from "./pages/alerts/Alert";
 import Alert2 from "./pages/alerts2/Alert2";
 import Footer from "./components/footer/Footer";
 import Expired from "./pages/expired/Expired";
-import NotificationMenu from "./pages/analytics/NotificationMenu";
+// import NotificationMenu from "./pages/analytics/NotificationMenu";
 import Profile from "./pages/profile/Profile";
 import Orders from "./pages/orders/Orders";
+import Email from "./pages/emails/Email";
+import Promo from "./pages/promos/Promo";
+import Prevpromos from "./pages/previousPromos/Prevpromos";
+import Analytics from "./pages/analytics/Analytics";
 
 const Layout = () => (
   <div>
@@ -70,6 +74,22 @@ const router = createBrowserRouter([
       { path: "", element: <Profile /> },
     ],
   },
+
+  {
+    path: "/promos",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Promo /> },
+    ],
+  },
+
+  {
+    path: "/prevpromos",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Prevpromos/> },
+    ],
+  },
   {
     path: "/customers",
     element: <Layout />,
@@ -79,6 +99,15 @@ const router = createBrowserRouter([
       { path: ":id", element: <Customer /> },
     ],
   },
+
+  {
+    path: "/emails",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Email /> },
+    ],
+  },
+
 
   {
     path: "/expired",
@@ -119,8 +148,8 @@ const router = createBrowserRouter([
     path: "/analytics",
     element: <Layout />,
     children: [
-      { path: "", element: <NotificationMenu /> },
-      { path: ":id", element: <ViewTransactions /> },
+      { path: "", element: <Analytics /> },
+  
     ],
   },
 

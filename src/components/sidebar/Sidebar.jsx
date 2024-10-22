@@ -7,14 +7,14 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+// import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { Link, useLocation } from 'react-router-dom';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
+// import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 
 export default function Sidebar() {
@@ -70,12 +70,12 @@ export default function Sidebar() {
                 Products
               </Link>
             </li>
-            <li className={`sidebarListItem ${location.pathname === '/orders' ? 'active' : ''}`}>
+            {/* <li className={`sidebarListItem ${location.pathname === '/orders' ? 'active' : ''}`}>
               <Link to="/orders" className="sidebarLink">
                 <ShoppingCartOutlinedIcon className='sidebarIcon' />
                 Orders
               </Link>
-            </li>
+            </li> */}
             <li className={`sidebarListItem ${location.pathname === '/transactions' ? 'active' : ''}`}>
               <Link to="/transactions" className="sidebarLink">
                 <PaidOutlinedIcon className='sidebarIcon' />
@@ -130,10 +130,17 @@ export default function Sidebar() {
                 </li>
               </>
             )}
-            <li className={`sidebarListItem ${location.pathname === '/messages' ? 'active' : ''}`}>
-              <Link to="/messages" className="sidebarLink">
+            <li className={`sidebarListItem ${location.pathname === '/promos' ? 'active' : ''}`}>
+              <Link to="/promos" className="sidebarLink">
+                <CampaignOutlinedIcon className='sidebarIcon' />
+                Fresco & Promos
+              </Link>
+            </li>
+
+            <li className={`sidebarListItem ${location.pathname === '/emails' ? 'active' : ''}`}>
+              <Link to="/emails" className="sidebarLink">
                 <MarkEmailReadOutlinedIcon className='sidebarIcon' />
-                Mails & Messages
+                Emails
               </Link>
             </li>
           </ul>

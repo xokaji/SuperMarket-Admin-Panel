@@ -82,8 +82,8 @@ export default function Product() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
-    if (!finalPrice || !stockCount || !expiryDate || !productMonth) { // Updated to stockCount
+  
+    if (!finalPrice || !stockCount || !expiryDate || !productMonth) {
       toast.error('Please fill in all the fields before updating.', {
         position: "top-right",
         autoClose: 3000,
@@ -96,41 +96,54 @@ export default function Product() {
       });
       return;
     }
-
+  
     const formattedExpiryDate = expiryDate ? expiryDate.toISOString().split('T')[0] : null;
-
+  
     try {
       const docRef = doc(db, category, id);
       const docSnap = await getDoc(docRef);
       const currentData = docSnap.data();
-
+  
       // Prepare updatedInStockMonth
       const updatedInStockMonth = {
         ...currentData.inStockMonth,
         [productMonth]: {
-          stockCount: parseInt(stockCount) || 0, // Updated to stockCount
+          stockCount: parseInt(stockCount) || 0,
           stockExpireDate: formattedExpiryDate,
           finalPrice: finalPrice,
         },
       };
-
+  
       // Calculate total stock count
       let total = 0;
       for (let month in updatedInStockMonth) {
         total += updatedInStockMonth[month].stockCount || 0;
       }
-      
+  
       // Include totalStock in the updated data
       const updatedData = {
         finalPrice: finalPrice,
-        inStockMonth: {
-          ...updatedInStockMonth,
-          totalStock: total // Add totalStock here
-        },
+        inStockMonth: updatedInStockMonth,
+        totalStock: total,  // Save totalStock to Firestore
       };
-
+  
+      // Update product in Firestore
       await updateDoc(docRef, updatedData);
-
+  
+      // After updating, fetch the updated product data
+      const updatedProductSnap = await getDoc(docRef);
+  
+      if (updatedProductSnap.exists()) {
+        const updatedProductData = updatedProductSnap.data();
+  
+        // Update the total stock state from the updated product data
+        let newTotalStock = 0;
+        for (let month in updatedProductData.inStockMonth) {
+          newTotalStock += updatedProductData.inStockMonth[month].stockCount || 0;
+        }
+        setTotalStock(newTotalStock);
+      }
+  
       toast.success('Product updated successfully!', {
         position: "top-right",
         autoClose: 3000,
@@ -141,9 +154,6 @@ export default function Product() {
         progress: undefined,
         theme: "colored",
       });
-
-      // Update total stock state
-      setTotalStock(total);
     } catch (error) {
       console.error('Error updating product: ', error);
       toast.error('Error updating product', {
@@ -158,6 +168,7 @@ export default function Product() {
       });
     }
   };
+  
 
   if (!product) {
     return (
@@ -177,7 +188,7 @@ export default function Product() {
     <div className="product">
       <ToastContainer />
       <div className="productTitleContainer">
-        <h1 className="productTitle">Product Details</h1>
+        <h1 className="productTitle">Product Update Details</h1>
       </div>
       <div className="productContainer">
         <div className="productShow">
@@ -259,7 +270,7 @@ export default function Product() {
               <div className="productUpdateItem">
                 <label>Stock Count</label>
                 <input
-                  type="number"
+                  type="text"
                   placeholder={stockCount}
                   value={stockCount}
                   onChange={(e) => setStockCount(e.target.value)}
@@ -274,7 +285,7 @@ export default function Product() {
                   dateFormat="yyyy-MM-dd"
                   className="productUpdateInput"
                   placeholderText="Select Expiry Date"
-                  filterDate={(date) => date >= new Date()} // Disable past dates
+                  filterDate={(date) => date >= new Date()}
                 />
               </div>
             </div>

@@ -103,15 +103,15 @@ const Profile = () => {
   };
 
   const validatePhoneNumber = (phone) => {
-    // You can adjust this regex based on your requirements
-    const phoneRegex = /^[0-9]{10}$/; // Allows only 10 digit numbers
+    // Ensure that the phone number is exactly 10 digits long
+    const phoneRegex = /^\d{10}$/; // Only 10 digit numbers
     return phoneRegex.test(phone);
   };
 
   const handleSaveChanges = async () => {
     // Validate the phone number before saving
     if (!validatePhoneNumber(formData.phone)) {
-      toast.error('Phone number must be 10 digits long');
+      toast.error('Phone number must be exactly 10 digits long');
       return;
     }
 
@@ -279,11 +279,17 @@ const Profile = () => {
             <label>Phone</label>
             {isEditing ? (
               <input
-                type="tel"
+                type="text"
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                maxLength="10" // Set maximum length for phone input
+                maxLength="10" // Restrict input to 10 digits
+                onKeyDown={(e) => {
+                  // Prevent input if the key pressed is not a number or control keys like backspace
+                  if (!/[0-9]/.test(e.key) && e.key !== 'Backspace') {
+                    e.preventDefault();
+                  }
+                }}
               />
             ) : (
               <p>{adminData.phone}</p>
@@ -314,7 +320,6 @@ const Profile = () => {
                 name="nic"
                 value={formData.nic}
                 onChange={handleInputChange}
-                maxLength="12"
               />
             ) : (
               <p>{adminData.nic}</p>

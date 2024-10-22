@@ -61,7 +61,7 @@ export default function WidgetLarge() {
                 <span className="widgetlgName">{transaction.name}</span>
               </td>
               <td className="widgetLgDate">{transaction.date}</td>
-              <td className="widgetLgAmount">${transaction.amount}</td>
+              <td className="widgetLgAmount">Rs.{transaction.amount}</td>
               <td className="widgetLgMethod"><Button type={transaction.paymentMethod} /></td>
             </tr>
           ))}

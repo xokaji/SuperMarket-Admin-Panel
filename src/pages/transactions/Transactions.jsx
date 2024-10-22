@@ -37,8 +37,8 @@ export default function Transactions() {
     { field: 'id', headerName: 'ID', width: 70,headerClassName: 'custom-header', },
     {
       field: 'name',
-      headerName: 'Customer Details',
-      width: 220,
+      headerName: 'Customer Name',
+      width: 250,
       headerClassName: 'custom-header',
       renderCell: (params) => (
         <div className="productList">
@@ -60,7 +60,7 @@ export default function Transactions() {
       },
       
       {
-        field: 'amount',
+        field:'amount',
         headerName: 'Amount',
         width: 150,
         headerClassName: 'custom-header',
@@ -69,7 +69,7 @@ export default function Transactions() {
     {
       field: 'paymentMethod',
       headerName: 'Payment Method',
-      width: 150,
+      width: 200,
       headerClassName: 'custom-header',
       renderCell: (params) => (
         <span className={params.row.paymentMethod === 'Online' ? 'statusMethodTwo' : 'statusMethodOne'}>
@@ -78,17 +78,17 @@ export default function Transactions() {
       ),
     },
     
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 150,
-      headerClassName: 'custom-header',
-      renderCell: (params) => (
-        <span className={params.row.status === 'Paid' ? 'statusPaid' : 'statusUnpaid'}>
-          {params.row.status}
-        </span>
-      ),
-    },
+      // {
+      //   field: 'paymentStatus',
+      //   headerName: 'Status',
+      //   width: 150,
+      //   headerClassName: 'custom-header',
+      //   renderCell: (params) => (
+      //     <span className={params.row.status === 'Paid' ? 'statusPaid' : 'statusUnpaid'}>
+      //       {params.row.status}
+      //     </span>
+      //   ),
+      // },
     {
       field: 'action',
       headerName: 'Action',

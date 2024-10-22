@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../../firebase'; // Adjust path as necessary
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import './viewTransactions.css'; // Ensure your styles are imported
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
@@ -15,22 +15,18 @@ import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 export default function ViewTransactions() {
   const { id } = useParams(); 
   const [transaction, setTransaction] = useState(null);
-  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
+        // Fetch the transaction document from Firestore
         const docRef = doc(db, 'transactions', id);
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setTransaction({ id: docSnap.id, ...docSnap.data() });
 
-          
-          const itemsCollection = collection(docRef, 'items');
-          const itemsSnapshot = await getDocs(itemsCollection);
-          const itemsList = itemsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          setItems(itemsList);
+        if (docSnap.exists()) {
+          // Set transaction data from Firestore document
+          setTransaction({ id: docSnap.id, ...docSnap.data() });
         } else {
           console.error('No such document!');
         }
@@ -87,10 +83,11 @@ export default function ViewTransactions() {
         </div>
         <div className="transactionShowInfo">
           <PrivacyTipOutlinedIcon className="transactionShowIcon" />
-          <span className="transactionShowInfoTitle">{transaction.status}</span>
+          <span className="transactionShowInfoTitle">{transaction.paymentStatus}</span>
         </div>
       </div>
-      
+
+      {/* Ordered Items Section */}
       <div className="ordered-items">
         <div className="label">
           <label className="label">Ordered Items</label>
@@ -104,7 +101,7 @@ export default function ViewTransactions() {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, index) => (
+            {transaction.items && transaction.items.map((item, index) => (
               <tr key={index} className='tr'>
                 <td className='itemTrans2'>{item.name}</td>
                 <td className='itemTrans2'>{item.quantity}</td>
