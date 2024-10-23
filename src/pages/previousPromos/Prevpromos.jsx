@@ -78,8 +78,8 @@ const handleDelete = async (id) => {
               <th>Promo Banner</th>
               <th>Promo Title</th>
               <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
+              {/* <th>Start Date</th>
+              <th>End Date</th> */}
               <th>Actions</th>
             </tr>
           </thead>
@@ -100,8 +100,8 @@ const handleDelete = async (id) => {
                 </td>
                 <td>{promo.title}</td>
                 <td>{promo.description}</td>
-                <td>{formatDate(promo.startDate)}</td>
-                <td>{formatDate(promo.endDate)}</td>
+                {/* <td>{formatDate(promo.startDate)}</td>
+                <td>{formatDate(promo.endDate)}</td> */}
                 <td>
                   <button
                     onClick={() => handleDelete(promo.id)} // Use the document ID directly

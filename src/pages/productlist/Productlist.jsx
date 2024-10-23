@@ -3,63 +3,70 @@ import './productlist.css';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
-import { db } from '../../firebase'; 
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { collection, doc, deleteDoc, onSnapshot } from 'firebase/firestore';
 
-export default function DataTable() {
+export default function ProductList() {
   const [data, setData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
+    const unsubscribeListeners = [];
+    
     const fetchData = async () => {
-      try {
-        const allProducts = [];
-        const categories = [
-          'grocery',
-          'dairy&eggs',
-          'meats&seafoods',
-          'frozenfoods',
-          'beverages',
-          'snacks',
-          'bakeryproducts',
-          'health&wellness',
-        ];
+      const categories = [
+        'grocery',
+        'dairy&eggs',
+        'meats&seafoods',
+        'frozenfoods',
+        'beverages',
+        'snacks',
+        'bakeryproducts',
+        'health&wellness',
+      ];
 
-        for (const category of categories) {
-          const productCollection = collection(db, category);
-          const productSnapshot = await getDocs(productCollection);
+      categories.forEach((category) => {
+        const productCollection = collection(db, category);
+        
+        // Listen to real-time updates for each product in the category
+        const unsubscribe = onSnapshot(productCollection, (snapshot) => {
+          const updatedProducts = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            // Calculate total stock from inStockMonth
+            const inStockMonth = data.inStockMonth || {};
+            let totalStock = 0;
 
-          if (!productSnapshot.empty) {
-            const products = productSnapshot.docs.map((doc) => {
-              const data = doc.data();
-              // Calculate total stock from inStockMonth
-              const inStockMonth = data.inStockMonth || {};
-              let totalStock = 0;
-              for (let month in inStockMonth) {
-                totalStock += inStockMonth[month].stockCount || 0;
-              }
+            for (let month in inStockMonth) {
+              totalStock += inStockMonth[month].stockCount || 0;
+            }
 
-              return {
-                id: doc.id,
-                ...data,
-                finalPrice: Number(data.finalPrice) || 0,
-                totalStock, 
-                mainCategory: category,
-              };
-            });
+            return {
+              id: doc.id,
+              ...data,
+              finalPrice: Number(data.finalPrice) || 0,
+              totalStock, // Use the calculated total stock
+              mainCategory: category,
+            };
+          });
 
-            allProducts.push(...products);
-            console.log(`Fetched ${products.length} products from category: ${category}`);
-          }
-        }
+          // Update the state with new data, maintaining the current state
+          setData((prevData) => {
+            // Filter out products from the previous data that belong to the current category
+            const updatedData = prevData.filter(item => item.mainCategory !== category);
+            return [...updatedData, ...updatedProducts]; // Combine updated products
+          });
+        });
 
-        setData(allProducts);
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
+        unsubscribeListeners.push(unsubscribe); // Store the unsubscribe function
+      });
     };
 
     fetchData();
+
+    // Clean up the onSnapshot listeners when the component unmounts
+    return () => {
+      unsubscribeListeners.forEach((unsubscribe) => unsubscribe());
+    };
   }, []);
 
   const handleDelete = async (id) => {
@@ -117,7 +124,7 @@ export default function DataTable() {
       width: 120,
     },
     {
-      field: 'totalStock', // Ensure this is correct
+      field: 'totalStock',
       headerName: 'Total Stock',
       headerClassName: 'custom-header',
       width: 120,
@@ -145,20 +152,16 @@ export default function DataTable() {
   return (
     <div className="pcontainer">
       <div className="table-header-product">
-
         <div className="newpcontainer">
           <h2>Products Details</h2>
           <div className="pbutton">
             <Link to="/products/new">  
-            <button className="product-button">+</button>
-          </Link>
+              <button className="product-button">+</button>
+            </Link>
           </div>
         </div>
-        
-        
 
         <select value={selectedCategory} onChange={handleCategoryChange}>
-
           <option value="">All Categories</option>
           <option value="grocery">Grocery</option>
           <option value="dairy&eggs">Dairy & Eggs</option>
@@ -170,7 +173,6 @@ export default function DataTable() {
           <option value="health&wellness">Health & Wellness</option>
         </select>
       </div>
-      
 
       <div style={{ height: 680, width: '100%' }}>
         <DataGrid
@@ -185,8 +187,6 @@ export default function DataTable() {
           checkboxSelection
         />
       </div>
-      
     </div>
-    
   );
 }

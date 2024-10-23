@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './product.css';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
@@ -7,18 +7,18 @@ import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { db } from '../../firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Product() {
-  const { id, category } = useParams(); // Get category from URL
+  const { id, category } = useParams();
   const [product, setProduct] = useState(null);
   const [productMonth, setProductMonth] = useState('');
   const [expiryDate, setExpiryDate] = useState(null);
-  const [stockCount, setStockCount] = useState(''); // Renamed to stockCount
+  const [stockCount, setStockCount] = useState('');
   const [totalStock, setTotalStock] = useState(0);
   const [discount, setDiscount] = useState('0');
   const [basePrice, setBasePrice] = useState('');
@@ -27,14 +27,7 @@ export default function Product() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        console.log('Category:', category);
-        console.log('ID:', id);
-
-        if (!category || !id) {
-          console.error('Category or ID is missing');
-          toast.error('Category or ID is missing', { position: 'top-right', autoClose: 3000 });
-          return;
-        }
+        if (!category || !id) throw new Error('Category or ID is missing');
 
         const docRef = doc(db, category, id);
         const docSnap = await getDoc(docRef);
@@ -42,69 +35,72 @@ export default function Product() {
           const data = docSnap.data();
           setProduct(data);
           setBasePrice(data.finalPrice);
-
-          const inStockMonth = data.inStockMonth || {};
-          let total = 0;
-          for (let month in inStockMonth) {
-            total += inStockMonth[month].stockCount || 0;
-          }
-          setTotalStock(total);
-
-          if (productMonth && inStockMonth[productMonth]) {
-            setStockCount(inStockMonth[productMonth].stockCount || ''); // Updated to stockCount
-            setExpiryDate(inStockMonth[productMonth].stockExpireDate ? new Date(inStockMonth[productMonth].stockExpireDate) : null);
-          } else {
-            setStockCount(''); // Updated to stockCount
-            setExpiryDate(null);
-          }
+          updateStockData(data.inStockMonth);
         } else {
-          console.log('No such document!');
-          toast.error('Product not found', { position: 'top-right', autoClose: 3000 });
+          throw new Error('Product not found');
         }
       } catch (error) {
         console.error('Error fetching product: ', error);
-        toast.error('Error fetching product details', { position: 'top-right', autoClose: 3000 });
+        toast.error(error.message, { position: 'top-right', autoClose: 3000 });
       }
     };
 
+    const unsubscribe = onSnapshot(doc(db, category, id), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setProduct(data);
+        setBasePrice(data.finalPrice);
+        updateStockData(data.inStockMonth);
+      }
+    });
+
     fetchProduct();
-  }, [id, category, productMonth]);
+    return () => unsubscribe(); // Clean up the listener
+  }, [id, category]);
+
+  const updateStockData = (inStockMonth) => {
+    let total = 0;
+    for (let month in inStockMonth) {
+      total += inStockMonth[month].stockCount || 0;
+    }
+    setTotalStock(total);
+
+    if (productMonth && inStockMonth[productMonth]) {
+      setStockCount(inStockMonth[productMonth].stockCount || '');
+      setExpiryDate(inStockMonth[productMonth].stockExpireDate ? new Date(inStockMonth[productMonth].stockExpireDate) : null);
+    } else {
+      setStockCount('');
+      setExpiryDate(null);
+    }
+  };
 
   useEffect(() => {
     if (discount === '0') {
       setFinalPrice(basePrice);
-    } else if (discount === '5') {
-      setFinalPrice((basePrice * 0.95).toFixed(2));
-    } else if (discount === '20') {
-      setFinalPrice((basePrice * 0.80).toFixed(2));
+    } else {
+      const discountRate = discount === '5' ? 0.95 : 0.80;
+      setFinalPrice((basePrice * discountRate).toFixed(2));
     }
   }, [discount, basePrice]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-  
+
     if (!finalPrice || !stockCount || !expiryDate || !productMonth) {
       toast.error('Please fill in all the fields before updating.', {
         position: "top-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
       });
       return;
     }
-  
-    const formattedExpiryDate = expiryDate ? expiryDate.toISOString().split('T')[0] : null;
-  
+
+    const formattedExpiryDate = expiryDate.toISOString().split('T')[0];
+
     try {
       const docRef = doc(db, category, id);
       const docSnap = await getDoc(docRef);
       const currentData = docSnap.data();
-  
-      // Prepare updatedInStockMonth
+
       const updatedInStockMonth = {
         ...currentData.inStockMonth,
         [productMonth]: {
@@ -113,69 +109,31 @@ export default function Product() {
           finalPrice: finalPrice,
         },
       };
-  
-      // Calculate total stock count
-      let total = 0;
-      for (let month in updatedInStockMonth) {
-        total += updatedInStockMonth[month].stockCount || 0;
-      }
-  
-      // Include totalStock in the updated data
+
       const updatedData = {
         finalPrice: finalPrice,
-        inStockMonth: updatedInStockMonth,
-        totalStock: total,  // Save totalStock to Firestore
+        inStockMonth: {
+          ...updatedInStockMonth,
+          totalStock: Object.values(updatedInStockMonth).reduce((acc, month) => acc + (month.stockCount || 0), 0),
+        },
       };
-  
-      // Update product in Firestore
+
       await updateDoc(docRef, updatedData);
-  
-      // After updating, fetch the updated product data
-      const updatedProductSnap = await getDoc(docRef);
-  
-      if (updatedProductSnap.exists()) {
-        const updatedProductData = updatedProductSnap.data();
-  
-        // Update the total stock state from the updated product data
-        let newTotalStock = 0;
-        for (let month in updatedProductData.inStockMonth) {
-          newTotalStock += updatedProductData.inStockMonth[month].stockCount || 0;
-        }
-        setTotalStock(newTotalStock);
-      }
-  
       toast.success('Product updated successfully!', {
         position: "top-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
       });
     } catch (error) {
       console.error('Error updating product: ', error);
       toast.error('Error updating product', {
         position: "top-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
       });
     }
   };
-  
 
   if (!product) {
-    return (
-      <div className="scalecontainer">
-        <div>Loading...</div>
-      </div>
-    );
+    return <div className="scalecontainer">Loading...</div>;
   }
 
   const months = [
@@ -193,11 +151,7 @@ export default function Product() {
       <div className="productContainer">
         <div className="productShow">
           <div className="productShowTop">
-            <img
-              src={product.productImage}
-              alt=""
-              className="productShowImg"
-            />
+            <img src={product.productImage} alt="" className="productShowImg" />
             <div className="productShowTopTitle">
               <span className="productShowName">{product.productName}</span>
               <span className="productShowCompany">{product.company}</span>
@@ -219,7 +173,7 @@ export default function Product() {
             </div>
             <div className="productShowInfo">
               <AttachMoneyOutlinedIcon className="productShowIcon" />
-              <span className="productShowInfoTitle">Rs. {finalPrice ? finalPrice : '0.00'}</span>
+              <span className="productShowInfoTitle">Rs. {finalPrice || '0.00'}</span>
             </div>
             <div className="productShowInfo">
               <Inventory2OutlinedIcon className="productShowIcon" />
@@ -270,7 +224,7 @@ export default function Product() {
               <div className="productUpdateItem">
                 <label>Stock Count</label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder={stockCount}
                   value={stockCount}
                   onChange={(e) => setStockCount(e.target.value)}
@@ -285,7 +239,7 @@ export default function Product() {
                   dateFormat="yyyy-MM-dd"
                   className="productUpdateInput"
                   placeholderText="Select Expiry Date"
-                  filterDate={(date) => date >= new Date()}
+                  filterDate={(date) => date >= new Date()} // Disable past dates
                 />
               </div>
             </div>

@@ -7,12 +7,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Bar } from 'react-chartjs-2';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { Chart, BarElement, CategoryScale, LinearScale } from 'chart.js';
-
-Chart.register(BarElement, CategoryScale, LinearScale);
 
 const categories = [
   'grocery',
@@ -145,7 +142,6 @@ const Stock = () => {
       toast.error('Error fetching product or stock information. Please try again.');
     }
   };
-  
 
   const generatePDF = async () => {
     const pdf = new jsPDF('p', 'mm', 'a4');
@@ -167,19 +163,6 @@ const Stock = () => {
       </div>
     );
   }
-
-  const barData = {
-    labels: stockInfo?.map(stock => stock.month) || [],
-    datasets: [
-      {
-        label: 'Stock Count',
-        data: stockInfo?.map(stock => stock.stockCount) || [],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
 
   return (
     <div className="stock-container" ref={pdfRef}>
@@ -270,7 +253,18 @@ const Stock = () => {
             </tbody>
           </table>
 
-          <Bar data={barData} />
+          {/* Recharts Bar Chart */}
+          <ResponsiveContainer width="100%" aspect={4 / 1}>
+            <BarChart data={stockInfo}>
+              <XAxis dataKey="month" stroke="#555" />
+              <YAxis tickCount={5} />
+              <Tooltip />
+              <Legend />
+              <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />
+              <Bar dataKey="stockCount" fill="rgba(120, 144, 156, 1)" barSize={30} />
+            </BarChart>
+          </ResponsiveContainer>
+
           <div className="pdf-button">
             <button className="pdf-button" onClick={generatePDF}>
               Generate PDF

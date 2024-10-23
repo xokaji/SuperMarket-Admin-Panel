@@ -103,17 +103,40 @@ const Profile = () => {
   };
 
   const validatePhoneNumber = (phone) => {
-    // Ensure that the phone number is exactly 10 digits long
-    const phoneRegex = /^\d{10}$/; // Only 10 digit numbers
-    return phoneRegex.test(phone);
+    // Validate that phone number has exactly 10 digits
+    return /^\d{10}$/.test(phone);
   };
 
-  const handleSaveChanges = async () => {
-    // Validate the phone number before saving
-    if (!validatePhoneNumber(formData.phone)) {
-      toast.error('Phone number must be exactly 10 digits long');
-      return;
-    }
+  const validateEmail = (email) => {
+    // Ensure email follows the format `something@something.com`
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validateNIC = (nic) => {
+    // Validate NIC should have exactly 12 characters
+    const nicRegex = /^\d{11}[\dVv]$/;
+    return nicRegex.test(nic);
+  };
+
+const handleSaveChanges = async () => {
+  // Validate the phone number before saving
+  if (!validatePhoneNumber(formData.phone)) {
+    toast.error('Phone number must be exactly 10 digits long');
+    return;
+  }
+
+  // Validate the email format before saving
+  if (!validateEmail(formData.email)) {
+    toast.error('Please enter a valid email address in the format name@domain.com');
+    return;
+  }
+
+  // Validate NIC format before saving
+  if (!validateNIC(formData.nic)) {
+    toast.error('NIC must be 12 digits or 11 digits followed by V');
+    return;
+  }
 
     try {
       let profilePictureUrl = adminData.profilePicture;

@@ -152,7 +152,7 @@ const Promo = () => {
           />
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="promo-start-date">Start Date:</label>
           <input
             type="date"
@@ -174,7 +174,7 @@ const Promo = () => {
             min={new Date().toISOString().split('T')[0]} // Disable past dates
             required
           />
-        </div>
+        </div> */}
 
         <div className="form-group">
           <label htmlFor="promo-image">Upload Image:</label>
