@@ -39,7 +39,7 @@ export default function WidgetSmall() {
             <div className="widgetSmUser">
               <span className="widgetSmUsername">{customer.name}</span>
             </div>
-            <button className="widgetSmButton">View</button>
+            <button className="widgetSmButton">Joined</button>
           </li>
         ))}
       </ul>

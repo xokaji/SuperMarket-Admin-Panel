@@ -51,6 +51,8 @@ export default function ExpiringProductsAlert() {
                   company: productData.company,
                   stockCount: stockDetails.stockCount,
                   stockExpireDate,
+                  quantityType: productData.quantityType,
+                  companyName: productData.companyName,
                 });
               }
             }
@@ -70,7 +72,7 @@ export default function ExpiringProductsAlert() {
         if (closestExpiringProduct) {
           const formattedDate = closestExpiringProduct.stockExpireDate.toISOString().split('T')[0];
           setAlertMessage(
-            `${closestExpiringProduct.company} ${closestExpiringProduct.productName} has ${closestExpiringProduct.stockCount} stock(s) expiring on ${formattedDate}.`
+            `${closestExpiringProduct.companyName} ${closestExpiringProduct.productName} ${closestExpiringProduct.quantityType} has ${closestExpiringProduct.stockCount} stock(s) expiring on ${formattedDate}.`
           );
         } else {
           setAlertMessage('No products expiring within the next 30 days.');

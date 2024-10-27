@@ -8,7 +8,6 @@ import './alert2.css';
 export default function LowStockAlert() {
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [lowestStockProduct, setLowestStockProduct] = useState(null);
 
   useEffect(() => {
     const checkStockLevels = async () => {
@@ -24,9 +23,7 @@ export default function LowStockAlert() {
         'health&wellness',
       ];
 
-      let lowestStock = Infinity;
-      let lowestStockDetails = null;
-      const lowStockProducts = [];
+      const zeroStockProducts = [];
 
       try {
         for (const category of categories) {
@@ -37,61 +34,38 @@ export default function LowStockAlert() {
             const inStockMonth = product.inStockMonth || {};
             const totalStock = inStockMonth?.totalStock || 0;
 
-            // Check totalStock first
-            if (totalStock <= 10) {
-              lowStockProducts.push({
+            // Check if total stock is exactly 0
+            if (totalStock === 0) {
+              toast.error(`${product.productName} is out of stock in total!`, { autoClose: 2500 });
+              zeroStockProducts.push({
                 productName: product.productName,
                 category: category,
                 totalStock: totalStock,
               });
-
-              toast.warning(`${product.productName} has only ${totalStock} left in total stock!`, { autoClose: 2500 });
-
-              if (totalStock < lowestStock) {
-                lowestStock = totalStock;
-                lowestStockDetails = {
-                  productName: product.productName,
-                  lowestStock: totalStock,
-                  category: category,
-                };
-              }
             }
 
-            // Check individual month stock levels
+            // Check if any monthly stock level is 0
             Object.keys(inStockMonth).forEach((month) => {
               if (month !== 'totalStock') {
                 const details = inStockMonth[month];
                 const stockCount = details?.stockCount || 0;
 
-                if (stockCount <= 10) {
-                  lowStockProducts.push({
+                if (stockCount === 0) {
+                  toast.error(`${product.productName} is out of stock in ${month}!`, { autoClose: 2500 });
+                  zeroStockProducts.push({
                     productName: product.productName,
                     category: category,
                     inStockMonth: month,
                     stockCount: stockCount,
+                    quantityType: product.quantityType
                   });
-
-                  toast.warning(`${product.productName} has only ${stockCount} units left in ${month}!`, { autoClose: 2500 });
-
-                  if (stockCount < lowestStock) {
-                    lowestStock = stockCount;
-                    lowestStockDetails = {
-                      productName: product.productName,
-                      lowestStock: stockCount,
-                      category: category,
-                      month: month,
-                    };
-                  }
                 }
               }
             });
           });
         }
 
-        setLowStockProducts(lowStockProducts);
-        if (lowestStockDetails) {
-          setLowestStockProduct(lowestStockDetails);
-        }
+        setLowStockProducts(zeroStockProducts);
       } catch (error) {
         console.error('Error checking stock levels: ', error);
       } finally {
@@ -104,7 +78,7 @@ export default function LowStockAlert() {
 
   return (
     <div className="alert-container2">
-      <h2>Low Stock Details</h2>
+      <h2>Out of Stock Details</h2>
       {loading ? (
         <div className="spinner-container">
           <ScaleLoader color="#3bb077" />
@@ -117,25 +91,23 @@ export default function LowStockAlert() {
                 <th>Product Name</th>
                 <th>Category</th>
                 <th>In Stock Month</th>
-                <th>Quantity</th>
+                <th>Quantity Type</th>
               </tr>
             </thead>
             <tbody>
-              {lowStockProducts
-                .filter(product => product.inStockMonth) // Filter for products with monthly stock
-                .map((product, index) => (
-                  <tr key={index}>
-                    <td>{product.productName}</td>
-                    <td>{product.category}</td>
-                    <td>{product.inStockMonth}</td>
-                    <td className='tdquantity'>{product.stockCount}</td>
-                  </tr>
-                ))}
+              {lowStockProducts.map((product, index) => (
+                <tr key={index}>
+                  <td>{product.productName}</td>
+                  <td>{product.category}</td>
+                  <td>{product.inStockMonth || 'Total Stock'}</td>
+                  <td>{product.quantityType}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </>
       ) : (
-        <p className='alert-message'>All products have sufficient stock.</p>
+        <p className='alert-message'>No products are out of stock.</p>
       )}
     </div>
   );

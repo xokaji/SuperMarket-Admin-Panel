@@ -1,132 +1,114 @@
-.addProductForm2 {
-  flex: 5;
-  padding: 30px;
-  background-color: #ffffff; /* White background for clarity */
-  border-radius: 10px; /* More pronounced rounded corners */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow for depth */
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #cfcfcf;
+  border: 1px solid #9c9c9c;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.productTitle {
+.newProd{
+  flex:5;
+  padding: 20px;
+
+}
+
+.prod-title{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
   display: flex;
   justify-content: center;
-  margin-bottom: 30px; /* Increased margin for more spacing */
 }
 
-.productTitle label {
-  font-size: 32px; /* Larger font for the title */
-  font-weight: 700; /* Bolder font for emphasis */
-  color: #333; /* Darker color for readability */
-}
-
-.general-info {
-  margin-top: 20px;
-
-  display: flex;
-  flex-wrap: wrap; /* Responsive layout */
-  gap: 20px; /* Consistent gap between fields */
-}
-
-.form-group-product {
-  flex: 1;
-  min-width: 250px; /* Slightly wider inputs */
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.form-group-product label {
-  color: #444;
-  font-size: 16px;
-  margin-bottom: 5px; /* Space below labels */
-}
-
-.form-group-product input,
-select {
-  padding: 12px;
-  font-size: 16px;
-
-  transition: border-color 0.3s, box-shadow 0.3s; 
-}
-
-.form-group-product input:focus,
-select:focus {
-  border-color: #4caf50; /* Green border on focus */
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Soft glow effect */
-}
-
-.general-info2 {
-  display: flex;
-  flex-wrap: wrap;
- 
-  margin-top: 20px;
-  gap: 20px; /* Consistent gap between elements */
-}
-
-.form-group-product2 {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 250px; /* Ensures minimum width for inputs */
-}
-
-.category-section label {
-  color: #444;
-  font-size: 16px;
-  margin-top: 20px; /* Space above category labels */
-}
-
-.form-group-product3 {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px; /* Increased space above buttons */
-}
-
-.cancel-product,
-.add-product {
-  padding: 12px 25px; /* Increased padding for better touch targets */
-  font-size: 18px; /* Slightly larger font */
+.input-field,
+.select-field,
+input[type="file"] {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
   border-radius: 6px;
-  border: none;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus,
+.select-field:focus,
+input[type="file"]:focus {
+  border-color: #3a6810;
+  box-shadow: 0px 0px 5px rgba(58, 104, 16, 0.3);
+  outline: none;
+}
+
+.select-field {
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s; /* Added transform for effect */
-  flex: 1; /* Equal flex basis for buttons */
-  margin: 0 10px; /* Margin for spacing */
 }
 
-.cancel-product {
-  background-color: #f76b6b; /* Softer red for cancellation */
-  color: white;
-}
-
-.cancel-product:hover {
-  background-color: #ff4b4b; /* Darker red on hover */
-  transform: scale(1.05); /* Slight scale effect on hover */
-}
-
-.add-product {
-  background-color: #4caf50; /* Green */
-  color: white;
-}
-
-.add-product:hover {
-  background-color: #45a049; /* Darker green on hover */
-  transform: scale(1.05); /* Slight scale effect on hover */
-}
-.submit-button{
-  background-color: #4caf50; /* Green */
-  color: white;
-  padding: 12px 25px; /* Increased padding for better touch targets */
-  font-size: 18px; /* Slightly larger font */
-  border-radius: 6px;
-  border: none;
+input[type="file"] {
+  background-color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s; /* Added transform for effect */
-  flex: 1; /* Equal flex basis for buttons */
-  margin: 0 10px; /* Margin for spacing */
+}
+
+input[type="file"]::file-selector-button {
+  padding: 0.5rem 0.75rem;
+  background-color: #3a6810;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #315c0d;
+}
+
+.submit-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #3a6810;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(58, 104, 16, 0.3);
+}
+
+.submitB{
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #315c0d;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(49, 92, 13, 0.4);
+}
+
+.submit-button:active {
+  background-color: #2a520b;
+  transform: translateY(0);
+  box-shadow: 0px 2px 4px rgba(42, 82, 11, 0.3);
+}
+
+/* Optional: Add subtle animations for dropdowns appearing */
+.product-subcategory,
+.product-quantity-type {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

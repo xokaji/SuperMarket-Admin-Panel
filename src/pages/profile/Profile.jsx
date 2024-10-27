@@ -233,9 +233,9 @@ const handleSaveChanges = async () => {
           )}
         </div>
 
-        <div className="dlt-btn">
-          <button className="delete-user-btn">Change Password</button>
-        </div>
+        {/* <div className="dlt-btn">
+          <button className="delete-user-btn">GreenMart Cooperation</button>
+        </div> */}
 
         <button className="block-user-btn" onClick={handleLogout}>Log Out</button>
       </div>

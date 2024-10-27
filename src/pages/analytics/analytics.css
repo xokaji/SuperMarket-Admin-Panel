@@ -1,4 +1,105 @@
-.analytics{
+/* Main container for the analytics dashboard */
+.analytics-container {
+    padding: 30px;
+    background-color: #ffffff; /* White background for clarity */
+    border-radius: 12px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     flex: 5;
-    padding: 20px;
 }
+
+/* Title styling */
+.analytics-title {
+    text-align: center;
+    font-size: 2.5rem; /* Large title font */
+    color: #333; /* Dark text for readability */
+    margin-bottom: 20px; /* Space below the title */
+    font-family: 'Roboto', sans-serif; /* Modern font */
+}
+
+/* Flex container for metrics */
+.metrics {
+    display: flex;
+    justify-content: space-between; /* Evenly distribute cards */
+    margin-bottom: 30px; /* Space below metrics section */
+    flex-wrap: wrap; /* Wrap on smaller screens */
+}
+
+/* Individual metric card */
+.metric-card {
+    background: #f5f7fa; /* Light background for card */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+    flex: 1 1 200px; /* Responsive flex basis */
+    margin: 10px; /* Margin around each card */
+    text-align: center; /* Center text */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+/* Hover effect for metric cards */
+.metric-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+/* Metric headings */
+.metric-card h2 {
+    font-size: 1.5rem; /* Headings font size */
+    color: #4a4a4a; /* Slightly lighter color */
+    margin-bottom: 10px; /* Space below heading */
+}
+
+/* Metric values */
+.metric-card p {
+    font-size: 1.8rem; /* Value font size */
+    font-weight: bold; /* Bold values */
+    color: #2c3e50; /* Darker text for emphasis */
+}
+
+/* Top products list */
+.top-products {
+    margin-bottom: 30px; /* Space below top products section */
+}
+
+/* Top product item */
+.top-product-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e2e2; /* Light border below each item */
+    display: flex; /* Flex layout for items */
+    justify-content: space-between; /* Space between name and price */
+    font-size: 1.1rem; /* Font size for product names */
+}
+
+/* Chart container */
+.chart-container {
+    margin-top: 20px; /* Space above chart */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Clip content for rounded corners */
+}
+
+/* Loading spinner container */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center loading spinner */
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+}
+
+/* Error message styling */
+.error-message {
+    color: red; /* Red color for errors */
+    text-align: center; /* Center the text */
+    font-size: 1.2rem; /* Increased font size for visibility */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .metrics {
+        flex-direction: column; /* Stack cards on small screens */
+    }
+
+    .metric-card {
+        margin: 5px 0; /* Reduce margin on small screens */
+    }
+}
+

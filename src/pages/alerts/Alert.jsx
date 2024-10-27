@@ -54,6 +54,8 @@ export default function ExpiringProductsAlert() {
                   productName: productData.productName,
                   category: category,
                   stockCount: stockDetails.stockCount,
+                  companyName: productData.companyName,
+                  quantityType: productData.quantityType,
                   stockExpireDate,
                   inStockMonth: `${month} ${currentYear}`,
                 });
@@ -89,17 +91,21 @@ export default function ExpiringProductsAlert() {
           <thead>
             <tr>
               <th>Product</th>
+              <th>Company</th>
               <th>Category</th>
+              <th>Quantity Type</th>
               <th>In Stock Month</th>
               <th>Expiry Date</th>
-              <th>Quantity</th>
+              <th>Stock</th>
             </tr>
           </thead>
           <tbody>
             {alerts.map((alert, index) => (
               <tr key={index}>
                 <td>{alert.productName}</td>
+                <td>{alert.companyName}</td>
                 <td>{alert.category}</td>
+                <td>{alert.quantityType}</td>
                 <td>{alert.inStockMonth}</td>
                 <td className='expiry-date'>{alert.stockExpireDate.toISOString().split('T')[0]}</td>
                 <td>{alert.stockCount}</td>

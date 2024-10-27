@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './expired.css';
 
-export default function Expired() {
+export default function ExpiredProducts() {
   const [expiredProducts, setExpiredProducts] = useState([]);
 
   useEffect(() => {
-    const fetchExpiredProducts = async () => {
-      try {
-        // Fetch existing expired products from 'expiredProducts' collection
-        const expiredProductsSnapshot = await getDocs(collection(db, 'expiredProducts'));
-        const existingExpiredItems = expiredProductsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setExpiredProducts(existingExpiredItems);
-      } catch (error) {
-        console.error('Error fetching expired products: ', error);
-      }
-    };
-
-    const fetchAndHandleExpiredProducts = async () => {
+    const fetchAndSaveExpiredProducts = async () => {
       try {
         const categories = [
           'grocery',
@@ -35,7 +21,7 @@ export default function Expired() {
         ];
 
         const today = new Date();
-        let newExpiredItems = [];
+        let expiredItems = [];
 
         for (const category of categories) {
           const productsSnapshot = await getDocs(collection(db, category));
@@ -54,17 +40,16 @@ export default function Expired() {
               // Check if the product is expired
               if (stockExpireDate && stockExpireDate < today) {
                 const expiredProduct = {
-                  id: docSnapshot.id, // Store the document ID for easy deletion
-                  productName: productData.productName || "Unknown Product",
-                  company: productData.company || "Unknown Company",
-                  stockCount: stockDetails.stockCount || 0,
+                  productName: productData.productName,
+                  company: productData.company,
+                  stockCount: stockDetails.stockCount,
                   stockExpireDate: stockExpireDateStr,
                   category,
                 };
 
-                newExpiredItems.push(expiredProduct);
+                expiredItems.push(expiredProduct);
 
-                // Add to Firestore only if it's not already in the expiredProducts collection
+                // Save expired product to Firestore 'expiredProducts' collection
                 await addDoc(collection(db, 'expiredProducts'), expiredProduct);
 
                 // Remove expired stock
@@ -80,35 +65,14 @@ export default function Expired() {
           }
         }
 
-        // Update state with new expired products
-        setExpiredProducts((prevExpiredProducts) => [
-          ...prevExpiredProducts,
-          ...newExpiredItems,
-        ]);
+        setExpiredProducts(expiredItems);
       } catch (error) {
         console.error('Error fetching or updating expired products: ', error);
       }
     };
 
-    // Initial fetch of expired products
-    fetchExpiredProducts();
-
-    // Fetch and handle any newly expired products
-    fetchAndHandleExpiredProducts();
+    fetchAndSaveExpiredProducts();
   }, []);
-
-  const deleteExpiredProduct = async (id) => {
-    try {
-      // Delete the product from Firestore
-      await deleteDoc(doc(db, 'expiredProducts', id));
-      // Update state to remove the deleted product
-      setExpiredProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== id)
-      );
-    } catch (error) {
-      console.error('Error deleting expired product: ', error);
-    }
-  };
 
   return (
     <div className='expired'>
@@ -116,15 +80,9 @@ export default function Expired() {
       {expiredProducts.length > 0 ? (
         <ul>
           {expiredProducts.map((product, index) => (
-            <li key={product.id}>
-              <strong>{product.companyName} {product.productName}</strong> - 
+            <li key={index}>
+              <strong>{product.company} {product.productName}</strong> - 
               {product.stockCount} stock(s) expired on {product.stockExpireDate}.
-              <button
-                className="delete-button"
-                onClick={() => deleteExpiredProduct(product.id)}
-              >
-                Delete
-              </button>
             </li>
           ))}
         </ul>

@@ -34,7 +34,7 @@ export default function StockLevel() {
           );
 
           // Check if stock is below 10
-          if (productLowestStock < 10 && productLowestStock !== Infinity) {
+          if (productLowestStock < 5 && productLowestStock !== Infinity) {
             // Check if it's the lowest we've found
             if (productLowestStock < lowestStock) {
               lowestStock = productLowestStock;
@@ -42,6 +42,7 @@ export default function StockLevel() {
                 productName: product.productName,
                 lowestStock: productLowestStock,
                 category: category,
+                quantityType: product.quantityType,
               };
             }
 
@@ -70,7 +71,7 @@ export default function StockLevel() {
     <div className="stocks3">
       {lowestStockProduct ? (
         <p>
-          {lowestStockProduct.productName} has only {lowestStockProduct.lowestStock} left in {lowestStockProduct.category}!
+          {lowestStockProduct.productName} {lowestStockProduct.quantityType} has only {lowestStockProduct.lowestStock} left in {lowestStockProduct.category}!
         </p>
       ) : (
         <p>All products have sufficient stocks.</p>

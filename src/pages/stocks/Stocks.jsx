@@ -22,47 +22,39 @@ const categories = [
   'health&wellness',
 ];
 
+const monthOrder = [
+  'January', 'February', 'March', 'April', 'May', 'June', 
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
 const Stock = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('');
   const [productDetails, setProductDetails] = useState(null);
-  const [stockInfo, setStockInfo] = useState(null);
-  const [adminData, setAdminData] = useState(null); // State for admin data
+  const [stockInfo, setStockInfo] = useState([]);
+  const [adminData, setAdminData] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState('');
+  const [availableQuantities, setAvailableQuantities] = useState([]);
+  const [availableCompanies, setAvailableCompanies] = useState([]);
 
   const pdfRef = useRef();
 
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const adminSnapshot = await getDocs(collection(db, 'admin')); // Assuming you have an 'admin' collection
+        const adminSnapshot = await getDocs(collection(db, 'admin'));
         const adminData = adminSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setAdminData(adminData[0]); // Assuming you want the first admin's data
+        setAdminData(adminData[0]);
       } catch (error) {
         console.error('Error fetching admin data: ', error);
       }
     };
 
     fetchAdminData();
-  }, []);
-
-  useEffect(() => {
-    const fetchReturns = async () => {
-      try {
-        const returnsSnapshot = await getDocs(collection(db, 'returns'));
-        // Use returnsData if necessary
-      } catch (error) {
-        console.error('Error fetching returns: ', error);
-        toast.error('Error fetching stock data. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchReturns();
   }, []);
 
   useEffect(() => {
@@ -91,7 +83,7 @@ const Stock = () => {
         const companiesSnapshot = await getDocs(collection(db, selectedCategory));
         const companiesData = companiesSnapshot.docs.map((doc) => ({
           id: doc.id,
-          company: doc.data().company,
+          company: doc.data().companyName,
         }));
         setCompanies(companiesData);
       } catch (error) {
@@ -103,40 +95,80 @@ const Stock = () => {
     fetchCompanies();
   }, [selectedCategory, selectedProduct]);
 
+  const handleProductChange = (selectedProduct) => {
+    setSelectedProduct(selectedProduct);
+    setSelectedCompany('');
+    setSelectedQuantity('');
+    setAvailableCompanies([]);
+
+    const productData = products.filter(product => product.productName === selectedProduct);
+    const quantities = [...new Set(productData.map(product => product.quantityType))];
+    setAvailableQuantities(quantities);
+  };
+
+  const handleQuantityChange = (selectedQuantity) => {
+    setSelectedQuantity(selectedQuantity);
+    setSelectedCompany('');
+
+    const matchingProduct = products.find(
+      product =>
+        product.productName === selectedProduct && 
+        product.quantityType === selectedQuantity
+    );
+
+    if (matchingProduct) {
+      setAvailableCompanies([matchingProduct.companyName]);
+      setSelectedCompany(matchingProduct.companyName);
+    }
+  };
+
   const handleSearch = async () => {
     if (!selectedCategory || !selectedProduct || !selectedCompany) {
       toast.error('Please select all options.');
       return;
     }
-  
+
     try {
       const productSnapshot = await getDocs(collection(db, selectedCategory));
       const productDetailsData = productSnapshot.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }))
-        .filter((product) => product.company === selectedCompany);
-  
+        .filter(
+          (product) =>
+            product.companyName === selectedCompany &&
+            product.productName === selectedProduct &&
+            product.quantityType === selectedQuantity
+        );
+
       if (productDetailsData.length === 0) {
-        toast.error('No products found for the selected company.');
+        toast.error('No products found for the selected company and quantity.');
         setProductDetails(null);
         setStockInfo([]);
         return;
       }
-  
+
       const product = productDetailsData[0];
-      
-      // Fetch stock information and filter based on stockCount
       const stockInfo = product.inStockMonth
         ? Object.entries(product.inStockMonth)
             .map(([month, stockData]) => ({
               month,
-              stockCount: stockData.stockCount, // Keep stockCount
-              stockExpireDate: stockData.stockExpireDate, // Keep stockExpireDate
+              stockCount: stockData.stockCount,
+              stockExpireDate: stockData.stockExpireDate,
             }))
-            .filter(stock => stock.stockCount > 0) // Filter months where stockCount > 0
+            .filter(stock => stock.stockCount > 0) // Filter out stocks with count zero
         : [];
-  
+
+      // Create a complete stockInfo array with all months
+      const completeStockInfo = monthOrder.map(month => {
+        const stockData = stockInfo.find(stock => stock.month === month);
+        return {
+          month,
+          stockCount: stockData ? stockData.stockCount : 0, // Use existing count or 0
+          stockExpireDate: stockData ? stockData.stockExpireDate : null, // Use existing date or null
+        };
+      });
+
       setProductDetails(product);
-      setStockInfo(stockInfo);
+      setStockInfo(completeStockInfo);
     } catch (error) {
       console.error('Error fetching product or stock info: ', error);
       toast.error('Error fetching product or stock information. Please try again.');
@@ -168,7 +200,7 @@ const Stock = () => {
     <div className="stock-container" ref={pdfRef}>
       <header className="header">
         {adminData && (
-          <GreetingComponent name={`${adminData.fname} ${adminData.lname}`} /> // Pass admin's name
+          <GreetingComponent name={`${adminData.fname} ${adminData.lname}`} />
         )}
         <p className="stockmanagement">Stock Management</p>
         <div className="date">
@@ -184,7 +216,7 @@ const Stock = () => {
             setSelectedProduct('');
             setCompanies([]);
             setProductDetails(null);
-            setStockInfo(null);
+            setStockInfo([]);
           }}
           value={selectedCategory}
         >
@@ -198,18 +230,26 @@ const Stock = () => {
         
         <select
           className="select-product"
-          onChange={(e) => {
-            setSelectedProduct(e.target.value);
-            setSelectedCompany('');
-            setProductDetails(null);
-            setStockInfo(null);
-          }}
+          onChange={(e) => handleProductChange(e.target.value)}
           value={selectedProduct}
         >
           <option>Product</option>
           {products.map((product) => (
             <option key={product.id} value={product.productName}>
-              {product.productName}
+              {product.productName} {product.quantityType}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="select-quantity"
+          onChange={(e) => handleQuantityChange(e.target.value)}
+          value={selectedQuantity}
+        >
+          <option>Quantity</option>
+          {availableQuantities.map((quantity) => (
+            <option key={quantity} value={quantity}>
+              {quantity}
             </option>
           ))}
         </select>
@@ -220,63 +260,74 @@ const Stock = () => {
           value={selectedCompany}
         >
           <option>Company</option>
-          {companies.map((company) => (
-            <option key={company.id} value={company.company}>
-              {company.company}
+          {availableCompanies.map((company, index) => (
+            <option key={index} value={company}>
+              {company}
             </option>
           ))}
         </select>
 
-        <button className="search-button" onClick={handleSearch}>Search</button>
+        <button className="search-button" onClick={handleSearch}>
+          Search
+        </button>
       </div>
 
-      {productDetails && stockInfo && stockInfo.length > 0 ? (
-        <div>
-          <table className="details-table">
-            <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Stock In Month</th>
-                <th>Quantity</th>
-                <th>Expiry Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stockInfo.map((stock, index) => (
-                <tr key={index}>
-                  <td>{productDetails.productName}</td>
-                  <td>{stock.month}</td>
-                  <td>{stock.stockCount}</td>
-                  <td>{stock.stockExpireDate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Recharts Bar Chart */}
-          <ResponsiveContainer width="100%" aspect={4 / 1}>
-            <BarChart data={stockInfo}>
-              <XAxis dataKey="month" stroke="#555" />
-              <YAxis tickCount={5} />
-              <Tooltip />
-              <Legend />
-              <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />
-              <Bar dataKey="stockCount" fill="rgba(120, 144, 156, 1)" barSize={30} />
-            </BarChart>
-          </ResponsiveContainer>
-
-          <div className="pdf-button">
-            <button className="pdf-button" onClick={generatePDF}>
-              Generate PDF
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="no-product-message">
-          <p className='no-product-message'>No product details available.</p>
+      {productDetails && (
+        <div className="product-details">
+          <label className='stk'>{productDetails.companyName} {productDetails.productName} {productDetails.quantityType}</label>
+          {/* <p>Base Price: {productDetails.price}</p>
+          <p>Discount: {productDetails.discount}</p>
+          <p>Final Price: {productDetails.finalPrice}</p> */}
         </div>
       )}
-      
+
+{stockInfo.length > 0 && (
+  <div>
+    <h3>Stock Information</h3>
+    <table className="details-table">
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Stock Count</th>
+          <th>Expire Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {stockInfo
+          .filter(stock => stock.stockCount > 0 && stock.stockExpireDate) // Only include entries with stockCount > 0 and a valid stockExpireDate
+          .map((stock, index) => (
+            <tr key={index}>
+              <td>{stock.month}</td>
+              <td>{stock.stockCount}</td>
+              <td>{stock.stockExpireDate}</td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
+
+      {stockInfo.length > 0 && (
+        <div>
+          <h3>Stock Bar Chart</h3>
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={stockInfo}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="stockCount" fill="#3bb077" />
+            </BarChart>
+          </ResponsiveContainer>
+          <div className="export-btn">
+          <button onClick={generatePDF} className='pdf-button-export'>Generate PDF</button>
+          </div>
+          
+        </div>
+      )}
+
       <ToastContainer />
     </div>
   );

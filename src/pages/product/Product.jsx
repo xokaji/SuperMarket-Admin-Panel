@@ -6,6 +6,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import SpokeOutlinedIcon from '@mui/icons-material/SpokeOutlined';
 import { db } from '../../firebase';
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import DatePicker from 'react-datepicker';
@@ -165,15 +166,19 @@ export default function Product() {
             </div>
             <div className="productShowInfo">
               <CategoryOutlinedIcon className="productShowIcon" />
-              <span className="productShowInfoTitle">{product.productCategory}</span>
+              <span className="productShowInfoTitle">{product.category}</span>
             </div>
             <div className="productShowInfo">
               <ApartmentOutlinedIcon className="productShowIcon" />
-              <span className="productShowInfoTitle">{product.company}</span>
+              <span className="productShowInfoTitle">{product.companyName}</span>
             </div>
             <div className="productShowInfo">
               <AttachMoneyOutlinedIcon className="productShowIcon" />
               <span className="productShowInfoTitle">Rs. {finalPrice || '0.00'}</span>
+            </div>
+            <div className="productShowInfo">
+              <SpokeOutlinedIcon className="productShowIcon" />
+              <span className="productShowInfoTitle">{product.quantityType || 'N/A'}</span>
             </div>
             <div className="productShowInfo">
               <Inventory2OutlinedIcon className="productShowIcon" />
