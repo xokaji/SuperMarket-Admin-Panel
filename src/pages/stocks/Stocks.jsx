@@ -100,28 +100,59 @@ const Stock = () => {
     setSelectedCompany('');
     setSelectedQuantity('');
     setAvailableCompanies([]);
-
+    
+    // Find the selected product to get quantities
     const productData = products.filter(product => product.productName === selectedProduct);
     const quantities = [...new Set(productData.map(product => product.quantityType))];
     setAvailableQuantities(quantities);
+  
+    // Reset company selection if no product found
+    if (productData.length === 0) {
+      setAvailableQuantities([]);
+    }
   };
-
+  
   const handleQuantityChange = (selectedQuantity) => {
     setSelectedQuantity(selectedQuantity);
     setSelectedCompany('');
-
+  
     const matchingProduct = products.find(
       product =>
         product.productName === selectedProduct && 
         product.quantityType === selectedQuantity
     );
-
+  
     if (matchingProduct) {
       setAvailableCompanies([matchingProduct.companyName]);
       setSelectedCompany(matchingProduct.companyName);
+    } else {
+      setAvailableCompanies([]); // Reset if no matching product is found
     }
   };
-
+  
+  // Use this effect to fetch products based on the selected category
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (!selectedCategory) return;
+      try {
+        const productsSnapshot = await getDocs(collection(db, selectedCategory));
+        const productsData = productsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(productsData);
+        setSelectedProduct(''); // Reset selected product when category changes
+        setAvailableQuantities([]); // Clear available quantities
+        setAvailableCompanies([]); // Clear available companies
+      } catch (error) {
+        console.error('Error fetching products: ', error);
+        toast.error('Error fetching product data. Please try again.');
+      }
+    };
+  
+    fetchProducts();
+  }, [selectedCategory]);
+  
   const handleSearch = async () => {
     if (!selectedCategory || !selectedProduct || !selectedCompany) {
       toast.error('Please select all options.');

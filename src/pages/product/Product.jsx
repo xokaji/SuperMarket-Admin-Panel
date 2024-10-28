@@ -9,6 +9,8 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import SpokeOutlinedIcon from '@mui/icons-material/SpokeOutlined';
 import { db } from '../../firebase';
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { storage } from '../../firebase'; // Import Firebase storage
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import necessary storage functions
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -24,6 +26,7 @@ export default function Product() {
   const [discount, setDiscount] = useState('0');
   const [basePrice, setBasePrice] = useState('');
   const [finalPrice, setFinalPrice] = useState('');
+  const [imageFile, setImageFile] = useState(null); // State for image file
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -102,6 +105,14 @@ export default function Product() {
       const docSnap = await getDoc(docRef);
       const currentData = docSnap.data();
 
+      // Handle image upload if a new image file is selected
+      let imageUrl = currentData.productImage; // Keep the existing image URL
+      if (imageFile) {
+        const imageRef = ref(storage, `productImages/${id}`); // Create a reference for the image
+        await uploadBytes(imageRef, imageFile); // Upload the image file
+        imageUrl = await getDownloadURL(imageRef); // Get the download URL for the uploaded image
+      }
+
       const updatedInStockMonth = {
         ...currentData.inStockMonth,
         [productMonth]: {
@@ -117,6 +128,7 @@ export default function Product() {
           ...updatedInStockMonth,
           totalStock: Object.values(updatedInStockMonth).reduce((acc, month) => acc + (month.stockCount || 0), 0),
         },
+        productImage: imageUrl, // Update the product image URL
       };
 
       await updateDoc(docRef, updatedData);
@@ -209,18 +221,18 @@ export default function Product() {
                   className="productUpdateInput"
                 >
                   <option value="0">No Discount</option>
-                  <option value="5">Holiday Discount</option>
-                  <option value="20">Seasonal Discount</option>
+                  <option value="5">Holiday Discount (5%)</option>
+                  <option value="20">Seasonal Discount (20%)</option>
                 </select>
               </div>
               <div className="productUpdateItem">
-                <label>Product-In Month</label>
+                <label>Month</label>
                 <select
                   value={productMonth}
                   onChange={(e) => setProductMonth(e.target.value)}
                   className="productUpdateInput"
                 >
-                  <option value="">Select a Month</option>
+                  <option value="" disabled>Select Month</option>
                   {months.map((month, index) => (
                     <option key={index} value={month}>{month}</option>
                   ))}
@@ -230,7 +242,7 @@ export default function Product() {
                 <label>Stock Count</label>
                 <input
                   type="number"
-                  placeholder={stockCount}
+                  placeholder="Stock Count"
                   value={stockCount}
                   onChange={(e) => setStockCount(e.target.value)}
                   className="productUpdateInput"
@@ -241,10 +253,17 @@ export default function Product() {
                 <DatePicker
                   selected={expiryDate}
                   onChange={(date) => setExpiryDate(date)}
-                  dateFormat="yyyy-MM-dd"
                   className="productUpdateInput"
-                  placeholderText="Select Expiry Date"
+                  placeholderText="Select expiry date"
                   filterDate={(date) => date >= new Date()} // Disable past dates
+                />
+              </div>
+              <div className="productUpdateItem">
+                <label>Upload Image</label>
+                <input
+                  type="file"
+                  onChange={(e) => setImageFile(e.target.files[0])}
+                  className="productUpdateInput"
                 />
               </div>
             </div>
