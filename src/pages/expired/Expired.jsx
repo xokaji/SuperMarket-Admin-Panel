@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './expired.css';
 
@@ -37,6 +37,9 @@ export default function Expired() {
         const today = new Date();
         let newExpiredItems = [];
 
+        const expiredProductsSnapshot = await getDocs(collection(db, 'expiredProducts'));
+        const existingExpired = expiredProductsSnapshot.docs.map((doc) => doc.data());
+
         for (const category of categories) {
           const productsSnapshot = await getDocs(collection(db, category));
 
@@ -51,21 +54,28 @@ export default function Expired() {
               const stockExpireDateStr = stockDetails.stockExpireDate;
               const stockExpireDate = stockExpireDateStr ? new Date(stockExpireDateStr) : null;
 
-              // Check if the product is expired
+              // Check if product is expired and not already saved
               if (stockExpireDate && stockExpireDate < today) {
                 const expiredProduct = {
-                  id: docSnapshot.id, // Store the document ID for easy deletion
                   productName: productData.productName || "Unknown Product",
-                  company: productData.company || "Unknown Company",
+                  companyName: productData.companyName || "Unknown Company",
                   stockCount: stockDetails.stockCount || 0,
                   stockExpireDate: stockExpireDateStr,
                   category,
                 };
 
-                newExpiredItems.push(expiredProduct);
+                const isDuplicate = existingExpired.some(
+                  (item) =>
+                    item.productName === expiredProduct.productName &&
+                    item.companyName === expiredProduct.companyName &&
+                    item.stockExpireDate === expiredProduct.stockExpireDate
+                );
 
-                // Add to Firestore only if it's not already in the expiredProducts collection
-                await addDoc(collection(db, 'expiredProducts'), expiredProduct);
+                if (!isDuplicate) {
+                  newExpiredItems.push(expiredProduct);
+                  const newID = expiredProductsSnapshot.size + newExpiredItems.length;
+                  await setDoc(doc(db, 'expiredProducts', newID.toString()), expiredProduct);
+                }
 
                 // Remove expired stock
                 delete inStockMonth[month];
@@ -90,23 +100,19 @@ export default function Expired() {
       }
     };
 
-    // Initial fetch of expired products
     fetchExpiredProducts();
-
-    // Fetch and handle any newly expired products
     fetchAndHandleExpiredProducts();
   }, []);
 
   const deleteExpiredProduct = async (id) => {
     try {
-      // Delete the product from Firestore
       await deleteDoc(doc(db, 'expiredProducts', id));
-      // Update state to remove the deleted product
       setExpiredProducts((prevProducts) =>
         prevProducts.filter((product) => product.id !== id)
       );
+      console.log(`Product with ID ${id} deleted successfully from Firestore.`);
     } catch (error) {
-      console.error('Error deleting expired product: ', error);
+      console.error('Error deleting expired product from Firestore: ', error);
     }
   };
 
@@ -116,7 +122,7 @@ export default function Expired() {
       {expiredProducts.length > 0 ? (
         <ul>
           {expiredProducts.map((product, index) => (
-            <li key={product.id}>
+            <li key={`${product.id}-${index}`}>
               <strong>{product.companyName} {product.productName}</strong> - 
               {product.stockCount} stock(s) expired on {product.stockExpireDate}.
               <button
