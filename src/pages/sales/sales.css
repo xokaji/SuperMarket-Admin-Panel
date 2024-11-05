@@ -1,0 +1,82 @@
+.sales-dashboard {
+    background-color: white; /* Greenish background */
+    color: black;
+    padding: 20px;
+    flex: 5;
+    font-family: Arial, sans-serif;
+}
+
+.sales-metrics {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.metric {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    flex: 1;
+    margin: 0 10px;
+    color: black; /* Dark green text for contrast */
+}
+
+.metric h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.metric p {
+    color: black; /* Dark green text */
+    margin: 5px 0 0;
+}
+
+.order-summary, .sales-overview {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    color: white;
+}
+
+.order-summary h3, .sales-overview h3 {
+    margin-bottom: 15px;
+    color: black; /* Light green text */
+}
+
+.chartsales {
+    height: 200px; /* Adjust as needed */
+    background: #d6f9ac; /* Light green background for chart */
+    border-radius: 8px;
+}
+
+.sales-overview .sales-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    color: gray; /* Light green for text in sales overview */
+}
+
+.sales-overview .amount {
+    font-weight: bold;
+}
+
+.sales-overview .positive {
+    color: #4caf50; /* Bright green for positive amounts */
+}
+
+.sales-overview .negative {
+    color: #f44336; /* Red for negative amounts */
+}
+
+.total-sales {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.total-sales h2 {
+    color: gray; 
+    font-size: 24px;
+    margin: 0;
+}

@@ -34,6 +34,7 @@ import Email from "./pages/emails/Email";
 import Promo from "./pages/promos/Promo";
 import Prevpromos from "./pages/previousPromos/Prevpromos";
 import Analytics from "./pages/analytics/Analytics";
+import Sales from "./pages/sales/Sales";
 
 const Layout = () => (
   <div>
@@ -57,6 +58,13 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <Home /> },
+    ],
+  },
+  {
+    path: "/sales",
+    element: <Layout />,
+    children: [
+      { path: "", element: <Sales /> },
     ],
   },
 

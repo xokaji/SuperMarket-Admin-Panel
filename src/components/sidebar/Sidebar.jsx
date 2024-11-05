@@ -39,12 +39,12 @@ export default function Sidebar() {
                 Home
               </Link>
             </li>
-            <li className={`sidebarListItem ${location.pathname === '/analytics' ? 'active' : ''}`}>
+            {/* <li className={`sidebarListItem ${location.pathname === '/analytics' ? 'active' : ''}`}>
               <Link to="/analytics" className="sidebarLink">
                 <AnalyticsOutlinedIcon className='sidebarIcon' />
                 Analytics
               </Link>
-            </li>
+            </li> */}
             <li className={`sidebarListItem ${location.pathname === '/sales' ? 'active' : ''}`}>
               <Link to="/sales" className="sidebarLink">
                 <TrendingUpOutlinedIcon className='sidebarIcon' />

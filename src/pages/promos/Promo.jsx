@@ -152,29 +152,6 @@ const Promo = () => {
           />
         </div>
 
-        {/* <div className="form-group">
-          <label htmlFor="promo-start-date">Start Date:</label>
-          <input
-            type="date"
-            id="promo-start-date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            min={new Date().toISOString().split('T')[0]} // Disable past dates
-            required
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="promo-end-date">End Date:</label>
-          <input
-            type="date"
-            id="promo-end-date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            min={new Date().toISOString().split('T')[0]} // Disable past dates
-            required
-          />
-        </div> */}
 
         <div className="form-group">
           <label htmlFor="promo-image">Upload Image:</label>
