@@ -29,20 +29,27 @@ export default function ProductList() {
         setData((prevData) => {
           const updatedProducts = snapshot.docs.map((doc) => {
             const data = doc.data();
+
             let totalStock = 0;
 
-            if (data.inStockMonth) {
-              totalStock = Object.values(data.inStockMonth).reduce(
-                (acc, { stockCount = 0 }) => acc + stockCount,
-                0
-              );
+            // Calculate totalStock from inStockMonth.totalStock if it exists
+            if (data.inStockMonth && data.inStockMonth.totalStock !== undefined) {
+              totalStock = data.inStockMonth.totalStock; // Use totalStock directly if available
+            } else if (data.inStockMonth) {
+              // Fallback: calculate totalStock from monthly stockCounts
+              totalStock = Object.values(data.inStockMonth).reduce((acc, month) => {
+                if (typeof month === 'object' && month.stockCount) {
+                  return acc + month.stockCount;
+                }
+                return acc;
+              }, 0);
             }
 
             return {
               id: doc.id,
               ...data,
               finalPrice: Number(data.finalPrice) || 0,
-              totalStock,
+              totalStock, // Updated totalStock logic
               mainCategory: category,
               quantityType: data.quantityType || 'N/A', // Fetching the quantity type
             };
@@ -94,7 +101,6 @@ export default function ProductList() {
     { field: 'finalPrice', headerName: 'Price', width: 120, headerClassName: 'custom-header' },
     { field: 'quantityType', headerName: 'Quantity Type', width: 150, headerClassName: 'custom-header' }, // New column for Quantity Type
     { field: 'totalStock', headerName: 'Total Stock', width: 120, headerClassName: 'custom-header' },
-    
     {
       field: 'action',
       headerName: 'Action',

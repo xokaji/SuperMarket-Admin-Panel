@@ -10,20 +10,23 @@ const Promo = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [sending, setSending] = useState(false);
   const [users, setUsers] = useState([]);
 
   // Fetch users and their FCM tokens from Firestore
   useEffect(() => {
     const fetchUsers = async () => {
-      const usersSnapshot = await getDocs(collection(db, 'users'));
-      const usersList = usersSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setUsers(usersList);
+      try {
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const usersList = usersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(usersList);
+      } catch (error) {
+        toast.error('Failed to fetch users. Please try again later.');
+        console.error('Error fetching users:', error);
+      }
     };
 
     fetchUsers();
@@ -32,14 +35,21 @@ const Promo = () => {
   // Function to handle form submission
   const sendPromotion = async (e) => {
     e.preventDefault();
-    if (title === '' || description === '' || startDate === '' || endDate === '') {
+
+    // Debugging: log the state values
+    console.log({ title, description, image });
+
+    // Validation for empty fields
+    if (!title.trim() || !description.trim()) {
       toast.warning('Please fill in all fields!');
       return;
     }
+
     if (!image) {
       toast.warning('Please upload an image for the promotion!');
       return;
     }
+
     setSending(true);
 
     try {
@@ -62,24 +72,22 @@ const Promo = () => {
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          // You can add progress logic here if needed
+          // Optional: Add progress logic here
         },
         (error) => {
           toast.error('Image upload failed.');
           setSending(false);
         },
         async () => {
-          // Get the download URL of the image after it's uploaded
+          // Get the download URL of the image after upload
           const url = await getDownloadURL(uploadTask.snapshot.ref);
 
-          // Add promotion to Firestore with the image URL, date range, and sequential ID
+          // Add promotion to Firestore
           await setDoc(doc(db, 'promotions', nextPromoId.toString()), {
-            id: nextPromoId, // Use the sequential promotion ID here
+            id: nextPromoId,
             title,
             description,
             imageUrl: url,
-            startDate: Timestamp.fromDate(new Date(startDate)),
-            endDate: Timestamp.fromDate(new Date(endDate)),
             createdAt: Timestamp.now(),
           });
 
@@ -90,28 +98,27 @@ const Promo = () => {
             }
           }
 
+          // Reset form fields
           toast.success('Promotion sent successfully!');
           setTitle('');
           setDescription('');
           setImage(null);
-          setStartDate('');
-          setEndDate('');
         }
       );
     } catch (error) {
       toast.error('Failed to send promotion. Try again later.');
-      console.error('Error sending promotion: ', error);
+      console.error('Error sending promotion:', error);
     }
     setSending(false);
   };
 
-  // Function to send FCM notification (this should interact with your backend or FCM service)
+  // Function to send FCM notification (adjust endpoint and server key as needed)
   const sendFCMNotification = async (token, title, body) => {
     const payload = {
       to: token,
       notification: {
-        title: title,
-        body: body,
+        title,
+        body,
         click_action: 'FLUTTER_NOTIFICATION_CLICK',
       },
     };
@@ -151,8 +158,6 @@ const Promo = () => {
             required
           />
         </div>
-
-
         <div className="form-group">
           <label htmlFor="promo-image">Upload Image:</label>
           <input

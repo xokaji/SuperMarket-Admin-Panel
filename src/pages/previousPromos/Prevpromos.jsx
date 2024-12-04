@@ -78,8 +78,6 @@ const handleDelete = async (id) => {
               <th>Promo Banner</th>
               <th>Promo Title</th>
               <th>Description</th>
-              {/* <th>Start Date</th>
-              <th>End Date</th> */}
               <th>Actions</th>
             </tr>
           </thead>

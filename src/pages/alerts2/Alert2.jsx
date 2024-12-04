@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { toast } from 'react-toastify'; 
-import ScaleLoader from 'react-spinners/ScaleLoader'; 
-import './alert2.css'; 
+import { toast } from 'react-toastify';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import './alert2.css';
 
 export default function LowStockAlert() {
   const [lowStockProducts, setLowStockProducts] = useState([]);
@@ -28,37 +28,44 @@ export default function LowStockAlert() {
       try {
         for (const category of categories) {
           const productsSnapshot = await getDocs(collection(db, category));
-          const products = productsSnapshot.docs.map((doc) => doc.data());
 
-          products.forEach((product) => {
-            const inStockMonth = product.inStockMonth || {};
+          productsSnapshot.forEach((doc) => {
+            const product = doc.data();
+            const inStockMonth = product?.inStockMonth || {};
             const totalStock = inStockMonth?.totalStock || 0;
 
-            // Check if total stock is exactly 0
+            // Check total stock level
             if (totalStock === 0) {
-              toast.error(`${product.productName} is out of stock in total!`, { autoClose: 2500 });
-              zeroStockProducts.push({
-                productName: product.productName,
-                category: category,
-                totalStock: totalStock,
-              });
+              if (!zeroStockProducts.find(p => p.productName === product.productName && !p.inStockMonth)) {
+                toast.error(`${product.productName} is out of stock in total!`, { autoClose: 2500 });
+                zeroStockProducts.push({
+                  productName: product.productName,
+                  category,
+                  totalStock,
+                  inStockMonth: null,
+                  stockCount: totalStock,
+                  quantityType: product.quantityType || 'N/A',
+                });
+              }
             }
 
-            // Check if any monthly stock level is 0
+            // Check monthly stock levels
             Object.keys(inStockMonth).forEach((month) => {
               if (month !== 'totalStock') {
-                const details = inStockMonth[month];
-                const stockCount = details?.stockCount || 0;
+                const stockDetails = inStockMonth[month];
+                const stockCount = stockDetails?.stockCount || 0;
 
                 if (stockCount === 0) {
-                  toast.error(`${product.productName} is out of stock in ${month}!`, { autoClose: 2500 });
-                  zeroStockProducts.push({
-                    productName: product.productName,
-                    category: category,
-                    inStockMonth: month,
-                    stockCount: stockCount,
-                    quantityType: product.quantityType
-                  });
+                  if (!zeroStockProducts.find(p => p.productName === product.productName && p.inStockMonth === month)) {
+                    toast.error(`${product.productName} is out of stock in ${month}!`, { autoClose: 2500 });
+                    zeroStockProducts.push({
+                      productName: product.productName,
+                      category,
+                      inStockMonth: month,
+                      stockCount,
+                      quantityType: product.quantityType || 'N/A',
+                    });
+                  }
                 }
               }
             });
@@ -67,7 +74,7 @@ export default function LowStockAlert() {
 
         setLowStockProducts(zeroStockProducts);
       } catch (error) {
-        console.error('Error checking stock levels: ', error);
+        console.error('Error checking stock levels:', error);
       } finally {
         setLoading(false);
       }
@@ -84,30 +91,30 @@ export default function LowStockAlert() {
           <ScaleLoader color="#3bb077" />
         </div>
       ) : lowStockProducts.length > 0 ? (
-        <>
-          <table className="alert-table2">
-            <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>In Stock Month</th>
-                <th>Quantity Type</th>
+        <table className="alert-table2">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>In Stock Month</th>
+              <th>Quantity Type</th>
+              <th>Stock Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lowStockProducts.map((product, index) => (
+              <tr key={index}>
+                <td>{product.productName}</td>
+                <td>{product.category}</td>
+                <td>{product.inStockMonth || 'Total Stock'}</td>
+                <td>{product.quantityType}</td>
+                <td>{product.stockCount}</td>
               </tr>
-            </thead>
-            <tbody>
-              {lowStockProducts.map((product, index) => (
-                <tr key={index}>
-                  <td>{product.productName}</td>
-                  <td>{product.category}</td>
-                  <td>{product.inStockMonth || 'Total Stock'}</td>
-                  <td>{product.quantityType}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
+            ))}
+          </tbody>
+        </table>
       ) : (
-        <p className='alert-message'>No products are out of stock.</p>
+        <p className="alert-message">No products are out of stock.</p>
       )}
     </div>
   );

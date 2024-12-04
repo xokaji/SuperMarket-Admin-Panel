@@ -3,6 +3,9 @@ import './sales.css';
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
+
+
+
 const Sales = () => {
     const chartRef = useRef(null);
     useEffect(() => {
@@ -41,7 +44,7 @@ const Sales = () => {
       {/* Top Metrics */}
       <div className="sales-metrics">
         <div className="metric">
-          <h2>4,562</h2>
+          {/* <h2>{SalesCount}</h2> */}
           <p>Sales Today</p>
         </div>
         <div className="metric">
@@ -49,7 +52,7 @@ const Sales = () => {
           <p>Visitors Today</p>
         </div>
         <div className="metric">
-          <h2>$29,200</h2>
+          {/* <h2>{TransactionsCount}</h2> */}
           <p>Earnings Today</p>
         </div>
       </div>

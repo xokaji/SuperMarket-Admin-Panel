@@ -194,7 +194,7 @@ export default function Product() {
             </div>
             <div className="productShowInfo">
               <Inventory2OutlinedIcon className="productShowIcon" />
-              <span className="productShowInfoTitle">Total Stock: {totalStock}</span>
+              <span className="productShowInfoTitle">Total Stock: {product.inStockMonth?.totalStock || 0}</span>
             </div>
           </div>
         </div>

@@ -137,12 +137,12 @@ export default function Sidebar() {
               </Link>
             </li>
 
-            <li className={`sidebarListItem ${location.pathname === '/emails' ? 'active' : ''}`}>
+            {/* <li className={`sidebarListItem ${location.pathname === '/emails' ? 'active' : ''}`}>
               <Link to="/emails" className="sidebarLink">
                 <MarkEmailReadOutlinedIcon className='sidebarIcon' />
                 Emails
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         

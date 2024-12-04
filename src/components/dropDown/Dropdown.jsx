@@ -83,11 +83,11 @@ function Dropdown({ profilePicture, adminName }) { // Accept adminName as a prop
             text="Profile" 
             link="/profile"  // Added link prop for profile
           />
-          <DropdownItem 
+          {/* <DropdownItem 
             icons={<SettingsOutlinedIcon />} 
             text2="Settings" 
             link="/settings"  // Adjust as needed for settings
-          />
+          /> */}
           <DropdownItem 
             icons={<QuestionMarkOutlinedIcon />} 
             text="Help" 

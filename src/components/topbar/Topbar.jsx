@@ -152,9 +152,9 @@ export default function Topbar() {
               </div>
             )}
           </div>
-          <div className='topBarIconsContainer'>
+          {/* <div className='topBarIconsContainer'>
             <SettingsOutlinedIcon />
-          </div>
+          </div> */}
           <div className='profilePictureWrapper'>
             <Dropdown 
               profilePicture={adminData.profilePicture} 
