@@ -35,7 +35,7 @@ export default function LowStockAlert() {
             const totalStock = inStockMonth?.totalStock || 0;
 
             // Check total stock level
-            if (totalStock === 0) {
+            if (totalStock < 15) {
               if (!zeroStockProducts.find(p => p.productName === product.productName && !p.inStockMonth)) {
                 toast.error(`${product.productName} is out of stock in total!`, { autoClose: 2500 });
                 zeroStockProducts.push({
@@ -85,7 +85,7 @@ export default function LowStockAlert() {
 
   return (
     <div className="alert-container2">
-      <h2>Out of Stock Details</h2>
+      <h2>Low Stock Details</h2>
       {loading ? (
         <div className="spinner-container">
           <ScaleLoader color="#3bb077" />

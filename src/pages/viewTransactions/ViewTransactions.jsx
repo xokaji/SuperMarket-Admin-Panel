@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase"; // Adjust path as necessary
-import { doc, getDoc, addDoc, collection } from "firebase/firestore";
-import { toast } from "react-toastify"; // Import toast notifications
+import { doc, getDoc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
 import "./viewTransactions.css"; // Ensure your styles are imported
 import ScaleLoader from "react-spinners/ScaleLoader";
 import FormatListNumberedOutlinedIcon from "@mui/icons-material/FormatListNumberedOutlined";
@@ -17,6 +16,7 @@ export default function ViewTransactions() {
   const { id } = useParams();
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [confirming, setConfirming] = useState(false); // Prevent double-click
 
   useEffect(() => {
     const fetchTransaction = async () => {
@@ -39,29 +39,44 @@ export default function ViewTransactions() {
     fetchTransaction();
   }, [id]);
 
-  const handleConfirm = async () => {
-    if (window.confirm("Are you sure you want to confirm this order?")) {
-      try {
-        if (!transaction || !transaction.items) {
-          toast.error("No transaction items to confirm.");
-          return;
-        }
-
-        // Add transaction items to the "orderedlist" collection
-        await addDoc(collection(db, "orderedlist"), {
-          transactionId: transaction.id,
-          name: transaction.name,
-          items: transaction.items, // Items being ordered
-          timestamp: new Date(), // Add a timestamp for when the order was confirmed
-        });
-
-        toast.success("Order successfully confirmed!");
-      } catch (error) {
-        console.error("Error confirming order: ", error);
-        toast.error("Failed to confirm the order. Please try again.");
+  const confirmTransaction = async () => {
+    if (confirming) return; // Prevent repeated clicks
+    setConfirming(true);
+  
+    try {
+      // Check if the transaction already exists in the orderedlist collection
+      const orderedlistRef = collection(db, "orderedlist");
+      const q = query(orderedlistRef, where("transactionId", "==", id));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        alert("This transaction has already been confirmed.");
+        setConfirming(false);
+        return;
       }
+  
+      // Save the transaction to the orderedlist collection
+      await setDoc(doc(db, "orderedlist", id), {
+        transactionId: id,
+        items: transaction.items,
+        name: transaction.name,
+        date: transaction.date,
+        time: transaction.time,
+        amount: transaction.amount,
+        paymentMethod: transaction.paymentMethod,
+        paymentStatus: transaction.paymentStatus,
+        userId: transaction.userId, // Include the userId in the orderedlist document
+      });
+  
+      alert("Transaction confirmed and saved successfully!");
+    } catch (error) {
+      console.error("Error saving transaction: ", error);
+      alert("An error occurred while saving the transaction.");
+    } finally {
+      setConfirming(false);
     }
   };
+  
 
   if (loading) {
     return (
@@ -102,11 +117,15 @@ export default function ViewTransactions() {
         </div>
         <div className="transactionShowInfo">
           <ReceiptLongOutlinedIcon className="transactionShowIcon" />
-          <span className="transactionShowInfoTitle">{transaction.paymentMethod}</span>
+          <span className="transactionShowInfoTitle">
+            {transaction.paymentMethod}
+          </span>
         </div>
         <div className="transactionShowInfo">
           <PrivacyTipOutlinedIcon className="transactionShowIcon" />
-          <span className="transactionShowInfoTitle">{transaction.paymentStatus}</span>
+          <span className="transactionShowInfoTitle">
+            {transaction.paymentStatus}
+          </span>
         </div>
       </div>
 
@@ -136,8 +155,8 @@ export default function ViewTransactions() {
           </tbody>
         </table>
         <div className="confirmButtonn">
-          <button className="confirmButton" onClick={handleConfirm}>
-            Confirm
+          <button className="confirmButton" onClick={confirmTransaction}>
+            Dispatch Order
           </button>
         </div>
       </div>

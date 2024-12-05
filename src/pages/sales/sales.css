@@ -80,3 +80,15 @@
     font-size: 24px;
     margin: 0;
 }
+
+.p1{
+    font-size: larger;
+    font-weight: 500;
+    font-style:inherit;
+}
+
+.salesHeader h1{
+    font-size: 35px;
+    color: black;
+    margin-bottom: 40px;
+}

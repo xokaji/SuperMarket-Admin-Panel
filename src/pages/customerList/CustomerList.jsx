@@ -120,10 +120,10 @@ export default function DataTable() {
           <Link to={`/customers/${params.row.id}`}>
             <button className="userListEdit">View</button>
           </Link>
-          <DeleteOutlineOutlinedIcon 
+          {/* <DeleteOutlineOutlinedIcon 
             className="userListDelete" 
             onClick={() => handleDelete(params.row.id)} 
-          />
+          /> */}
         </div>
       ),
     },

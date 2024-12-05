@@ -25,39 +25,32 @@ export default function StockLevel() {
       for (const category of categories) {
         const productCollection = collection(db, category);
         const productSnapshot = await getDocs(productCollection);
-        const products = productSnapshot.docs.map((doc) => doc.data());
+        const products = productSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
         products.forEach((product) => {
           const inStockMonth = product.inStockMonth || {};
-          const productLowestStock = Math.min(
-            ...Object.values(inStockMonth).map((details) => details?.stockCount || Infinity)
-          );
+          const totalStock = inStockMonth.totalStock || 0;
 
-          // Check if stock is below 10
-          if (productLowestStock < 5 && productLowestStock !== Infinity) {
-            // Check if it's the lowest we've found
-            if (productLowestStock < lowestStock) {
-              lowestStock = productLowestStock;
+          // Check only total stock
+          if (totalStock < 15) {
+            toast.warning(`${product.productName} has only ${totalStock} units left in total stock!`, { autoClose: 2500 });
+
+            if (totalStock < lowestStock) {
+              lowestStock = totalStock;
               lowestStockDetails = {
                 productName: product.productName,
-                lowestStock: productLowestStock,
+                lowestStock: totalStock,
                 category: category,
-                quantityType: product.quantityType,
+                quantityType: product.quantityType || 'N/A',
+                inStockMonth: 'Total Stock',
               };
             }
-
-            // Notify about the low stock
-            toast.warning(`${product.productName} has only ${productLowestStock} units left in ${category}!`, { autoClose: 2500 });
           }
         });
       }
 
-      // Set the state after processing all products
-      if (lowestStockDetails) {
-        setLowestStockProduct(lowestStockDetails);
-      } else {
-        setLowestStockProduct(null); // No product with stock below 10
-      }
+      // Update state with the product that has the lowest total stock
+      setLowestStockProduct(lowestStockDetails);
     } catch (error) {
       console.error('Error checking stock levels: ', error);
     }
@@ -70,9 +63,13 @@ export default function StockLevel() {
   return (
     <div className="stocks3">
       {lowestStockProduct ? (
-        <p>
-          {lowestStockProduct.productName} {lowestStockProduct.quantityType} has only {lowestStockProduct.lowestStock} left in {lowestStockProduct.category}!
-        </p>
+        <div>
+   
+          <p>
+            {lowestStockProduct.productName} {lowestStockProduct.quantityType} has only<strong> {lowestStockProduct.lowestStock}</strong> units left in {lowestStockProduct.category}
+          </p>
+         
+        </div>
       ) : (
         <p>All products have sufficient stocks.</p>
       )}

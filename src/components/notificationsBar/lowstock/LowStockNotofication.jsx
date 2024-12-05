@@ -1,12 +1,19 @@
-import React from 'react';
-
-const LowStockNotification = ({ lowStockProducts }) => {
+const LowStockNotification = ({ lowStockProducts = [] }) => {
   return (
     <div>
       {lowStockProducts.length > 0 ? (
         lowStockProducts.map((product, index) => (
           <div key={index}>
-            {product.productName} has only {product.lowestStock} units left in {product.category}!
+            <strong>{product.productName}</strong> in the <strong>{product.category}</strong> category
+            {product.inStockMonth ? (
+              <>
+                {' '} has <strong>{product.stockCount}</strong> units left in <strong>{product.inStockMonth}</strong> stock!
+              </>
+            ) : (
+              <>
+                {' '} has only <strong>{product.stockCount}</strong> units left in total stock!
+              </>
+            )}
           </div>
         ))
       ) : (
