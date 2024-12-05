@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './returns.css';
 import ScaleLoader from 'react-spinners/ScaleLoader';
@@ -39,6 +39,38 @@ export default function Returns() {
     fetchReturns();
   }, []);
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this return?');
+    if (confirmDelete) {
+      try {
+        await deleteDoc(doc(db, 'returnCollection', id));
+        setReturns(returns.filter((returnItem) => returnItem.id !== id));
+        toast.success('Return deleted successfully.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } catch (error) {
+        console.error('Error deleting return: ', error);
+        toast.error('Error deleting return. Please try again.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="scalecontainer">
@@ -59,7 +91,8 @@ export default function Returns() {
             <th>Quantity</th>
             <th>Quantity Type</th>
             <th>Return Reason</th>
-            <th>Date & Time</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -73,11 +106,19 @@ export default function Returns() {
                 <td>{returnItem.quantityType}</td>
                 <td>{returnItem.returnReason}</td>
                 <td>{new Date(returnItem.timestamp.toDate()).toLocaleString()}</td>
+                <td>
+                  <button 
+                    className="delete-button" 
+                    onClick={() => handleDelete(returnItem.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="no-returns">
+              <td colSpan="8" className="no-returns">
                 No return packages available.
               </td>
             </tr>
