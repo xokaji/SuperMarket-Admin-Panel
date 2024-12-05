@@ -207,7 +207,7 @@ export default function Product() {
                 <label>Base Price</label>
                 <input
                   type="text"
-                  placeholder={`Rs. ${basePrice}`}
+                  placeholder={"Rs."}
                   value={basePrice}
                   onChange={(e) => setBasePrice(e.target.value)}
                   className="productUpdateInput"

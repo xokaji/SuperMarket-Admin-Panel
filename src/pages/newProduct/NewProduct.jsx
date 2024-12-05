@@ -54,14 +54,14 @@ const subCategories = {
 };
 
 const quantityTypes = {
-  grocery: ["1kg", "2kg", "5kg", "200g", "400g", "1kg"],
-  "dairy&eggs": ["250g", "500g", "1kg", "6 Pack", "12 Pack"],
-  "meats&seafoods": ["250g", "500g", "1kg", "Whole"],
-  frozenfoods: ["500ml", "1L"],
-  beverages: ["250ml", "1L", "2L"],
-  snacks: ["30g", "100g", "200g"],
-  bakeryproducts: ["500g", "1kg"],
-  "health&wellness": ["30 Tablets", "60 Tablets", "100ml"],
+  grocery: [ "200g", "400g", "800g","1kg", "2kg", "5kg", "1 Pack", "3 Pack","6 Pack", "12 Pack"],
+  "dairy&eggs": ["250g", "500g", "1kg","1 Pack","3 Pack", "6 Pack", "12 Pack"],
+  "meats&seafoods": ["250g", "500g","800g", "1kg", "Whole"],
+  frozenfoods: ["250ml","500ml","750ml", "1L", "1 Pack", "3 Pack","6 Pack", "12 Pack"],
+  beverages: ["250ml","500ml","750ml", "1L", "2L", "5L", "1 Can", "3 Can","6 Can", "12 Can"],
+  snacks: ["Small" ,"Medium" ,"Large" ,"1 Pack", "3 Pack","6 Pack", "12 Pack"],
+  bakeryproducts: ["200g","500g", "1kg", "1 Pack", "3 Pack","6 Pack", "12 Pack","Whole"],
+  "health&wellness": ["10 Tablets","30 Tablets", "60 Tablets", "90 Tablets", "1 Pack", "3 Pack","6 Pack", "12 Pack","Small","Medium","Large"],
 };
 
 const AddProductForm = () => {

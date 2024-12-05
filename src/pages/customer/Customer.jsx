@@ -8,13 +8,14 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocationSearchingOutlinedIcon from "@mui/icons-material/LocationSearchingOutlined";
-import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
+import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 export default function Customer() {
   const { id } = useParams();
   const [customerData, setCustomerData] = useState(null);
   const [cartItems, setCartItems] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Customer() {
           setCustomerData({});
         }
       } catch (error) {
-        console.error("Error fetching document:", error);
+        console.error("Error fetching customer data:", error);
         setCustomerData({});
       }
     };
@@ -42,7 +43,7 @@ export default function Customer() {
           const data = doc.data();
           return {
             id: doc.id,
-            items: data.items
+            items: data.items,
           };
         });
 
@@ -54,6 +55,23 @@ export default function Customer() {
       } catch (error) {
         console.error("Error fetching cart items:", error);
         setCartItems([]);
+      }
+    };
+
+    const fetchTransactions = async () => {
+      try {
+        const q = query(collection(db, "transactions"), where("userId", "==", id));
+        const querySnapshot = await getDocs(q);
+
+        const fetchedTransactions = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setTransactions(fetchedTransactions);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+        setTransactions([]);
       } finally {
         setLoading(false);
       }
@@ -62,6 +80,7 @@ export default function Customer() {
     if (id) {
       fetchCustomerData();
       fetchCartItems();
+      fetchTransactions();
     }
   }, [id]);
 
@@ -121,23 +140,31 @@ export default function Customer() {
         </div>
         <div className="customerUpdate">
           <span className="customerUpdateTitle">Purchase History</span>
-          {cartItems.length === 0 ? (
-            <p>No items found in the cart.</p>
+          {transactions.length === 0 ? (
+            <p>No purchase history found.</p>
           ) : (
             <table className="purchaseHistoryTable">
               <thead>
                 <tr>
-                  <th>Product Name</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
+                  <th>Transaction ID</th>
+                  <th>Date</th>
+                  <th>Total Amount</th>
+                  <th>Products</th>
                 </tr>
               </thead>
               <tbody>
-                {cartItems.map((items, index) => (
-                  <tr key={index}>
-                    <td>{items.name}</td>
-                    <td>{items.price}</td>
-                    <td>{items.quantity}</td>
+                {transactions.map((transaction) => (
+                  <tr key={transaction.id}>
+                    <td>{transaction.id}</td>
+                    <td>{transaction.date || "N/A"}</td>
+                    <td>Rs.{transaction.amount}</td>
+                    <td>
+                      {transaction.items.map((item, index) => (
+                        <div key={index}>
+                          {item.name} ({item.quantity})
+                        </div>
+                      ))}
+                    </td>
                   </tr>
                 ))}
               </tbody>
