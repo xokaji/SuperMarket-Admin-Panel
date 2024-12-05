@@ -13,7 +13,7 @@ export default function Returns() {
   useEffect(() => {
     const fetchReturns = async () => {
       try {
-        const returnsSnapshot = await getDocs(collection(db, 'returns'));
+        const returnsSnapshot = await getDocs(collection(db, 'returnCollection')); // Collection name
         const returnsData = returnsSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -54,11 +54,12 @@ export default function Returns() {
         <thead>
           <tr>
             <th>Return ID</th>
-            <th>User Name</th>
-            <th>Product Name</th>
+            <th>Item Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Quantity Type</th>
             <th>Return Reason</th>
-            <th>Return Date</th>
-            <th>Status</th>
+            <th>Date & Time</th>
           </tr>
         </thead>
         <tbody>
@@ -66,16 +67,17 @@ export default function Returns() {
             returns.map((returnItem) => (
               <tr key={returnItem.id}>
                 <td>{returnItem.id}</td>
-                <td>{returnItem.userName}</td>
-                <td>{returnItem.productName}</td>
+                <td>{returnItem.itemName}</td>
+                <td>{returnItem.price}</td>
+                <td>{returnItem.quantity}</td>
+                <td>{returnItem.quantityType}</td>
                 <td>{returnItem.returnReason}</td>
-                <td>{new Date(returnItem.returnDate).toLocaleDateString()}</td>
-                <td>{returnItem.status}</td>
+                <td>{new Date(returnItem.timestamp.toDate()).toLocaleString()}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="no-returns">
+              <td colSpan="7" className="no-returns">
                 No return packages available.
               </td>
             </tr>

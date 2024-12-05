@@ -9,7 +9,8 @@
 .sales-metrics {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
+   
 }
 
 .metric {
@@ -19,6 +20,7 @@
     border-radius: 8px;
     flex: 1;
     margin: 0 10px;
+    background-color: azure;
     color: black; /* Dark green text for contrast */
 }
 

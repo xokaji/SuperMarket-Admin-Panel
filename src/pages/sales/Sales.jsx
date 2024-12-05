@@ -66,7 +66,7 @@ const Sales = () => {
 
       {/* Order Summary Chart */}
       {/* <div className="order-summary"> */}
-        <h3>Order Summary</h3>
+        <h3>Today Sales 24hrs</h3>
         <Chartt />
         {/* Placeholder for the chart */}
         {/* <div className="chartsales">
