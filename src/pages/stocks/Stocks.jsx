@@ -130,35 +130,12 @@ const Stock = () => {
     }
   };
   
-  // Use this effect to fetch products based on the selected category
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (!selectedCategory) return;
-      try {
-        const productsSnapshot = await getDocs(collection(db, selectedCategory));
-        const productsData = productsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(productsData);
-        setSelectedProduct(''); // Reset selected product when category changes
-        setAvailableQuantities([]); // Clear available quantities
-        setAvailableCompanies([]); // Clear available companies
-      } catch (error) {
-        console.error('Error fetching products: ', error);
-        toast.error('Error fetching product data. Please try again.');
-      }
-    };
-  
-    fetchProducts();
-  }, [selectedCategory]);
-  
   const handleSearch = async () => {
     if (!selectedCategory || !selectedProduct || !selectedCompany) {
       toast.error('Please select all options.');
       return;
     }
-
+  
     try {
       const productSnapshot = await getDocs(collection(db, selectedCategory));
       const productDetailsData = productSnapshot.docs
@@ -169,14 +146,14 @@ const Stock = () => {
             product.productName === selectedProduct &&
             product.quantityType === selectedQuantity
         );
-
+  
       if (productDetailsData.length === 0) {
         toast.error('No products found for the selected company and quantity.');
         setProductDetails(null);
         setStockInfo([]);
         return;
       }
-
+  
       const product = productDetailsData[0];
       const stockInfo = product.inStockMonth
         ? Object.entries(product.inStockMonth)
@@ -187,17 +164,26 @@ const Stock = () => {
             }))
             .filter(stock => stock.stockCount > 0) // Filter out stocks with count zero
         : [];
-
-      // Create a complete stockInfo array with all months
+  
+      // Get the current year
+      const currentYear = new Date().getFullYear();
+  
+      // Filter stockInfo to only include entries from the current year
+      const currentYearStockInfo = stockInfo.filter(stock => {
+        const stockYear = new Date(stock.stockExpireDate).getFullYear();
+        return stockYear === currentYear;
+      });
+  
+      // Create a complete stockInfo array with all months for the current year
       const completeStockInfo = monthOrder.map(month => {
-        const stockData = stockInfo.find(stock => stock.month === month);
+        const stockData = currentYearStockInfo.find(stock => stock.month === month);
         return {
-          month,
+          month: `${month} ${currentYear}`, // Append the year to the month
           stockCount: stockData ? stockData.stockCount : 0, // Use existing count or 0
           stockExpireDate: stockData ? stockData.stockExpireDate : null, // Use existing date or null
         };
       });
-
+  
       setProductDetails(product);
       setStockInfo(completeStockInfo);
     } catch (error) {
@@ -306,38 +292,34 @@ const Stock = () => {
       {productDetails && (
         <div className="product-details">
           <label className='stk'>{productDetails.companyName} {productDetails.productName} {productDetails.quantityType}</label>
-          {/* <p>Base Price: {productDetails.price}</p>
-          <p>Discount: {productDetails.discount}</p>
-          <p>Final Price: {productDetails.finalPrice}</p> */}
         </div>
       )}
 
-{stockInfo.length > 0 && (
-  <div>
-    <h3>Stock Information</h3>
-    <table className="details-table">
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Stock Count</th>
-          <th>Expire Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {stockInfo
-          .filter(stock => stock.stockCount > 0 && stock.stockExpireDate) // Only include entries with stockCount > 0 and a valid stockExpireDate
-          .map((stock, index) => (
-            <tr key={index}>
-              <td>{stock.month}</td>
-              <td>{stock.stockCount}</td>
-              <td>{stock.stockExpireDate}</td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
-)}
-
+      {stockInfo.length > 0 && (
+        <div>
+          <h3>Stock Information</h3>
+          <table className="details-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Stock Count</th>
+                <th>Expire Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stockInfo
+                .filter(stock => stock.stockCount > 0 && stock.stockExpireDate) // Only include entries with stockCount > 0 and a valid stockExpireDate
+                .map((stock, index) => (
+                  <tr key={index}>
+                    <td>{stock.month}</td>
+                    <td>{stock.stockCount}</td>
+                    <td>{stock.stockExpireDate}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {stockInfo.length > 0 && (
         <div>
@@ -345,7 +327,10 @@ const Stock = () => {
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={stockInfo}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
+              <XAxis 
+          dataKey="month" 
+          tickFormatter={(value) => value.split(' ')[0]} // Extract only the month name
+        />
               <YAxis />
               <Tooltip />
               <Legend />
@@ -353,9 +338,8 @@ const Stock = () => {
             </BarChart>
           </ResponsiveContainer>
           <div className="export-btn">
-          <button onClick={generatePDF} className='pdf-button-export'>Generate PDF</button>
+            <button onClick={generatePDF} className='pdf-button-export'>Generate PDF</button>
           </div>
-          
         </div>
       )}
 

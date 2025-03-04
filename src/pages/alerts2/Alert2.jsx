@@ -96,7 +96,7 @@ export default function LowStockAlert() {
             <tr>
               <th>Product Name</th>
               <th>Category</th>
-              <th>In Stock Month</th>
+              {/* <th>In Stock Month</th> */}
               <th>Quantity Type</th>
               <th>Stock Count</th>
             </tr>
@@ -106,7 +106,7 @@ export default function LowStockAlert() {
               <tr key={index}>
                 <td>{product.productName}</td>
                 <td>{product.category}</td>
-                <td>{product.inStockMonth || 'Total Stock'}</td>
+                {/* <td>{product.inStockMonth || 'Total Stock'}</td> */}
                 <td>{product.quantityType}</td>
                 <td>{product.stockCount}</td>
               </tr>
@@ -114,7 +114,7 @@ export default function LowStockAlert() {
           </tbody>
         </table>
       ) : (
-        <p className="alert-message">No products are out of stock.</p>
+        <p className="alert-message">No products are low of stock.</p>
       )}
     </div>
   );

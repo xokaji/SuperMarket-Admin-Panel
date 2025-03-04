@@ -25,7 +25,7 @@ export default function Transactions() {
 
   const handleDelete = async (id) => {
     try {
-      const docRef = doc(db, 'transactions', id); // Adjust if needed
+      const docRef = doc(db, 'transactions', id); 
       await deleteDoc(docRef);
       setData(data.filter((item) => item.id !== id));
     } catch (error) {

@@ -10,7 +10,7 @@ import SpokeOutlinedIcon from '@mui/icons-material/SpokeOutlined';
 import { db } from '../../firebase';
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { storage } from '../../firebase'; // Import Firebase storage
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import necessary storage functions
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -128,7 +128,7 @@ export default function Product() {
           ...updatedInStockMonth,
           totalStock: Object.values(updatedInStockMonth).reduce((acc, month) => acc + (month.stockCount || 0), 0),
         },
-        productImage: imageUrl, // Update the product image URL
+        productImage: imageUrl, 
       };
 
       await updateDoc(docRef, updatedData);

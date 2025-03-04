@@ -88,11 +88,11 @@ function Dropdown({ profilePicture, adminName }) { // Accept adminName as a prop
             text2="Settings" 
             link="/settings"  // Adjust as needed for settings
           /> */}
-          <DropdownItem 
-            icons={<QuestionMarkOutlinedIcon />} 
-            text="Help" 
-            link="/help" // Adjust as needed for help
-          />
+            {/* <DropdownItem 
+              icons={<QuestionMarkOutlinedIcon />} 
+              text="Help" 
+              link="/help" // Adjust as needed for help
+            /> */}
           <li className="dropdownItem" onClick={handleLogout}>
             <div className="dropDownicons"><LogoutOutlinedIcon /></div>
             <span>Logout</span>

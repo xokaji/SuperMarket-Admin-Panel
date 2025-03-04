@@ -12,8 +12,11 @@ export default function Chart({ title, grid }) {
       const usersCollection = collection(db, 'users');
       const usersSnapshot = await getDocs(usersCollection);
 
-     
+      // Initialize an array to store monthly data for the current year
       const monthlyData = Array(12).fill(0);
+
+      // Get the current year
+      const currentYear = new Date().getFullYear();
 
       usersSnapshot.forEach(doc => {
         const userData = doc.data();
@@ -33,8 +36,11 @@ export default function Chart({ title, grid }) {
         }
 
         if (parsedDate && !isNaN(parsedDate.getTime())) { // Check if date is valid
-          const month = parsedDate.getMonth(); // Get month index (0-11)
-          monthlyData[month] += 1; // Increment the count for the respective month
+          const year = parsedDate.getFullYear(); // Get the year of the created date
+          if (year === currentYear) { // Only process data from the current year
+            const month = parsedDate.getMonth(); // Get month index (0-11)
+            monthlyData[month] += 1; // Increment the count for the respective month
+          }
         }
       });
 

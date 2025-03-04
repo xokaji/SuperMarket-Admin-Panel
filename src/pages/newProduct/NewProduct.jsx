@@ -60,8 +60,8 @@ const quantityTypes = {
   frozenfoods: ["250ml","500ml","750ml", "1L", "1 Pack", "3 Pack","6 Pack", "12 Pack"],
   beverages: ["250ml","500ml","750ml", "1L", "2L", "5L", "1 Can", "3 Can","6 Can", "12 Can"],
   snacks: ["Small" ,"Medium" ,"Large" ,"1 Pack", "3 Pack","6 Pack", "12 Pack"],
-  bakeryproducts: ["200g","500g", "1kg", "1 Pack", "3 Pack","6 Pack", "12 Pack","Whole"],
-  "health&wellness": ["10 Tablets","30 Tablets", "60 Tablets", "90 Tablets", "1 Pack", "3 Pack","6 Pack", "12 Pack","Small","Medium","Large"],
+  bakeryproducts: ["200g","500g", "1kg", "1 Pack", "3 Pack","6 Pack", "12 Pack","Whole","1 Piece","3 Piece","6 Piece","12 Piece"],
+  "health&wellness": ["10 Tablets","30 Tablets", "60 Tablets", "90 Tablets","10ml","50ml","100ml", "1 Pack", "3 Pack","6 Pack", "12 Pack","Small","Medium","Large","1 Piece"],
 };
 
 const AddProductForm = () => {
@@ -128,51 +128,60 @@ const AddProductForm = () => {
   };
 
   const handleImageUpload = async () => {
+  try {
+    if (!productImage) {
+      throw new Error("No image file selected.");
+    }
+
     const imageRef = ref(storage, `products/${productID}`);
     await uploadBytes(imageRef, productImage);
     return await getDownloadURL(imageRef);
-  };
+  } catch (error) {
+    console.error("Error uploading image: ", error);
+    throw error; // Re-throw the error to handle it in the parent function
+  }
+};
 
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    try {
-      const isDuplicate = await checkForDuplicateProduct();
-      if (isDuplicate) {
-        alert("This product already exists. Please enter a different product.");
-        return;
-      }
-
-      const imageURL = await handleImageUpload();
-      const productData = {
-        productID,
-        productName,
-        productImage: imageURL,
-        price: parseFloat(price),
-        category,
-        subCategory,
-        quantityType,
-        companyName,
-      };
-
-      const productCollection = collection(db, category); // Matches the category value in the categories array
-      const productDocRef = doc(productCollection, productID); // Create a reference with productID
-      await setDoc(productDocRef, productData); // Use setDoc to set the document ID
-      alert("Product added successfully!");
-
-      // Clear the form after submission
-      setProductName("");
-      setProductImage(null);
-      setPrice("");
-      setCategory("");
-      setSubCategory("");
-      setQuantityType("");
-      setCompanyName("");
-      setProductID(""); // Clear the product ID after submission
-    } catch (error) {
-      console.error("Error adding product: ", error);
-      alert("Failed to add product. Please try again.");
+const handleAddProduct = async (e) => {
+  e.preventDefault();
+  try {
+    const isDuplicate = await checkForDuplicateProduct();
+    if (isDuplicate) {
+      alert("This product already exists. Please enter a different product.");
+      return;
     }
-  };
+
+    const imageURL = await handleImageUpload();
+    const productData = {
+      productID,
+      productName,
+      productImage: imageURL,
+      price: parseFloat(price),
+      category,
+      subCategory,
+      quantityType,
+      companyName,
+    };
+
+    const productCollection = collection(db, category);
+    const productDocRef = doc(productCollection, productID);
+    await setDoc(productDocRef, productData);
+    alert("Product added successfully!");
+
+    // Clear the form after submission
+    setProductName("");
+    setProductImage(null);
+    setPrice("");
+    setCategory("");
+    setSubCategory("");
+    setQuantityType("");
+    setCompanyName("");
+    setProductID("");
+  } catch (error) {
+    console.error("Error adding product: ", error);
+    alert(`Failed to add product. Error: ${error.message}`);
+  }
+};
 
   return (
     <div className="newProd">
